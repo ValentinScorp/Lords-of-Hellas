@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f64c2a8794e34290d8c05bad76f52, type: 3}
+  m_Name: CardTempleSpecialActionPlay
+  m_EditorClassIdentifier: Assembly-CSharp::CardTemple
+  cardName: SpecialActionPlay
+  Id: 4
+  Image: {fileID: 21300000, guid: 60354e6c91579704a98b05ea006ce42a, type: 3}
+  drafts: 0001000100010001
+  OracleBonus: {fileID: 11400000, guid: 5d332512096e0ba42bebee9a6e2455c8, type: 2}

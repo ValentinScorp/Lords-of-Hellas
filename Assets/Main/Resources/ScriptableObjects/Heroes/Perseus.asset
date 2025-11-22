@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2aadb3230592c843b1482e84248a4ae, type: 3}
+  m_Name: Perseus
+  m_EditorClassIdentifier: Assembly-CSharp::HeroConfig
+  BaseLeadership: 1
+  BaseSpeed: 1
+  BaseStrength: 1
+  StartingBonus: {fileID: 11400000, guid: 9f8e436cbc98c0b4fb9a9b272d4fec0f, type: 2}
+  SpecialAbility: {fileID: 11400000, guid: 7de64a837c758b146aa58491d3752ec0, type: 2}
+  DisplayName: Perseus

@@ -1,0 +1,236 @@
+{
+	"cards": [
+		{	
+			"title_name": "Owl of Athena",
+			"effect": "Draw 2 Combat Cards and keep 1.",
+			"owner": "Athena",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Boots of Hermes",
+			"effect": "Place your Hero in any Region on the Map (does not count as a Hero Movement).",
+			"owner": "Hermes",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Thunder of Zeus",
+			"effect": "Deal 1 Wound to any Monster on the Map. Or Deal 1 Injury to an enemy Hero (the enemy chooses which Attribute).",
+			"owner": "Zeus",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Poseidon's Trident",
+			"effect": "Choose a Region with a Port. Kill half of the Hoplites in that Region (rounding up).",
+			"owner": "Poseidon",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Hades' Helmet",
+			"effect": "Use when your Hero suffers an Injury. Ignore that Injury.",
+			"owner": "Hades",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Hephaesteus' Hammer",
+			"effect": "Charge any 1 of your Artifact.",
+			"owner": "Hephaesteus",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Caduceus",
+			"effect": "Use before a Battle. Your enemy must discard 1 Combat Card fo his/her choice.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Apollo's Arrow",
+			"effect": "Use before a Battle takes place in a Region neighboring the Region your Hero is in. Add 2 to your Army Strength in this Battle.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Orpheus' Lyre",
+			"effect": "Use to Draw 1 Blessing Card. You may discard any 1 of your Blessing Cards to keep that card.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Dragon Teeth",
+			"effect": "Use to choose and kill half of the Hoplites (rounded up) in the Region your Hero is in.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Golden Goblet of Helios",
+			"effect": "Use before any Hoplite Movement, Hero Movement or Hunt action. One chosen Attribute is raised by 1 for this action (max.5).",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Feme's Trumpet",
+			"effect": "Remove a Used Action Token from any of your Special Actions.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Harpe",
+			"effect": "Use before a Battle or Hunt. Draw 1 Combat Card.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Pandora's Box",
+			"effect": "Resolve an additional Monster Phase (roll a Monster Die for each Monster). You decide on the movement direction/die choice.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Horn fo Plenty",
+			"effect": "Rcruit 2 Hoplites in any Region with a City/Sparta that you control.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Staff of Tiresias",
+			"effect": "Use during any Hunt to look at the drawn Monster Attack Cards and choose the one that is played.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Ambrosia",
+			"effect": "Heal all Injuries your Hero has suffered.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Aegis",
+			"effect": "Use to protect 1 or 2 of your Hoplites from being killed.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Eye of Graeae",
+			"effect": "Use during a Hunt or Battle. Discard any number of Combat Cards and then draw back the same number.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Adriadne's Thread",
+			"effect": "Move a chosen Monster by 1 or 2 Regions.",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Palladium",
+			"effect": "Use when you lose a Battle in a Region with a City/Sparta. Your opponent withdraw instead (and does not capture the Region).",
+			"owner": "",
+			"neutral": true
+			
+		},
+		{	
+			"title_name": "Poison Arrows",
+			"effect": "Use at the beginning of a Hunt to deal any 1 Wound to the Monster and draw 1 Combat Card.",
+			"owner": "Hydra",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Minotaur's Horn",
+			"effect": "Use when you are the defender in a Battle. Immediately move any number of your Hoplites from neighboring Regions into the Region where the Battle takes plase.",
+			"owner": "Minotaur",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Head of Sphinx",
+			"effect": "Place your Control Token on a Neutral Region your Hero is in and Recruit 1 Hoplite in it.",
+			"owner": "Sphinx",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Eye of Cyclops",
+			"effect": "Add 1 Priest to your Priest Pool if your Hero is in a Region with a Temple.",
+			"owner": "Cyclops",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Medusa's Blood",
+			"effect": "Use after a Battle. You can ignore 1 Casualties Symbol or add 1 to your enemy's total Casualties Symbols.",
+			"owner": "Medusa",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Chimera's Fire",
+			"effect": "Kill 1 Hoplite in a Region your Hero is in.",
+			"owner": "Chimera",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Adamant Tethers",
+			"effect": "Kill 3 Hoplites in the same Region your Hero is in.",
+			"owner": "Cerberus",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Siren's Crown",
+			"effect": "Recruit up to 1 Hoplite in each Region you control with a City/Sparta.",
+			"owner": "Siren",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Ashen Spear",
+			"effect": "Use when playing a Combat Card. Add +2 to its value.",
+			"owner": "Chiron",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Cetus' Tentacle",
+			"effect": "Use when your Hero is in a Region with Port. Take control of that Region. You may Recruit 1 Hoplite in that Region.",
+			"owner": "Cetus",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Omphalos",
+			"effect": "Recruit up to 2 Hoplites in Phocis (if there are no enemy Hoplites).",
+			"owner": "Python",
+			"neutral": false
+			
+		},
+		{	
+			"title_name": "Aitne",
+			"effect": "Kill 1 Hoplite in each Region on the board.",
+			"owner": "Typhon",
+			"neutral": false
+			
+		}
+	]
+}
+

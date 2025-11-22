@@ -1,0 +1,328 @@
+{
+	"cards": [{
+		"tactic_name": "Fortification",
+		"type": "Torch",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "If you are defending a Region with a City or Sparta, add 2 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Local Support",
+		"type": "Torch",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "If you are defending a Region with a City or Sparta, Recruit 2 Hoplites in that Region (they count towards Army Strength).",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Glory",
+		"type": "Torch",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "If you have a Glory Token for the Land in which this Battle is being fought, add 3 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Tactical Withdrawal",
+		"type": "Torch",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "You may immediately withdraw from the Battle. You don't suffer any Casualties (from played Combat Card, etc.). Your opponent still suffer Casualties.",
+		"casualties": 0,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Phalanx",
+		"type": "Torch",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "For every 2 Hoplites in this Battle, add 1 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Phalanx",
+		"type": "Torch",
+		"value": 2,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "For every 2 Hoplites in this Battle, add 1 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Phalanx",
+		"type": "Torch",
+		"value": 2,
+		"use": "Use 3 Combat Cards with a torch symbol to deal a Wound of any type.",
+		"effect": "For every 2 Hoplites in this Battle, add 1 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Local Support",
+		"type": "Bow",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you are defending a Region with a City or Sparta, Recruit 2 Hoplites in that Region (they count towards Army Strength).",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Fortification",
+		"type": "Bow",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you are defending a Region with a City or Sparta, add 2 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Glory",
+		"type": "Bow",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you have a Glory Token for the Land in which this Battle is being fought, add 3 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Tactical Withdrawal",
+		"type": "Bow",
+		"value": 1,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "You may immediately withdraw from the Battle. You don't suffer any Casualties (from played Combat Card, etc.). Your opponent still suffer Casualties.",
+		"casualties": 0,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Flank Attack",
+		"type": "Bow",
+		"value": 2,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you have more Hoplites than your opponent in this Battle, add 2 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Flank Attack",
+		"type": "Bow",
+		"value": 2,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you have more Hoplites than your opponent in this Battle, add 2 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Flank Attack",
+		"type": "Bow",
+		"value": 2,
+		"use": "Use 3 Combat Cards with a bow symbol to deal a Wound of any type.",
+		"effect": "If you have more Hoplites than your opponent in this Battle, add 2 to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Trap",
+		"type": "Sword",
+		"value": 1,
+		"use": "Use 2 Combat Cards with a sword symbol to deal a Wound of any type.",
+		"effect": "Add your Hero's Leadership value to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Offerings for the Gods",
+		"type": "Sword",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a sword symbol to deal a Wound of any type.",
+		"effect": "If you won a Battle in a Region with a Shrine or Temple, add 1 Priest to your Priest Pool.",
+		"casualties": 1,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Tactical Maneuver",
+		"type": "Sword",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a sword symbol to deal a Wound of any type.",
+		"effect": "If your Hero's Leadership is greater than the enemy Hero's Leadership, add 2 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Encirclement",
+		"type": "Sword",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a sword symbol to deal a Wound of any type.",
+		"effect": "If you win this Battle, kill 3 of your enemy's Hoplites (instead of 1).",
+		"casualties": 1,
+		"single_player": false,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Wild Attack",
+		"type": "Sword",
+		"value": 3,
+		"use": "Use 2 Combat Cards with a sword symbol to deal a Wound of any type.",
+		"effect": "",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Trap",
+		"type": "Mace",
+		"value": 1,
+		"use": "Use 2 Combat Cards with a mace symbol to deal a Wound of any type.",
+		"effect": "Add your Hero's Leadership value to your Army Strength.",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Tactical Maneuver",
+		"type": "Mace",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a mace symbol to deal a Wound of any type.",
+		"effect": "If your Hero's Leadership is greater than the enemy Hero's Leadership, add 2 to your Army Strength.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Offerings for the Gods",
+		"type": "Mace",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a mace symbol to deal a Wound of any type.",
+		"effect": "If you won a Battle in a Region with a Shrine or Temple, add 1 Priest to your Priest Pool.",
+		"casualties": 1,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Encirclement",
+		"type": "Mace",
+		"value": 2,
+		"use": "Use 2 Combat Cards with a mace symbol to deal a Wound of any type.",
+		"effect": "If you win this Battle, kill 3 of your enemy's Hoplites (instead of 1).",
+		"casualties": 1,
+		"single_player": false,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Wild Attack",
+		"type": "Mace",
+		"value": 3,
+		"use": "Use 2 Combat Cards with a mace symbol to deal a Wound of any type.",
+		"effect": "",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Reinforcements",
+		"type": "Shield",
+		"value": 0,
+		"use": "Use to defend from any Monster Attack Card, but receive 1 Injury and draw only 1 Combat Card.",
+		"effect": "Move any number of your Hoplites to a Region where a Battle is taking place from a neighboring Region.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Reinforcements",
+		"type": "Shield",
+		"value": 0,
+		"use": "Use to defend from any Monster Attack Card, but receive 1 Injury and draw only 1 Combat Card.",
+		"effect": "Move any number of your Hoplites to a Region where a Battle is taking place from a neighboring Region.",
+		"casualties": 0,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Final Charge",
+		"type": "Shield",
+		"value": 2,
+		"use": "Use to defend from any Monster Attack Card, but receive 1 Injury and draw only 1 Combat Card.",
+		"effect": "If you are the attacker, the Battle ends immediately after you play this card.",
+		"casualties": 1,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Sudden Strike",
+		"type": "Sickle",
+		"value": 3,
+		"use": "Use to deal a Wound of any type.",
+		"effect": "If this is the first Combat Card played during the Battle, its value is 7.",
+		"casualties": 2,
+		"single_player": false,
+		"expansion_card": true
+	}, {
+		"tactic_name": "Charge",
+		"type": "Sickle",
+		"value": 4,
+		"use": "Use to deal a Wound of any type.",
+		"effect": "",
+		"casualties": 2,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Charge",
+		"type": "Sickle",
+		"value": 4,
+		"use": "Use to deal a Wound of any type.",
+		"effect": "",
+		"casualties": 2,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Javelin Volley",
+		"type": "Axe",
+		"value": 2,
+		"use": "",
+		"effect": "If you have more Hoplites than your opponent in this Battle, immediately kill 1 enemy Hoplite.",
+		"casualties": 0,
+		"single_player": false,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Wild Attack",
+		"type": "Axe",
+		"value": 3,
+		"use": "",
+		"effect": "",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Assault",
+		"type": "Axe",
+		"value": 4,
+		"use": "",
+		"effect": "If you are attacking, add 2 to your Army Strength.",
+		"casualties": 2,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Javelin Volley",
+		"type": "Spear",
+		"value": 2,
+		"use": "",
+		"effect": "If you have more Hoplites than your opponent in this Battle, immediately kill 1 enemy Hoplite.",
+		"casualties": 0,
+		"single_player": false,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Wild Attack",
+		"type": "Spear",
+		"value": 3,
+		"use": "",
+		"effect": "",
+		"casualties": 1,
+		"single_player": true,
+		"expansion_card": false
+	}, {
+		"tactic_name": "Assault",
+		"type": "Spear",
+		"value": 4,
+		"use": "",
+		"effect": "If you are attacking, add 2 to your Army Strength.",
+		"casualties": 2,
+		"single_player": true,
+		"expansion_card": false
+	}]
+}
+

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f64c2a8794e34290d8c05bad76f52, type: 3}
+  m_Name: CardTempleAttributesRaise
+  m_EditorClassIdentifier: Assembly-CSharp::CardTemple
+  cardName: AttributesRaise
+  Id: 0
+  Image: {fileID: 21300000, guid: b3a7addf0feeeb3479cbaf4b5ecc5e9e, type: 3}
+  drafts: 0000010100010100
+  OracleBonus: {fileID: 11400000, guid: dc07dfbf8b13ff54295b20c63a47a306, type: 2}

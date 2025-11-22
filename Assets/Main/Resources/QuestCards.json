@@ -1,0 +1,49 @@
+{
+	"cards": [{
+		"quest": "Aid to Atlas",
+		"region": "Messenia",
+		"steps_condition": ["Have 2 Strength", "Have 4 Strength", "Have 5 Strength"],
+		"reward": "Keep this card. At any time, you can discard it to remove all of your Used Action Tokens and draw 2 Combat Cards."
+	}, {
+		"quest": "Amazon Queen",
+		"region": "Chalkidiki",
+		"steps_condition": ["Have 2 Leadership", "Have 2 Leadership and 1 Priest in Priest Pool", "Have 2 Leadership and Sarcrifice 1 Priest"],
+		"reward": "Increase your Strength by 1 and draw 2 Combat Cards."
+	}, {
+		"quest": "Clean Augean Stables",
+		"region": "Elis",
+		"steps_condition": ["Have 2 Speed", "Have 2 Speed and take 2 Injury", "Have 3 Speed and take 2 Injury"],
+		"reward": "Keep this card. Discard it to play 2 Special Actions in a Turn (instead of 1)."
+	}, {
+		"quest": "Saving Prometheus",
+		"region": "Macedonia",
+		"steps_condition": ["Discard 1 Combat Card", "Discard 2 Combat Card", "Discard 4 Combat Card"],
+		"reward": "Add 1 Priest to your Priest Pool and Recruit 2 Hoplites in a Region under your control."
+	}, {
+		"quest": "Capture Cretan Bull",
+		"region": "Crete",
+		"steps_condition": ["Have 3 Speed and 3 Strength", "Have 3 Speed, have 3 Strength and discard 2 Combat Cards", "Have 4 Speed, have 4 Strength and discard 2 Combat Cards"],
+		"reward": "Take additional Glory Token that is not in the possession of another player."
+	}, {
+		"quest": "Calydonian Hunt",
+		"region": "Aatolia",
+		"steps_condition": ["Have 2 speed and control 2 Regions with Cities", "Have 2 speed and control 3 Regions with Cities", "Have 3 speed and control 3 Regions with Cities"],
+		"reward": "Recruit 2 Hoplites in every Region you control with a City/Sparta."
+	}, {
+		"quest": "Kill Stymphalian Birds",
+		"region": "Corinth",
+		"steps_condition": ["Have 1 Priest in Priest Pool", "Have 1 Priest in Priest Pool and control 2 regions with Temples", "Have 2 Priests in Priest Pool and control 2 regions with Temples"],
+		"reward": "Draw 3 Neutral Artifacts, keep one and shuffle others back"
+	}, {
+		"quest": "Expedition for the Golden Fleece",
+		"region": "Acarnania",
+		"steps_condition": ["Have 2 Leadership", "Have 2 Leadership and 2 Speed", "Have 2 Leadership, have 2 Speed and possess 1 Artifact"],
+		"reward": "Recruit 3 Hoplites in a Region under your control."
+	}, {
+		"quest": "Cattle of Geryon",
+		"region": "Boeotia",
+		"steps_condition": ["Have 2 Strength", "Have 4 Strength", "Have 4 Strength and discard 2 Combat Cards"],
+		"reward": "Increase one of your Hero Attributes to 3"
+	}]
+}
+

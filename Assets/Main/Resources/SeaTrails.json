@@ -1,0 +1,33 @@
+{
+	"sea_trails": [
+		{
+			"region1": "Thessaly",
+			"region2": "Euboea"
+		},
+		{
+			"region1": "Chalkidiki",
+			"region2": "Euboea"
+		},
+		{
+			"region1": "Beotia",
+			"region2": "Euboea"
+		},		
+		{
+			"region1": "Crete",
+			"region2": "Euboea"
+		},
+		{
+			"region1": "Crete",
+			"region2": "Attica"
+		},
+		{
+			"region1": "Crete",
+			"region2": "Argolis"
+		},
+		{
+			"region1": "Crete",
+			"region2": "Laconia"
+		}
+	]
+}
+

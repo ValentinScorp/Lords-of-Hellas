@@ -1,0 +1,213 @@
+{
+  "regions": [
+    {
+      "name": "Epirus",
+      "color": "red",
+      "ps": 2,
+      "city": false,
+      "shrine": true,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Macedonia", "Thessaly", "Acarnania"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Macedonia",
+      "color": "red",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Epirus", "Thessaly", "Chalkidiki"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Thessaly",
+      "color": "red",
+      "ps": 4,
+      "city": true,
+      "shrine": false,
+      "port": true,
+      "monument": true,
+      "neighbors_land": ["Epirus", "Macedonia", "Aetolia", "Locris", "Euboea"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Chalkidiki",
+      "color": "red",
+      "ps": 4,
+      "city": true,
+      "shrine": true,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Macedonia"],
+      "neighbors_sea": ["Euboea"]
+    },
+    {
+      "name": "Acarnania",
+      "color": "yellow",
+      "ps": 4,
+      "city": true,
+      "shrine": false,
+      "port": true,
+      "monument": true,
+      "neighbors_land": ["Epirus", "Aetolia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Aetolia",
+      "color": "yellow",
+      "ps": 2,
+      "city": false,
+      "shrine": true,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Acarnania", "Epirus", "Thessaly", "Locris"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Locris",
+      "color": "yellow",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Aetolia", "Thessaly", "Phocis", "Achaea"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Phocis",
+      "color": "yellow",
+      "ps": 5,
+      "city": false,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Locris", "Boeotia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Euboea",
+      "color": "blue",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": [],
+      "neighbors_sea": ["Thessaly", "Chalkidiki", "Boeotia", "Crete"]
+    },
+    {
+      "name": "Boeotia",
+      "color": "blue",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Phocis", "Corinthia", "Attica"],
+      "neighbors_sea": ["Euboea"]
+    },
+    {
+      "name": "Attica",
+      "color": "blue",
+      "ps": 5,
+      "city": true,
+      "shrine": true,
+      "port": true,
+      "monument": true,
+      "neighbors_land": ["Boeotia", "Corinthia"],
+      "neighbors_sea": ["Crete"]
+    },
+    {
+      "name": "Corinthia",
+      "color": "blue",
+      "ps": 2,
+      "city": false,
+      "shrine": true,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Achaea", "Boeotia", "Attica", "Argolis", "Arcadia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Achaea",
+      "color": "green",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Locris", "Elis", "Arcadia", "Corinthia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Elis",
+      "color": "green",
+      "ps": 4,
+      "city": true,
+      "shrine": true,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Achaea", "Arcadia", "Messenia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Arcadia",
+      "color": "green",
+      "ps": 2,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Achaea", "Corinthia", "Argolis", "Laconia", "Messenia", "Elis"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Messenia",
+      "color": "green",
+      "ps": 3,
+      "city": false,
+      "shrine": true,
+      "port": true,
+      "monument": true,
+      "neighbors_land": ["Elis", "Arcadia", "Laconia"],
+      "neighbors_sea": []
+    },
+    {
+      "name": "Argolis",
+      "color": "brown",
+      "ps": 3,
+      "city": true,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Laconia", "Arcadia", "Corinthia"],
+      "neighbors_sea": ["Crete"]
+    },
+    {
+      "name": "Laconia",
+      "color": "brown",
+      "ps": 5,
+      "city": false,
+      "shrine": false,
+      "port": false,
+      "monument": false,
+      "neighbors_land": ["Messenia", "Arcadia", "Argolis"],
+      "neighbors_sea": ["Crete"]
+    },
+    {
+      "name": "Crete",
+      "color": "brown",
+      "ps": 2,
+      "city": false,
+      "shrine": true,
+      "port": true,
+      "monument": true,
+      "neighbors_land": [],
+      "neighbors_sea": ["Laconia", "Argolis", "Attica", "Euboea"]
+    }
+  ]
+}

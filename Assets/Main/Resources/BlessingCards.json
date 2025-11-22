@@ -1,0 +1,184 @@
+{
+	"cards": [
+		{
+			"god_name": "Athena",
+			"title_name": "Cunning Tactician",
+			"effect": "Each Combat Card played by you during Battle adds 1 to your Army Strength."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Mobilization",
+			"effect": "When you use the Special Action Recruit, you may Recruit 2 additional Hoplites in any one Region under your control."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Master Plan",
+			"effect": "When you play Combat Card in a Hunt or Battle, sacrifice 1 Priest to add 3 to the Strength of that card."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Athena's Gift",
+			"effect": "After you win a Battle, add 1 Priest to your Priest Pool."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Heroic Presence",
+			"effect": "If a Battle is taking place in a Region your Hero is in, add 2 to your Army Strength for this Battle."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Always Prepared",
+			"effect": "At start of a Battle, draw 1 Combat Card if you don't have any."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Unbroken Morale",
+			"effect": "Whenever your opponent has more Hoplites than you in a Battle, kill 1 Hoplite from his/her Army before the Battle begins."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Local Volunteers",
+			"effect": "Instead of using a Hoplite Movement Action, you can recruit 2 Hoplites in one Region under your control."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Stalwart Defense",
+			"effect": "When you are the defender in a Battle, add 1 to your Army Strength."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "No Attrition",
+			"effect": "During a Battle you can ignore the Casualties Symbols from your first-played Combat Card."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Battle Prayer",
+			"effect": "Use at any time. Sacrifice 1 Priest to draw 1 Combat Card."
+		},
+		{
+			"god_name": "Athena",
+			"title_name": "Restrictive Maneuver",
+			"effect": "When you are the defender in a Battle, your enemy can play only 1 Combat Card."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Sacrifice of Flesh",
+			"effect": "During a Hunt, sacrifice 1 Priest from your Priest Pool to heal 1 Injury and draw 1 Combat Card."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Weak Spot",
+			"effect": "At the start of a Hunt, discard 1 Combat Card to deal 1 Wound of any type."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Push-Ups",
+			"effect": "Instead of using the Hero Movement Action, draw 1 Combat Card."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Inspiring Hunt",
+			"effect": "When you start a Hunt, add 1 Priest to your Priest Pool."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Combat Training",
+			"effect": "When you use the Special Action Prepare, draw 1 additional Combat Card."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Hero's Wrath",
+			"effect": "After your Hero Movement Action, discard 1 Combat Card to kill 2 Hoplites in the same Region as your Hero."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Local Support",
+			"effect": "The Population Strength of all Regions is decreased in your favor by 2 (minimum of 1)."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Glory of Zeus",
+			"effect": "When you use the Special Action Usurp, you can Recruit up to 3 Hoplites (instead of 1)."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Armory",
+			"effect": "Take 2 Combat Cards upon receiving this Blessing. Your Combat Card limit is 6 instead of 4."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "God's Strength",
+			"effect": "Add 1 to your Hero Strength upon receiving this Blessing. Whenever any Monument is built by any player, your Hero gets 1 Injury healed."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Wild Hunt",
+			"effect": "Instead of using the Hero Movement Action, permanently lower your Strength by 1 to start a Hunt."
+		},
+		{
+			"god_name": "Zeus",
+			"title_name": "Shoot to Kill",
+			"effect": "Discard a Combat Card with a bow symbol to deal 1 Wound to the Monster or kill 2 Hoplites in the Region your Hero is in."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Exhausted Fight",
+			"effect": "You can use the Special Action Hunt even if you have a Used Action Token place on it. Deal 1 Injury to your Hero and put a Used Action Token on this card."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Forced March",
+			"effect": "When using the Special Action March, you may move your Army by 2 Regions."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Rearguard",
+			"effect": "After using the Special Action March, you can Recruit 2 Hoplites in the Region your Army moved from."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Response Force",
+			"effect": "Before a Battle in which you are the defender, move a number of Hoplites equal to or lower your Hero's Speed from a neighboring Region into the Region where the Battle is taking place."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Bluff",
+			"effect": "In a Battle, when both you and your enemy pass while playing Combat Cards, you can play one additional Combat Card."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Exile",
+			"effect": "Deal 1 Injury to your Hero to move a Monster from the Region your Hero is in to any Region on the Map."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Ambush",
+			"effect": "If an enemy attacks one of your Regions with a Fortified Hoplite in it, kill 1 of his/her Hoplites before the Battle."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Murderous March",
+			"effect": "When using the Special Action March, you can kill 2 Hoplites from your Army and move it to any Region on the Map."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Advanced Dodge",
+			"effect": "Add 1 to your Hero's Speed upon receiving this Blessing. Once during a Hunt you can add your Speed Attribute to the Combat Card's Strength when defending."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Hermes' Temple",
+			"effect": "Add 1 Priest to your Priest Pool when taking this Blessing. After using the Build Temple Special Action, immediately use an additional Special Action."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Winged Boots",
+			"effect": "Instead of using the Hoplite Movement Action, you can move 1 of your Hoplites to any Region on the Map."
+		},
+		{
+			"god_name": "Hermes",
+			"title_name": "Hero's Apprentice",
+			"effect": "Instead of using the Hero Movement Action, you can move 1 of your Hoplites by a number of Regions equal to your Hero's Speed."
+		}
+	]
+}

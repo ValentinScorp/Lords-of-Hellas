@@ -1,0 +1,23 @@
+public enum RegionId
+{
+    Unknown,
+    Attica,
+    Thessaly,
+    Laconia,
+    Aetolia,
+    Epirus,
+    Macedonia,
+    Chalkidiki,
+    Acarnania,
+    Locris,
+    Phocis,
+    Euboea,
+    Boeotia,
+    Corinthia,
+    Achaea,
+    Elis,
+    Arcadia,
+    Messenia,
+    Argolis,
+    Crete
+}

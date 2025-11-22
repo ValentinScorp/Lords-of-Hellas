@@ -1,0 +1,74 @@
+{
+	"cards": [{
+		"monster": "Cerberus",
+		"region": "Epirus",
+		"evolve_text": "The first Monster Attack Card adds 3 to its Strength. If not defended against, end the Hunt in addition to any other effects.",
+		"evolve_hits": []
+	}, {
+		"monster": "Cerberus",
+		"region": "Locris",
+		"evolve_text": "",
+		"evolve_hits": ["Spear"]
+	}, {
+		"monster": "Chimera",
+		"region": "Macedonia",
+		"evolve_text": "Any time Hoplites enter a Region with Chimera in it, kill one of them.",
+		"evolve_hits": []
+	}, {
+		"monster": "Chimera",
+		"region": "Arcadia",
+		"evolve_text": "",
+		"evolve_hits": ["Mace", "Sword"]
+	}, {
+		"monster": "Cyclops",
+		"region": "Acarnania",
+		"evolve_text": "Add 1 Strength to all Cyclops Monster Attack Cards.",
+		"evolve_hits": []
+	}, {
+		"monster": "Cyclops",
+		"region": "Euboea",
+		"evolve_text": "",
+		"evolve_hits": ["Mace"]
+	}, {
+		"monster": "Hydra",
+		"region": "Argolis",
+		"evolve_text": "If Hydra has 3 or more Wounds, add 2 Strength to all her Monster Attack Cards.",
+		"evolve_hits": []
+	}, {
+		"monster": "Hydra",
+		"region": "Chalkidiki",
+		"evolve_text": "",
+		"evolve_hits": ["Bow", "Bow"]
+	}, {
+		"monster": "Medusa",
+		"region": "Attica",
+		"evolve_text": "At the beggining of a Hunt, draw Combat Cards equal to the value of your Speed instead of Strength.",
+		"evolve_hits": []
+	}, {
+		"monster": "Medusa",
+		"region": "Phocis",
+		"evolve_text": "",
+		"evolve_hits": ["Axe"]
+	}, {
+		"monster": "Minotaur",
+		"region": "Crete",
+		"evolve_text": "To start a Hunt, you must have at least 1 Priest in your Priest Pool.",
+		"evolve_hits": []
+	}, {
+		"monster": "Minotaur",
+		"region": "Boeotia",
+		"evolve_text": "",
+		"evolve_hits": ["Sword"]
+	}, {
+		"monster": "Sphinx",
+		"region": "Messenia",
+		"evolve_text": "To start a Hunt, the Hero must have a Leadership value of at least 3.",
+		"evolve_hits": []
+	}, {
+		"monster": "Sphinx",
+		"region": "Thessaly",
+		"evolve_text": "",
+		"evolve_hits": ["Torch", "Torch"]
+	}]
+}
+

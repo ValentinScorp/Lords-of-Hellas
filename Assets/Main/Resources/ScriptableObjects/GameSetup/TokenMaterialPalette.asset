@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a067642a682a10a48aec6591741a25ed, type: 3}
+  m_Name: TokenMaterialPalette
+  m_EditorClassIdentifier: 
+  ghostColorInit: {r: 0.08627449, g: 0.71824694, b: 0.85882354, a: 0}
+  ghostColorError: {r: 1, g: 0.18673502, b: 0.16509432, a: 0}
+  ghostColorOk: {r: 0.3814003, g: 1, b: 0.2783019, a: 0}
+  ghostMaterial: {fileID: 2100000, guid: 2f1d9178e58b67f449b42bb6dcc8137e, type: 2}
+  grayTokenMaterial: {fileID: 2100000, guid: dd0a494000dbcb54ea392560bf8ef582, type: 2}
+  greenTokenMaterial: {fileID: 2100000, guid: d0ef7d0dc8824684dba13a2084af05f8, type: 2}
+  blueTokenMaterial: {fileID: 2100000, guid: aa8ca5b7d8c14ad4e8bb363f8ef1754e, type: 2}
+  redTokenMaterial: {fileID: 2100000, guid: 173fa0eca20061841a2855660f0e1be9, type: 2}
+  yellowTokenMaterial: {fileID: 2100000, guid: 02d71f1e2beae1e4682ffc3503165753, type: 2}
+  purpleTokenMaterial: {fileID: 2100000, guid: 06d042140deb17f458a01b96f1269dbb, type: 2}
+  brownTokenMaterial: {fileID: 2100000, guid: a50bf11c3ef9fcb47bbde43ee37ee8c1, type: 2}

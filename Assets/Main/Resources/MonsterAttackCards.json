@@ -1,0 +1,94 @@
+{
+	"cards": [
+		{
+			"attack_name": "ATTACK",
+			"value": "3",
+			"effect": "Deal 1 Injury."
+		},
+		{
+			"attack_name": "ATTACK",
+			"value": "4",
+			"effect": "Deal 1 Injury."
+		},
+		{
+			"attack_name": "ATTACK",
+			"value": "5",
+			"effect": "Deal 1 Injury."
+		},
+		{
+			"attack_name": "CHARGE",
+			"value": "1 + 1 for each uncovered Wound symbols.",
+			"effect": "Deal 2 Injuries."
+		},
+		{
+			"attack_name": "FURY",
+			"value": "Number of Wound symbols on the Monster Tray.",
+			"effect": "Deal 1 Injury. If Hero already has any Injury, immediately end the Hunt."
+		},
+		{
+			"attack_name": "FURY",
+			"value": "Number of Wound symbols on the Monster Tray.",
+			"effect": "Deal 1 Injury. If Hero already has any Injury, immediately end the Hunt."
+		},
+		{
+			"attack_name": "MIGHTY ATTACK",
+			"value": "4",
+			"effect": "Deal 2 Injuries."
+		},
+		{
+			"attack_name": "NASTY WOUNDS",
+			"value": "4",
+			"effect": "Deal 1 Injury. Permanently decrease highest Hero's Attribute by 1."
+		},
+		{
+			"attack_name": "QUICK ATTACK",
+			"value": "4",
+			"effect": "Deal 1 Injury. Discard down until you hold a number of Combat Cards equal to Speed Attribute of your Hero."
+		},
+		{
+			"attack_name": "QUICK ATTACK",
+			"value": "5",
+			"effect": "Deal 1 Injury. Discard down until you hold a number of Combat Cards equal to Speed Attribute of your Hero."
+		},
+		{
+			"attack_name": "RAMPAGE",
+			"value": "1 + 2 for each covered Wound symbol.",
+			"effect": "See Special Attack on the Monster Tray."
+		},
+		{
+			"attack_name": "RECALL",
+			"value": "3",
+			"effect": "Immediately end the Hunt."
+		},
+		{
+			"attack_name": "RECALL",
+			"value": "4",
+			"effect": "Immediately end the Hunt."
+		},
+		{
+			"attack_name": "SPECIAL ATTACK",
+			"value": "3",
+			"effect": "See Special Attack on the Monster Tray."
+		},
+		{
+			"attack_name": "SPECIAL ATTACK",
+			"value": "4",
+			"effect": "See Special Attack on the Monster Tray."
+		},
+		{
+			"attack_name": "SURPRISE ATTACK",
+			"value": "1 + number of Combat Cards held by the hunting player.",
+			"effect": "Deal 1 Injury. Discard half of your Combat Cards (rounded up)."
+		},
+		{
+			"attack_name": "WILD ATTACK",
+			"value": "4",
+			"effect": "Deal 1 Injury. Discard 1 Combat Card at random."
+		},
+		{
+			"attack_name": "WILD ATTACK",
+			"value": "5",
+			"effect": "Deal 1 Injury. Discard 1 Combat Card at random."
+		}
+	]
+}

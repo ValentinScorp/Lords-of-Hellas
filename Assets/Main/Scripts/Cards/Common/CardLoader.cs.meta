@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 41dd0a5755ffc7348b99553a78f6f072
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - templeFileJson: {fileID: 4900000, guid: 58472142a11c7b448841338cf42baa5b, type: 3}
+  - eventFileJson: {instanceID: 0}
+  - questFileJson: {fileID: 4900000, guid: 919a0b67a0285c54293cec731c5e9570, type: 3}
+  - monsterFileJson: {fileID: 4900000, guid: 0d25454446a94e044a4ec896344d4959, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
