@@ -1,9 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 
-public class RegularActionPanel : EventListener<RegularAction>
+public class ActionRegularPanel : EventListener
 {
     [SerializeField] private Button _heroMovementButton;
     [SerializeField] private Button _hopliteMovementButton;
@@ -11,15 +12,18 @@ public class RegularActionPanel : EventListener<RegularAction>
     [SerializeField] private Button _prayerButton;
     [SerializeField] private Button _endActionButton;
 
-    private RegularAction _regularAction;
+    private ActionRegular _regularAction;
     private Player _player;
+
+    protected override Type EventType => typeof(ActionRegular);
 
     protected override void Awake() {
         base.Awake();
         HidePanel();
     }
 
-    protected override void HandleEvent(RegularAction regularAction) {
+    protected override void HandleEvent(IGameEvent evt) {
+        if (evt is not ActionRegular regularAction) return;
         _regularAction = regularAction;
         _player = regularAction.Player;
         ShowPanel();

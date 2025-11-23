@@ -38,12 +38,12 @@ public class RegionEffectsManager : MonoBehaviour
         }
     }
 
-    public void SubscribeOnOwnerChanged(RegionRuntimeData regionData) {
+    public void SubscribeOnOwnerChanged(RegionDataRuntime regionData) {
         regionData.OnOwnerChanged += HandleOwnerChanged;
         HandleOwnerChanged(regionData.OwnedBy);
     }
 
-    private void HandleOwnerChanged(PlayerColor newOwner) {
+    public void HandleOwnerChanged(PlayerColor newOwner) {
         var palette = GameData.PlayerColorPalette;
         Color color = palette.Grey;
 

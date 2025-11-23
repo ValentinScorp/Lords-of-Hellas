@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 
 [System.Serializable]
-public class RegionRuntimeData
+public class RegionDataRuntime
 {
     public RegionId RegionId { get; private set; }
     public RegionStaticData RegionStaticData { get; private set; }
@@ -19,7 +19,7 @@ public class RegionRuntimeData
 
     public event Action<PlayerColor> OnOwnerChanged;
     public event Action<RegionId, PlayerColor, int> OnHopliteCountChanged;
-    public RegionRuntimeData(RegionStaticData regionData) {
+    public RegionDataRuntime(RegionStaticData regionData) {
         RegionId = RegionIdParser.Parse(regionData.RegionName);
         RegionStaticData = regionData;
         OwnedBy = PlayerColor.Gray;
@@ -113,14 +113,17 @@ public class RegionRuntimeData
         foreach (var token in _tokens.OfType<HopliteStack>()) {
             if (token.PlayerColor == color) {
                 token.Count = count;
-                OnHopliteCountChanged?.Invoke(RegionId, color, count);
+                EventBus.SendEvent(new HopliteCountEvent(RegionId, color, count));
+
+                // OnHopliteCountChanged?.Invoke(RegionId, color, count);
             }
         }
     }
     private void ChangeOwner(PlayerColor color) {
         Debug.Log("Change owner!" +  color);
         OwnedBy = color;
-        OnOwnerChanged?.Invoke(OwnedBy);
+        EventBus.SendEvent(new RegionOwnerEvent(RegionId, color));
+        // OnOwnerChanged?.Invoke(OwnedBy);
     }
     private LandId GetLandId(string landColor) {
         switch (landColor.ToLowerInvariant()) {

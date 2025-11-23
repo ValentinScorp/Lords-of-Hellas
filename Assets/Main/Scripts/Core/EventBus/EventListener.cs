@@ -1,16 +1,21 @@
+using System;
 using UnityEngine;
 
-public abstract class EventListener<T> : MonoBehaviour where T : IGameEvent
+public abstract class EventListener : MonoBehaviour
 {
+    protected abstract Type EventType { get; }
+
     protected virtual void Awake() {
-        EventBus.Listen<T>(OnEvent);
+        EventBus.Listen(EventType, OnEvent);
     }
+
     protected virtual void OnDestroy() {
-        EventBus.Unlisten<T>(OnEvent);
+        EventBus.Unlisten(EventType, OnEvent);
     }
-    private void OnEvent(T evt) {
-        Debug.Log("event got!");
-        HandleEvent(evt); 
+
+    private void OnEvent(IGameEvent evt) {
+        HandleEvent(evt);
     }
-    protected abstract void HandleEvent(T evt);
+
+    protected abstract void HandleEvent(IGameEvent evt);
 }

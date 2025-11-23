@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("01_TempleCardSelection");
     }
     private void QuitGame() {
-        Debug.Log("Quit pressed — exiting application");
+        Debug.Log("Quit pressed. Exiting application");
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

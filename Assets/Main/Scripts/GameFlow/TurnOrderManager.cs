@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTurnOrderManager
+public class TurnOrderManager
 {
     private readonly IReadOnlyList<Player> _players;
     private int _currentIndex = -1;
@@ -12,7 +12,7 @@ public class PlayerTurnOrderManager
 
     public event Action<Player> OnPlayerChanged;
     public event Action OnNoPlayersLeft;
-    public PlayerTurnOrderManager(IReadOnlyList<Player> players) {
+    public TurnOrderManager(IReadOnlyList<Player> players) {
         if (players == null || players.Count == 0) {
             throw new System.ArgumentException("Players list cannot be null or empty.", nameof(players));
         }

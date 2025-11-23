@@ -2,16 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XInput;
-using static UnityEngine.GraphicsBuffer;
 
 public class RegionSelectionManager : MonoBehaviour
 {
     [SerializeField] private RegionInfoUiPanel _regionInfoUiPanel;
     [SerializeField] private UserInputController _userInputController;
     [SerializeField] private GameInitializer _gameInitializer;
-
-    private RegionDataManager _regionManager;
 
     private InputAction _clickAction;
     private Camera _camera;
@@ -62,7 +58,7 @@ public class RegionSelectionManager : MonoBehaviour
 
         _selected = newTarget;
         _selected.Activate();
-        RegionRuntimeData regionRuntimeData = _gameInitializer.RegionModelManager.GetRegionData(_selected.RegionId);
+        RegionDataRuntime regionRuntimeData = _gameInitializer.RegionDataManager.GetRegionData(_selected.RegionId);
         _regionInfoUiPanel.ShowRegionInfo(regionRuntimeData);
     }
 

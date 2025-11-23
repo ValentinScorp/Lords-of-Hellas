@@ -25,8 +25,8 @@ public class GameState
     public CardDeck BlessingDeck => _blessingDeck;
     public TemplePool TemplePool => _templePool;
 
-    private List<RegionRuntimeData> _regionRuntimeData = new();
-    public List<RegionRuntimeData> RegionRuntimeData => _regionRuntimeData;
+    private List<RegionDataRuntime> _regionRuntimeData = new();
+    public List<RegionDataRuntime> RegionRuntimeData => _regionRuntimeData;
 
     public event Action<Player> OnPlayerChanged;
     public Player CurrentPlayer {

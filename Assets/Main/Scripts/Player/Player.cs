@@ -25,30 +25,51 @@ public class Player
     public event Action<Player, LandId> OnAddLandToken;
     public event Action<Player> OnPlayerInfoChange;
 
-    public Player(PlayerSetupConfig playerConfig) {
+    public Player(PlayerSetupConfig playerConfig) 
+    {
         _name = playerConfig.PlayerName;
         Color = playerConfig.PlayerColor;
         Hero = new Hero(playerConfig.HeroId, this);
     }
-    public void AddLandToken() {
+    public void AddLandToken() 
+    {
         OnAddLandToken?.Invoke(this, Hero.LandId);
     }
-    public void SelectOneOfArtifactCards(int cardCount, Action onCompleted) {
+    public bool TryPlaceToken(TokenType tokenType, RegionId regionId) {
+        switch (tokenType) {                 
+            case TokenType.Hoplite:
+                return _hopliteManager.TryPlaceHoplite(regionId, out var hoplite);
+            case TokenType.Hero:
+                Hero.RegionId = regionId;
+                Hero.LandId = GameData.Instance.GetLandColor(regionId);
+                return true;
+            default:
+                Debug.LogError("Unknown token type!");
+                return false;
+        }
+    }
+    public void SelectOneOfArtifactCards(int cardCount, Action onCompleted) 
+    {
         OnArtifactCardSelect?.Invoke(this, cardCount, onCompleted);
     }
-    public void TakeArtifactCard(CardArtifact card) {
+    public void TakeArtifactCard(CardArtifact card) 
+    {
         _artifactCards.Add(card);
         OnPlayerInfoChange?.Invoke(this);
     }
-    public void ApplyHeroStartingBonus(Action onCompleted) {
-        if (Hero != null) {
+    public void ApplyHeroStartingBonus(Action onCompleted) 
+    {
+        if (Hero != null) 
+        {
             Hero.ApplyStartinBonus(this, onCompleted);
-        } else {
+        } else 
+        {
             Debug.Log("Can`t apply starting bonus!");
             onCompleted?.Invoke();
         }
     }
-    public void TakeCombatCards(int count) {
+    public void TakeCombatCards(int count) 
+    {
         List<CardData> drawnCards = GameState.Instance.CombatCardsDeck.DrawMultiple(count);
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
         OnPlayerInfoChange?.Invoke(this);

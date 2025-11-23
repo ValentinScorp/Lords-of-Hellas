@@ -6,18 +6,18 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class GameManager
 {
-    private PlayerTurnManager _playerTurnManager;
+    private TurnManager _playerTurnManager;
     public GamePhaseManager GamePhaseManager;
+    public PlayerDataManager PlayerDataManager;
     private LandTokenManager _landTokenManager = new();
     private CardSelectPanel _cardSelectPanel;
     private readonly TokenModelFactory _tokenModelFactory = new();
-
     public event Action OnGameStarted;
 
     public GameManager( GameData gameData, 
                         TokenPlacementManager placementManager, 
                         CardSelectPanel cardSelectPanel) {
-        _playerTurnManager = new PlayerTurnManager(GameState.Instance.Players);
+        _playerTurnManager = new TurnManager(GameState.Instance.Players);
         _cardSelectPanel = cardSelectPanel;
 
         foreach (var player in GameState.Instance.Players) {
@@ -25,6 +25,7 @@ public class GameManager
         }
         _cardSelectPanel.SubscribeToPlayers(_playerTurnManager.Players);
         GamePhaseManager = new GamePhaseManager(_playerTurnManager.Players, placementManager, _playerTurnManager);
+        PlayerDataManager = new PlayerDataManager(_playerTurnManager.Players);
     }
     public void StartGame() {
         GamePhaseManager.StartHeroesPlacement();       

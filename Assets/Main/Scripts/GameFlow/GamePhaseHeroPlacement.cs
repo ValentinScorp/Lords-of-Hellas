@@ -3,7 +3,7 @@
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
     private TokenPlacementManager PlacementManager;
-    private PlayerTurnOrderManager PlayerPlacementOrder;
+    private TurnOrderManager PlayerPlacementOrder;
 
     public override string Name => "Heroes Placement Phase";
 
@@ -12,7 +12,7 @@ public class GamePhaseHeroPlacement : GamePhaseBase
                                 TokenPlacementManager placementManager)
         : base (phaseManager) {
         PlacementManager = placementManager;
-        PlayerPlacementOrder = new PlayerTurnOrderManager(players);
+        PlayerPlacementOrder = new TurnOrderManager(players);
         PlayerPlacementOrder.OnPlayerChanged += HandleNextPlayer;
         PlayerPlacementOrder.OnNoPlayersLeft += ProceedNextPhase;
     }

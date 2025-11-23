@@ -1,38 +1,54 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public interface IGameEvent { }
 
 public static class EventBus
 {
-    private static readonly Dictionary<Type, Delegate> _events = new();
+    private static readonly Dictionary<Type, Action<IGameEvent>> _events = new();
 
-    public static void Listen<T>(Action<T> handler) {
-        if (handler == null) return;
-        var type = typeof(T);
-        _events[type] = Delegate.Combine(_events.GetValueOrDefault(type), handler);
+    public static void Listen(Type eventType, Action<IGameEvent> handler) {
+        if (!IsValidEventType(eventType) || handler == null) return;
+        AddHandler(eventType, handler);
     }
 
-    public static void Unlisten<T>(Action<T> handler) {
-        if (handler == null) return;
-        var type = typeof(T);
-        if (_events.TryGetValue(type, out var del)) {
-            _events[type] = Delegate.Remove(del, handler);
+    public static void Unlisten(Type eventType, Action<IGameEvent> handler) {
+        if (!IsValidEventType(eventType) || handler == null) return;
+        RemoveHandler(eventType, handler);
+    }
+
+    public static void SendEvent(IGameEvent evt) {
+        if (evt == null) throw new ArgumentNullException(nameof(evt));
+        var eventType = evt.GetType();
+        if (_events.TryGetValue(eventType, out var del)) {
+            del.Invoke(evt);
         }
     }
 
-    public static void SendEvent<T>(T evt) {
-        Debug.Log("Sending event!" + evt);
-        Debug.Log(_events.Count);
-
-        if (_events.TryGetValue(typeof(T), out var del)) {
-            (del as Action<T>)?.Invoke(evt);
-        }
-    }
-
-    // Для тестів
 #if UNITY_EDITOR
     public static void ClearAll() => _events.Clear();
 #endif
+
+    private static bool IsValidEventType(Type eventType) =>
+        eventType != null && typeof(IGameEvent).IsAssignableFrom(eventType);
+
+    private static void AddHandler(Type eventType, Action<IGameEvent> handler) {
+        if (_events.TryGetValue(eventType, out var existing)) {
+            if (Array.Exists(existing.GetInvocationList(), d => d.Equals(handler))) return;
+            _events[eventType] = (Action<IGameEvent>)Delegate.Combine(existing, handler);
+        } else {
+            _events[eventType] = handler;
+        }
+    }
+
+    private static void RemoveHandler(Type eventType, Action<IGameEvent> handler) {
+        if (_events.TryGetValue(eventType, out var existing)) {
+            var updated = (Action<IGameEvent>)Delegate.Remove(existing, handler);
+            if (updated == null) {
+                _events.Remove(eventType);
+            } else {
+                _events[eventType] = updated;
+            }
+        }
+    }
 }

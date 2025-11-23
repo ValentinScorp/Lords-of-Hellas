@@ -4,15 +4,15 @@ public class GamePhasePlayerTurn : GamePhaseBase
 {
     public override string Name => "Player Turn Phase";
 
-    private PlayerTurnOrderManager TurnOrder;
-    private PlayerTurnManager TurnManager;
+    private TurnOrderManager TurnOrder;
+    private TurnManager TurnManager;
 
     public GamePhasePlayerTurn( GamePhaseManager phaseManager, 
                                 IReadOnlyList<Player> players, 
-                                PlayerTurnManager turnManager)
+                                TurnManager turnManager)
         : base (phaseManager) {
         TurnManager = turnManager;
-        TurnOrder = new PlayerTurnOrderManager(players);
+        TurnOrder = new TurnOrderManager(players);
         TurnOrder.OnPlayerChanged += HandleNextPlayer;
         TurnOrder.OnNoPlayersLeft += ProceedNextPhase;
     }

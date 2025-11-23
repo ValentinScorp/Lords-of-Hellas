@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RegularAction :IGameEvent
+public class ActionRegular : IGameEvent
 {
     public int HeroSteps;
     public int HoplitesSteps;
@@ -10,7 +10,7 @@ public class RegularAction :IGameEvent
     public Player Player { get; }
     public event System.Action OnComplete;
         
-    public RegularAction(Player player) {
+    public ActionRegular(Player player) {
         Player = player;
         HeroSteps = player.Hero.Speed;
         HoplitesSteps = player.Hero.Leadership;

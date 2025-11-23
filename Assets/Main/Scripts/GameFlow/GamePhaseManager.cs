@@ -11,7 +11,7 @@ public class GamePhaseManager
 
     public GamePhaseManager (   IReadOnlyList<Player> players,
                                 TokenPlacementManager placementManager,
-                                PlayerTurnManager turnManager) {
+                                TurnManager turnManager) {
         _phases[typeof(GamePhaseHeroPlacement)] = new GamePhaseHeroPlacement(this, players, placementManager);
         _phases[typeof(GamePhasePlayerTurn)] = new GamePhasePlayerTurn(this, players, turnManager);
     }

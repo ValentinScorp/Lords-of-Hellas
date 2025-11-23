@@ -66,4 +66,24 @@ public class GameData
         }
         return player.HeroId;
     }
+    public LandId GetLandColor(RegionId regionId) {
+        var regionData = _regionStaticData.FirstOrDefault(r => RegionIdParser.Parse(r.RegionName) == regionId);
+        if (regionData == null) {
+            Debug.LogError($"[GameData] Region data not found for id {regionId}");
+            return LandId.Red;
+        }
+        return ParseLandColor(regionData.LandColor);
+    }
+    private LandId ParseLandColor(string landColor) {
+        switch (landColor.ToLowerInvariant()) {
+            case "red": return LandId.Red;
+            case "yellow": return LandId.Yellow;
+            case "blue": return LandId.Blue;
+            case "green": return LandId.Green;
+            case "brown": return LandId.Brown;
+            default:
+                Debug.LogError($"[GameData] Unknown land color: {landColor}");
+                return LandId.Red;
+        }
+    }
 }

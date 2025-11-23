@@ -41,7 +41,6 @@ public class TokenPlacementManager
         OnPlacementStarted?.Invoke();
     }
     private void OnHeroBonusCompleted() {
-        Debug.Log("Hero starting bonus completed!");
         OnPlacementCompleted?.Invoke();        
     }
 
@@ -96,31 +95,35 @@ public class TokenPlacementManager
         OnTokenPlaced?.Invoke();
         return true;
     }
-    private void PlaceToken(RegionId regionId, Player currentPlayer) {
+    private void PlaceToken(RegionId regionId, Player player) {
         var tokenType = _currentToken.Type;
-        _tracker.CountToken(tokenType);
-        
-        var position = _tokenHolder.GetGameObjectPosition();
-        if (position.HasValue) {
-            _recorder.AddStep(currentPlayer.Color, tokenType, regionId, position.Value);
-        }
-        _startupPlacementCounter++;
+        CountAndRecordStep(regionId, player.Color, tokenType);
 
-        TokenView token = null;
-        if (tokenType == TokenType.Hoplite && _regionManager.IsHopliteInRegion(currentPlayer.Color, regionId)) {
-            var hopliteGo = _regionVisuals.GetHopliteFromRegion(regionId, currentPlayer.Color);
-            _tokenHolder.DestroyTokenView();
-            token = _tokenHolder.UnattachToken();
-        } else {
-            SpawnPoint spawnPoint = _regionVisuals.PlaceToken(_tokenHolder.TokenView.gameObject, regionId, _tokenHolder.GetGameObjectPosition());
-            if (spawnPoint != null) {
-                _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView.gameObject, currentPlayer.Color);
-                _tokenHolder.SetGameObjectPosition(spawnPoint.Position);
-                token = _tokenHolder.UnattachToken();
-            }
-        }
+        player.TryPlaceToken(tokenType, regionId);
+        
+        HandleVisuals(tokenType, regionId, player.Color);
         _regionManager.RegisterToken(regionId, _currentToken);
         _currentToken = null;
+    }
+    private void CountAndRecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
+        _tracker.CountToken(tokenType);
+        var position = _tokenHolder.GetGameObjectPosition();
+        if (position.HasValue) _recorder.AddStep(color, tokenType, regionId, position.Value);
+        _startupPlacementCounter++;
+    }
+
+    private void HandleVisuals(TokenType tokenType, RegionId regionId, PlayerColor color) {
+        if (tokenType == TokenType.Hoplite && _regionManager.IsHopliteInRegion(color, regionId)) {
+            _tokenHolder.DestroyTokenView();
+            _tokenHolder.UnattachToken();
+            return;
+        }
+        SpawnPoint spawn = _regionVisuals.PlaceToken(_tokenHolder.TokenView.gameObject, regionId, _tokenHolder.GetGameObjectPosition());
+        if (spawn != null) {
+            _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView.gameObject, color);
+            _tokenHolder.SetGameObjectPosition(spawn.Position);
+            _tokenHolder.UnattachToken();
+        }
     }
     
     public void FinalizePlacement() {

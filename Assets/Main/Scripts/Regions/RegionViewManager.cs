@@ -1,17 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-public class RegionViewManager : MonoBehaviour
+public class RegionViewManager : EventListener
 {
-    public void SubscribeOnInit(IEnumerable<RegionRuntimeData> runtimeRegions) {
-        foreach (var data in runtimeRegions) {
-            Transform regionTransform = FindRegionByName(data.RegionStaticData.RegionName);
-            regionTransform.GetComponentInChildren<RegionEffectsManager>().SubscribeOnOwnerChanged(data);
-        }
-        foreach (var data in runtimeRegions) {
-            data.OnHopliteCountChanged += SetHopliteCounter;
-        }
-    }
+    protected override Type EventType => typeof(RegionOwnerEvent);
+
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count) {
         //Debug.Log("Setting hoplite counter!");
         var region = FindRegionById(regionId);
@@ -160,5 +155,15 @@ public class RegionViewManager : MonoBehaviour
         }
         Debug.LogWarning($"No hero of color {color} found in region {region.name}");
         return null;
+    }
+    protected override void HandleEvent(IGameEvent gameEvent) {
+        if (gameEvent is RegionOwnerEvent regionOwnerEvent) {
+            Transform regionTransform = FindRegionById(regionOwnerEvent.regionId);
+            regionTransform.GetComponentInChildren<RegionEffectsManager>().HandleOwnerChanged(regionOwnerEvent.Color);
+        }
+        if (gameEvent is HopliteCountEvent hopliteCountEvent)
+        {
+            SetHopliteCounter(hopliteCountEvent.RegionId, hopliteCountEvent.Color, hopliteCountEvent.Count);
+        }
     }
 }

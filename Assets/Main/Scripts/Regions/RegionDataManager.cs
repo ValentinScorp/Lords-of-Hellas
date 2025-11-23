@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class RegionDataManager
 {
-    private readonly Dictionary<RegionId, RegionRuntimeData> _regionMap = new();
+    private readonly Dictionary<RegionId, RegionDataRuntime> _regionMap = new();
     private RegionStaticDataLoader _mapLoader = new();
 
-    public RegionDataManager(RegionViewManager regionManagerVisuals) {
+    public RegionDataManager() {
         _mapLoader.LoadMapData();
 
         foreach (var regionData in GameData.Instance.RegionStaticData) {
-            RegionRuntimeData regionRuntimeData = new(regionData);
+            RegionDataRuntime regionRuntimeData = new(regionData);
             GameState.Instance.RegionRuntimeData.Add(regionRuntimeData);
         }
         foreach (var region in GameState.Instance.RegionRuntimeData) {
@@ -22,15 +22,14 @@ public class RegionDataManager
 
         BuildGraph();
 
-        regionManagerVisuals.SubscribeOnInit(_regionMap.Values.ToList());
     }
     
     private void BuildGraph() {
-        foreach (RegionRuntimeData region in GameState.Instance.RegionRuntimeData) {
+        foreach (RegionDataRuntime region in GameState.Instance.RegionRuntimeData) {
             region.RegionStaticData.Neighbors = new List<RegionConnection>();
 
             foreach (string neighborName in region.RegionStaticData.SourceData.neighbors_land) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionRuntimeData neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionDataRuntime neighbor)) {
                     region.RegionStaticData.Neighbors.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Land
@@ -40,7 +39,7 @@ public class RegionDataManager
                 }
             }
             foreach (string seaNeighborName in region.RegionStaticData.SourceData.neighbors_sea) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionRuntimeData neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionDataRuntime neighbor)) {
                     region.RegionStaticData.Neighbors.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Sea
@@ -52,8 +51,8 @@ public class RegionDataManager
         }
     }
     
-    public RegionRuntimeData GetRegionData(RegionId regionId) {
-        if (_regionMap.TryGetValue(regionId, out RegionRuntimeData regionData)) {
+    public RegionDataRuntime GetRegionData(RegionId regionId) {
+        if (_regionMap.TryGetValue(regionId, out RegionDataRuntime regionData)) {
             return regionData;
         }
         Debug.LogWarning($"Region with ID {regionId} not found in _regionMap");
@@ -104,9 +103,11 @@ public class RegionDataManager
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    public bool RegisterToken(RegionId regionId, Token token) {
+    public bool RegisterToken(RegionId regionId, Token token) 
+    {
         var region = GetRegionData(regionId);
-        if (region == null) {
+        if (region == null) 
+        {
             Debug.LogWarning($"Region {regionId} not found for registering token.");
             return false;
         }

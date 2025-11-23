@@ -13,14 +13,15 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private PlayerInfoPanel _playerInfoPanelView;
       
     private GameManager _gameManager;
-    private RegionDataManager _regionModelManager;
     private TokenPlacementManager _tokenPlacementManager;
     private TokenPlacementViewModel _tokenPlacementViewModel;
+    private RegionDataManager _regionDataManager = new();
     private CardSelectPanel _cardSelectPanel;
 
     private RaycastIntersector _raycastBoard;
 
-    public RegionDataManager RegionModelManager => _regionModelManager;
+    public RegionDataManager RegionDataManager => _regionDataManager;
+
 
     private void Awake() {
         CheckIfExist(_userInputController, "_userInputController");
@@ -34,13 +35,11 @@ public class GameInitializer : MonoBehaviour
         GameData.Instance.Initialize();
         GameState.Instance.Initialize();
 
-        _regionModelManager = new RegionDataManager(_regionViewManager);
-                
-        _raycastBoard = new RaycastIntersector(Camera.main, 
+       _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
                                                 1 << LayerMask.NameToLayer("BoardSurface"));
 
-        _tokenPlacementManager = new TokenPlacementManager(_regionModelManager, _regionViewManager);
+        _tokenPlacementManager = new TokenPlacementManager(_regionDataManager, _regionViewManager);
         _tokenPlacementViewModel = new TokenPlacementViewModel();
         _tokenPlacementView.Subscribe(_tokenPlacementViewModel);
 
