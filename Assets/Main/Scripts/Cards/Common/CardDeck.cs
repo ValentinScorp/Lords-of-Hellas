@@ -53,7 +53,11 @@ public class CardDeck
         return card;
     }
     public CardData DrawByTitle(string title) {
-        return DrawAndDiscard(WatchByTitle(title));
+        var card = WatchByTitle(title);
+        if (card == null) {
+            return null;
+        }
+        return DrawAndDiscard(card);
     }    
     private CardData DrawAndDiscard(CardData card) {
         if (_deck.Remove(card)) {

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 public class TokenPlacementView : MonoBehaviour
 {
@@ -11,6 +10,11 @@ public class TokenPlacementView : MonoBehaviour
 
     private TokenPlacementViewModel _tokenPlacementViewModel;
     private bool _isSubscribed = false;
+
+    private System.Action<bool> _heroInteractableHandler;
+    private System.Action<bool> _hopliteInteractableHandler;
+    private System.Action<bool> _okInteractableHandler;
+
     public void ShowPanel(bool show) {
         //Debug.Log("ShowPanel: " + show);
         gameObject.SetActive(show);
@@ -27,9 +31,14 @@ public class TokenPlacementView : MonoBehaviour
         _isSubscribed = true;
 
         viewModel.OnTokenPlacementActive += ShowPanel;
-        viewModel.OnHeroButtonInteractableChanged += interactable => _placeHeroButton.interactable = interactable;
-        viewModel.OnHopliteButtonInteractableChanged += interactable => _placeHopliteButton.interactable = interactable;
-        viewModel.OnOkButtonInteractableChanged += interactable => _okButton.interactable = interactable;
+
+        _heroInteractableHandler = interactable => _placeHeroButton.interactable = interactable;
+        _hopliteInteractableHandler = interactable => _placeHopliteButton.interactable = interactable;
+        _okInteractableHandler = interactable => _okButton.interactable = interactable;
+
+        viewModel.OnHeroButtonInteractableChanged += _heroInteractableHandler;
+        viewModel.OnHopliteButtonInteractableChanged += _hopliteInteractableHandler;
+        viewModel.OnOkButtonInteractableChanged += _okInteractableHandler;
 
         _placeHeroButton.onClick.AddListener(() => viewModel.HandleTokenPlace(TokenType.Hero));
         _placeHopliteButton.onClick.AddListener(() => viewModel.HandleTokenPlace(TokenType.Hoplite));
@@ -44,9 +53,9 @@ public class TokenPlacementView : MonoBehaviour
         _isSubscribed = false;        
 
         _tokenPlacementViewModel.OnTokenPlacementActive -= ShowPanel;
-        _tokenPlacementViewModel.OnHeroButtonInteractableChanged -= interactable => _placeHeroButton.interactable = interactable;
-        _tokenPlacementViewModel.OnHopliteButtonInteractableChanged -= interactable => _placeHopliteButton.interactable = interactable;
-        _tokenPlacementViewModel.OnOkButtonInteractableChanged -= interactable => _okButton.interactable = interactable;
+        _tokenPlacementViewModel.OnHeroButtonInteractableChanged -= _heroInteractableHandler;
+        _tokenPlacementViewModel.OnHopliteButtonInteractableChanged -= _hopliteInteractableHandler;
+        _tokenPlacementViewModel.OnOkButtonInteractableChanged -= _okInteractableHandler;
 
         _tokenPlacementViewModel = null;
 

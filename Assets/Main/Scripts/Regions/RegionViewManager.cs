@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
-using static Board;
-using static UnityEngine.Rendering.DebugUI;
 
 public class RegionViewManager : MonoBehaviour
 {

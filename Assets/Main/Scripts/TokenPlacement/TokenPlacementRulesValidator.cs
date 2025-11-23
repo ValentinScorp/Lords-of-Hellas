@@ -1,5 +1,3 @@
-using System.Drawing;
-using System.Linq;
 using UnityEngine;
 
 public class TokenPlacementRulesValidator

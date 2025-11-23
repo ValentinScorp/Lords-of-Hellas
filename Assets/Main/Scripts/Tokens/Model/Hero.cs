@@ -1,7 +1,5 @@
 using System;
-using System.Drawing;
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
 
 [System.Serializable]
 public class Hero : Token, IPlayerOwned

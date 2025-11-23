@@ -1,5 +1,3 @@
-using System.Drawing;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class TokenVisualChanger
