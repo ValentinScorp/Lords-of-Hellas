@@ -80,7 +80,7 @@ public class TokenPlacementViewModel
     private void UpdateButtonInteractability() {
         var tracker = _tokenPlacementManager.TokenPlacementTracker;
         OnHeroButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.Hero));
-        OnHopliteButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.Hoplite));
-        OnOkButtonInteractableChanged?.Invoke(tracker.AllPlaced);
+        OnHopliteButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.HopliteStack));
+        OnOkButtonInteractableChanged?.Invoke(tracker.AllPlaced());
     }
 }

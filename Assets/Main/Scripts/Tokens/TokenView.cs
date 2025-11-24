@@ -34,7 +34,7 @@ public class TokenView : MonoBehaviour
             enabled = false;
         }
     }
-    public void SubscribeOnModel(Token model) {
+    public void SubscribeOnModel(TokenEntity model) {
         if (model is HopliteStack hoplite) {
             hoplite.OnCountChanged += count => SetLabel(count.ToString());
         }

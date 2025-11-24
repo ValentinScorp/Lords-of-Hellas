@@ -21,8 +21,8 @@ public class TokenPlacementView : MonoBehaviour
     }
     public void UpdateButtonInteractability(TokenPlacementTracker tracker) {
         _placeHeroButton.interactable = tracker.CanPlace(TokenType.Hero);
-        _placeHopliteButton.interactable = tracker.CanPlace(TokenType.Hoplite);
-        _okButton.interactable = tracker.AllPlaced;
+        _placeHopliteButton.interactable = tracker.CanPlace(TokenType.HopliteStack);
+        _okButton.interactable = tracker.AllPlaced();
     }
     public void Subscribe(TokenPlacementViewModel viewModel) {
         if (_isSubscribed || viewModel == null) return;
@@ -41,7 +41,7 @@ public class TokenPlacementView : MonoBehaviour
         viewModel.OnOkButtonInteractableChanged += _okInteractableHandler;
 
         _placeHeroButton.onClick.AddListener(() => viewModel.HandleTokenPlace(TokenType.Hero));
-        _placeHopliteButton.onClick.AddListener(() => viewModel.HandleTokenPlace(TokenType.Hoplite));
+        _placeHopliteButton.onClick.AddListener(() => viewModel.HandleTokenPlace(TokenType.HopliteStack));
         _okButton.onClick.AddListener(() => viewModel.FinalizePlacement());
         _cancelButton.onClick.AddListener(() => viewModel.CancelPlacement());
 

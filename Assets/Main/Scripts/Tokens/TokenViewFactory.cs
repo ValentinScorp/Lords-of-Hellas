@@ -6,7 +6,7 @@ public class TokenViewFactory
     public TokenViewFactory() {
         _tokenLoader = new TokenLoader("Prefabs/Tokens");
     }
-    public TokenView CreateTokenView(Token token) {
+    public TokenView CreateTokenView(TokenEntity token) {
         if (token == null) {
             Debug.Log("Token type is null");
         }

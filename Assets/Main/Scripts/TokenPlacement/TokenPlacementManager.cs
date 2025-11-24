@@ -4,7 +4,7 @@ using UnityEngine;
 public class TokenPlacementManager
 {
     private readonly TokenHolder _tokenHolder = new();
-    private readonly TokenPlacementTracker _tracker = new TokenPlacementTracker();
+    private readonly TokenPlacementTracker _tokenPlacementTracker = new TokenPlacementTracker();
     private readonly TokenModelFactory _tokenModelFactory;
     private readonly TokenViewFactory _tokenViewFactory;
     private readonly TokenPlacementTerrainValidator _terrainValidator = new();
@@ -15,9 +15,9 @@ public class TokenPlacementManager
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
-    private Token _currentToken;
+    private TokenEntity _currentToken;
 
-    public TokenPlacementTracker TokenPlacementTracker => _tracker;
+    public TokenPlacementTracker TokenPlacementTracker => _tokenPlacementTracker;
 
     public event Action OnPlacementStarted;
     public event Action OnPlacementCompleted;
@@ -33,9 +33,8 @@ public class TokenPlacementManager
         _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
         _recorder = new();
     }
-    public void InitiatePlacing(Player player, int maxHeroes, int maxHoplites) {
-        GameState.Instance.CurrentPlayer.TakeCombatCards(1);
-        _tracker.SetPlacementTargets(maxHeroes, maxHoplites);
+    public void InitiatePlacing(Player player) {
+        _tokenPlacementTracker.SetPlacementTargets(player);
         _startupPlacementCounter = 0;
         _currentToken = null;
         OnPlacementStarted?.Invoke();
@@ -43,20 +42,20 @@ public class TokenPlacementManager
     private void OnHeroBonusCompleted() {
         OnPlacementCompleted?.Invoke();        
     }
-
     public bool StartPlacingToken(TokenType tokenType) {
         if (_tokenHolder.HasObject()) {
             _tokenHolder.DestroyTokenView();
         }
-        if (!_tracker.CanPlace(tokenType)) {
+        if (!_tokenPlacementTracker.CanPlace(tokenType)) {
             Debug.Log($"[TokenPlacementManager] Cannot start placing {tokenType} — limit reached");
             return false;
         }
-        if (tokenType is TokenType.Hero) {
-            _currentToken = GameState.Instance.CurrentPlayer.Hero;
-        } else if (tokenType is TokenType.Hoplite) {
-            _currentToken = _tokenModelFactory.CreateHoplite(GameState.Instance.CurrentPlayer);
+        _currentToken = _tokenPlacementTracker.TakeToken(tokenType);
+        if (_currentToken == null) {
+            Debug.LogWarning($"[TokenPlacementManager] No available token for type {tokenType}");
+            return false;
         }
+
         TokenView tokenView = _tokenViewFactory.CreateTokenView(_currentToken);
 
         _tokenHolder.AttachToken(tokenView);
@@ -96,36 +95,35 @@ public class TokenPlacementManager
         return true;
     }
     private void PlaceToken(RegionId regionId, Player player) {
-        var tokenType = _currentToken.Type;
-        CountAndRecordStep(regionId, player.Color, tokenType);
-
-        player.TryPlaceToken(tokenType, regionId);
-        
-        HandleVisuals(tokenType, regionId, player.Color);
-        _regionManager.RegisterToken(regionId, _currentToken);
+        RecordStep(regionId, player.Color, _currentToken.Type);
+        _regionManager.RegisterEntity(regionId, _currentToken);
+        HandleVisuals(_currentToken.Type, regionId, player.Color);
         _currentToken = null;
     }
-    private void CountAndRecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
-        _tracker.CountToken(tokenType);
+    private void RecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
         var position = _tokenHolder.GetGameObjectPosition();
         if (position.HasValue) _recorder.AddStep(color, tokenType, regionId, position.Value);
         _startupPlacementCounter++;
     }
-
     private void HandleVisuals(TokenType tokenType, RegionId regionId, PlayerColor color) {
-        if (tokenType == TokenType.Hoplite && _regionManager.IsHopliteInRegion(color, regionId)) {
-            _tokenHolder.DestroyTokenView();
-            _tokenHolder.UnattachToken();
-            return;
+        if (tokenType == TokenType.HopliteStack) {
+            var existingHoplite = _regionVisuals.GetHopliteFromRegion(regionId, color);
+            if (existingHoplite != null) {
+                int hopliteCount = _regionManager.GetHopliteNum(regionId, color);
+                existingHoplite.GetComponent<TokenView>()?.SetCount(hopliteCount);
+                _tokenHolder.DestroyTokenView();
+                _tokenHolder.UnattachToken();
+                return;
+            }
         }
+
         SpawnPoint spawn = _regionVisuals.PlaceToken(_tokenHolder.TokenView.gameObject, regionId, _tokenHolder.GetGameObjectPosition());
         if (spawn != null) {
             _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView.gameObject, color);
             _tokenHolder.SetGameObjectPosition(spawn.Position);
             _tokenHolder.UnattachToken();
         }
-    }
-    
+    }    
     public void FinalizePlacement() {
         _tokenHolder.DestroyTokenView();
         _currentToken = null;
@@ -141,6 +139,6 @@ public class TokenPlacementManager
         _startupPlacementCounter = 0;
         _currentToken = null;
         _tokenHolder.DestroyTokenView();        
-        _tracker.Reset();
+        _tokenPlacementTracker.Reset();
     } 
 }

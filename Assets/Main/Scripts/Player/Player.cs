@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
 public class Player
 {
-    [SerializeField] private PlayerColor _color;
-    [SerializeField] private List<RegionId> _controlledRegions;
-    [SerializeField] private List<CardArtifact> _artifactCards = new();
-    private HopliteManager _hopliteManager = new();
+    private List<CardArtifact> _artifactCards = new();
+    private HopliteManager _hopliteManager;
     private PriestManager _priestManager = new();
-
     private string _name;
     private List<CardCombat> _combatCards = new();
 
@@ -19,8 +17,6 @@ public class Player
     public Hero Hero { get; set; }
     public PlayerColor Color { get; set; }
     public int PriestsInPool => _priestManager.InPool;
-    public int HoplitesOnBoard => _hopliteManager.OnBoard;
-
     public event Action<Player, int, Action> OnArtifactCardSelect;
     public event Action<Player, LandId> OnAddLandToken;
     public event Action<Player> OnPlayerInfoChange;
@@ -30,23 +26,11 @@ public class Player
         _name = playerConfig.PlayerName;
         Color = playerConfig.PlayerColor;
         Hero = new Hero(playerConfig.HeroId, this);
+        _hopliteManager = new (this);
     }
     public void AddLandToken() 
     {
         OnAddLandToken?.Invoke(this, Hero.LandId);
-    }
-    public bool TryPlaceToken(TokenType tokenType, RegionId regionId) {
-        switch (tokenType) {                 
-            case TokenType.Hoplite:
-                return _hopliteManager.TryPlaceHoplite(regionId, out var hoplite);
-            case TokenType.Hero:
-                Hero.RegionId = regionId;
-                Hero.LandId = GameData.Instance.GetLandColor(regionId);
-                return true;
-            default:
-                Debug.LogError("Unknown token type!");
-                return false;
-        }
     }
     public void SelectOneOfArtifactCards(int cardCount, Action onCompleted) 
     {
@@ -73,5 +57,14 @@ public class Player
         List<CardData> drawnCards = GameState.Instance.CombatCardsDeck.DrawMultiple(count);
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
         OnPlayerInfoChange?.Invoke(this);
+    }
+    public HopliteUnit TakeHoplite()
+    {
+        if (_hopliteManager.TryTakeHoplite(out var hoplite) && hoplite != null)
+        {
+            hoplite.SetOwner(Color);
+            return hoplite;
+        }
+        return null;
     }
 }

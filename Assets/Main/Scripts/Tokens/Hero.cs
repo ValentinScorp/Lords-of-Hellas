@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class Hero : Token, IPlayerOwned
+public class Hero : TokenEntity, IPlayerOwned
 {
     public enum Id {
         None,
@@ -22,8 +22,7 @@ public class Hero : Token, IPlayerOwned
     public int Leadership { get; private set; }
     public int Speed { get; private set; }
     public int Strength { get; private set; }
-    public RegionId RegionId { get; set; }   
-    public LandId LandId { get; set; }
+
 
     public string DisplayName => HeroId.ToString();
     public PlayerColor PlayerColor { get; private set; }    

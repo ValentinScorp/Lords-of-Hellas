@@ -2,8 +2,8 @@
 
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
-    private TokenPlacementManager PlacementManager;
-    private TurnOrderManager PlayerPlacementOrder;
+    private TokenPlacementManager TokenPlacementManager;
+    private TurnOrderManager TurnOrderManager;
 
     public override string Name => "Heroes Placement Phase";
 
@@ -11,24 +11,21 @@ public class GamePhaseHeroPlacement : GamePhaseBase
                                 IReadOnlyList<Player> players, 
                                 TokenPlacementManager placementManager)
         : base (phaseManager) {
-        PlacementManager = placementManager;
-        PlayerPlacementOrder = new TurnOrderManager(players);
-        PlayerPlacementOrder.OnPlayerChanged += HandleNextPlayer;
-        PlayerPlacementOrder.OnNoPlayersLeft += ProceedNextPhase;
+        TokenPlacementManager = placementManager;
+        TurnOrderManager = new TurnOrderManager(players);
+        TurnOrderManager.OnPlayerChanged += HandleNextPlayer;
+        TurnOrderManager.OnNoPlayersLeft += ProceedNextPhase;
     }
     public override void Enter() {
-        PlayerPlacementOrder.StartPlacement();
-        InitPlacement(PlayerPlacementOrder.CurrentPlayer);
-        PlacementManager.OnPlacementCompleted += HandlePlacementCompleted;
+        TurnOrderManager.StartPlacement();
+        TokenPlacementManager.OnPlacementCompleted += HandlePlacementCompleted;
     }
-    private void  InitPlacement(Player player) {
-        PlacementManager.InitiatePlacing(player, maxHeroes: 1, maxHoplites: 2);
-    }    
+       
     public override void Exit() {
-        PlacementManager.OnPlacementCompleted -= HandlePlacementCompleted;
+        TokenPlacementManager.OnPlacementCompleted -= HandlePlacementCompleted;
     }
     private void HandlePlacementCompleted() {
-        PlayerPlacementOrder.PrevPlayer();
+        TurnOrderManager.PrevPlayer();
     }
     private void ProceedNextPhase() {
         PhaseManager.NextPhase(this);
@@ -36,5 +33,9 @@ public class GamePhaseHeroPlacement : GamePhaseBase
     private void HandleNextPlayer(Player player) {
         GameState.Instance.CurrentPlayer = player;
         InitPlacement(player);
-    }    
+    } 
+    private void  InitPlacement(Player player) {
+        player.TakeCombatCards(1);
+        TokenPlacementManager.InitiatePlacing(player);
+    }   
 }

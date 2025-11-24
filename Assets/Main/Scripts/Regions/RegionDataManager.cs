@@ -103,7 +103,7 @@ public class RegionDataManager
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    public bool RegisterToken(RegionId regionId, Token token) 
+    public bool RegisterEntity(RegionId regionId, TokenEntity token) 
     {
         var region = GetRegionData(regionId);
         if (region == null) 
@@ -111,7 +111,7 @@ public class RegionDataManager
             Debug.LogWarning($"Region {regionId} not found for registering token.");
             return false;
         }
-        region.RegisterToken(token);
+        region.RegisterEntity(token);
         GameLogger.Instance.Event($"Adding {token.Type} to {regionId}");
         return true;
     }
@@ -124,7 +124,7 @@ public class RegionDataManager
             return false;
         }
 
-        if (region.FindToken(tokenType, color, out Token token)) {
+        if (region.FindToken(tokenType, color, out TokenEntity token)) {
             region.RemoveToken(token);
             GameLogger.Instance.Event($"Removing {tokenType} ({color}) from {regionId}");
             return true;

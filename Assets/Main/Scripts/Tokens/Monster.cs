@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Monster : Token
+public class Monster : TokenEntity
 {
     public enum Id
     {

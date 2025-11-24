@@ -60,7 +60,7 @@ public class RegionViewManager : EventListener
         var region = FindRegionById(regionId);
         if (region != null) {
             switch (tokenType) {
-                case TokenType.Hoplite:
+                case TokenType.HopliteStack:
                     GameObject hoplite = FindHopliteInRegion(region, color);
                     if (hoplite != null) {
                         TokenView hoplitePrefab = hoplite.GetComponent<TokenView>();
@@ -107,7 +107,7 @@ public class RegionViewManager : EventListener
         if (region != null) {
             foreach (Transform child in region) {
                 TokenView visual = child.GetComponent<TokenView>();
-                if (visual != null && visual.PlayerColor == color && visual.TokenType == TokenType.Hoplite) {
+                if (visual != null && visual.PlayerColor == color && visual.TokenType == TokenType.HopliteStack) {
                     return child.gameObject;
                 }
             }
@@ -139,7 +139,7 @@ public class RegionViewManager : EventListener
     public GameObject FindHopliteInRegion(Transform region, PlayerColor color) {
         foreach (Transform child in region) {
             TokenView visual = child.GetComponent<TokenView>();
-            if (visual != null && visual.PlayerColor == color && visual.TokenType == TokenType.Hoplite) {
+            if (visual != null && visual.PlayerColor == color && visual.TokenType == TokenType.HopliteStack) {
                 return child.gameObject;
             }
         }

@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class LandToken : Token, IPlayerOwned
+public class LandToken : IPlayerOwned
 {
     public LandId LandId { get; private set; }
     public PlayerColor PlayerColor { get; set; }
-    public LandToken(LandId id) : base(TokenType.Land) {
+    public LandToken(LandId id) {
         LandId = id;
     }
 }

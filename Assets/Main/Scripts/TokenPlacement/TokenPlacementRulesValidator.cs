@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TokenPlacementRulesValidator
 {
-    public bool ValidateLogicalPlacement(RegionDataManager regionManager, RegionId regionId, Token token) {
+    public bool ValidateLogicalPlacement(RegionDataManager regionManager, RegionId regionId, TokenEntity token) {
         var regionData = regionManager.GetRegionData(regionId);
         if (regionData == null) {
             Debug.Log("Region data not found.");
