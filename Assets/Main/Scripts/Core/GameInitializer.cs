@@ -11,6 +11,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private Button _startPlacementButton;
     [SerializeField] private CardSelectPanelView _cardSelectPanelView;
     [SerializeField] private PlayerInfoPanel _playerInfoPanelView;
+    [SerializeField] private RegularActionPanel _regurlarActionPanel;
       
     private GameManager _gameManager;
     private TokenPlacementManager _tokenPlacementManager;
@@ -31,6 +32,7 @@ public class GameInitializer : MonoBehaviour
         CheckIfExist(_boardSurface, "_boardSurface");
         CheckIfExist(_startPlacementButton, "_startPlacementButton");
         CheckIfExist(_cardSelectPanelView, "_cardSelectPanelView");
+        CheckIfExist(_regurlarActionPanel, "_regurlarActionPanel");
 
         GameData.Instance.Initialize();
         GameState.Instance.Initialize();
@@ -55,6 +57,10 @@ public class GameInitializer : MonoBehaviour
 
         _startPlacementButton.onClick.AddListener(_gameManager.StartGame);
         _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;
+
+        var regularActionController = new RegularActionController(_regurlarActionPanel);
+        var regularActionService = new RegularActionService(regularActionController);
+        ServiceLocator.Register(regularActionService);
     }
     private void Update() {
         _tokenPlacementViewModel.UpdatePlacement();        

@@ -6768,8 +6768,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224725300}
   m_HandleRect: {fileID: 1224725299}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11429,7 +11429,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1636596167}
   m_HandleRect: {fileID: 1636596166}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12123,6 +12123,7 @@ MonoBehaviour:
   _startPlacementButton: {fileID: 966822821}
   _cardSelectPanelView: {fileID: 1911162141}
   _playerInfoPanelView: {fileID: 1308430888}
+  _regurlarActionPanel: {fileID: 1719523139}
 --- !u!1 &1656203678
 GameObject:
   m_ObjectHideFlags: 0
