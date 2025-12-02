@@ -103,7 +103,7 @@ public class RegionDataManager
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    public bool RegisterEntity(RegionId regionId, TokenEntity token) 
+    public bool RegisterEntity(RegionId regionId, TokenModel token) 
     {
         var region = GetRegionData(regionId);
         if (region == null) 
@@ -124,7 +124,7 @@ public class RegionDataManager
             return false;
         }
 
-        if (region.FindToken(tokenType, color, out TokenEntity token)) {
+        if (region.FindToken(tokenType, color, out TokenModel token)) {
             region.RemoveToken(token);
             GameLogger.Instance.Event($"Removing {tokenType} ({color}) from {regionId}");
             return true;

@@ -2845,6 +2845,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 8
   m_Name: Camera
   m_TagString: MainCamera
@@ -2946,7 +2947,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8192
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -2970,6 +2971,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.PhysicsRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  m_MaxRayIntersections: 0
 --- !u!1 &394534054
 GameObject:
   m_ObjectHideFlags: 0
@@ -6768,8 +6785,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224725300}
   m_HandleRect: {fileID: 1224725299}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11429,7 +11446,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1636596167}
   m_HandleRect: {fileID: 1636596166}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12269,7 +12286,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1666766503}
-  - component: {fileID: 1666766504}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -12294,18 +12310,6 @@ Transform:
   - {fileID: 912145880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1666766504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666766502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27367241a898d774a81d5c268f699287, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TokenViewManager
 --- !u!1 &1677856140
 GameObject:
   m_ObjectHideFlags: 0

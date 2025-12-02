@@ -1,17 +1,21 @@
 using UnityEngine;
 
-public class TokenViewFactory
+public class TokenPrefabFactory
 {
     private readonly TokenLoader _tokenLoader;
-    public TokenViewFactory() {
+    public TokenPrefabFactory() {
         _tokenLoader = new TokenLoader("Prefabs/Tokens");
     }
-    public TokenView CreateTokenView(TokenEntity token) {
-        if (token == null) {
+    public TokenView CreateToken(TokenView token)
+    {
+        return CreateTokenView(token.Model);
+    }
+    public TokenView CreateTokenView(TokenModel model) {
+        if (model == null) {
             Debug.Log("Token type is null");
         }
-        TokenView tokenView = CreateTokenPrefab(token.Type);
-        tokenView.SubscribeOnModel(token);
+        TokenView tokenView = CreateTokenPrefab(model.Type);
+        tokenView.SubscribeOnModel(model);
         return tokenView;
     }
     public float GetRadius(TokenType type) {

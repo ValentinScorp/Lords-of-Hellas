@@ -6,7 +6,6 @@ public class TokenPlacementTracker
     private List<Hero> _hero = new List<Hero>();
     private List<HopliteStack> _hoplites = new List<HopliteStack>();
     public void SetPlacementTargets(Player player) {
-        Debug.Log("SetPlacementTarget!");
         Reset();
 
         _hero.Add(player.Hero);
@@ -28,7 +27,7 @@ public class TokenPlacementTracker
             _ => false
         };
     }
-    public TokenEntity TakeToken(TokenType? type)
+    public TokenModel TakeToken(TokenType? type)
     {
         switch (type)
         {

@@ -14,15 +14,15 @@ public class RegionDataRuntime
     public List<Quest> ActiveQuests { get; private set; } = new();
     public bool IsFortified { get; private set; }
 
-    [SerializeField] private List<TokenEntity> _tokens = new();
-    public IReadOnlyList<TokenEntity> Tokens => _tokens;
+    [SerializeField] private List<TokenModel> _tokens = new();
+    public IReadOnlyList<TokenModel> Tokens => _tokens;
 
     public RegionDataRuntime(RegionStaticData regionData) {
         RegionId = RegionIdParser.Parse(regionData.RegionName);
         RegionStaticData = regionData;
         OwnedBy = PlayerColor.Gray;
     }
-    public void RegisterEntity<T>(T token) where T : TokenEntity
+    public void RegisterEntity<T>(T token) where T : TokenModel
     {
         if (token is HopliteStack hopliteStack) {
             int hopliteCount = 0;
@@ -51,7 +51,7 @@ public class RegionDataRuntime
             _tokens.Add(hero);
         }
     }
-    public void RemoveToken<T>(T token) where T : TokenEntity {
+    public void RemoveToken<T>(T token) where T : TokenModel {
         if (token is HopliteStack hoplite) {
             if (hoplite.Count <= 1) {
                 _tokens.Remove(token);
@@ -66,8 +66,8 @@ public class RegionDataRuntime
             }
         }
     }
-    public bool FindToken(TokenType tokenType, PlayerColor color, out TokenEntity token) {
-        foreach (TokenEntity t in _tokens) {
+    public bool FindToken(TokenType tokenType, PlayerColor color, out TokenModel token) {
+        foreach (TokenModel t in _tokens) {
             if (t.Type == tokenType && (t is IPlayerOwned ownedToken) && ownedToken.PlayerColor == color) { 
                 token = t;
                 return true;
@@ -109,10 +109,8 @@ public class RegionDataRuntime
     }
 
     private void ChangeOwner(PlayerColor color) {
-        Debug.Log("Change owner!" +  color);
         OwnedBy = color;
         EventBus.SendEvent(new RegionOwnerEvent(RegionId, color));
-        // OnOwnerChanged?.Invoke(OwnedBy);
     }
     private LandId GetLandId(string landColor) {
         switch (landColor.ToLowerInvariant()) {

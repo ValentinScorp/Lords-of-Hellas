@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class Hero : TokenEntity, IPlayerOwned
+public class Hero : TokenModel, IPlayerOwned
 {
     public enum Id {
         None,

@@ -16,7 +16,7 @@ public class TokenHolder
     public void AttachToken(TokenView token) {
         _tokenView = token;
     }
-    public void SetGhostColor(TokenPlacementTerrainValidator.GhostState ghostState) {
+    public void SetGhostColor(TerrainValidator.GhostState ghostState) {
 
     }
     public void SetGameObjectPosition(Vector3? newPosition) {

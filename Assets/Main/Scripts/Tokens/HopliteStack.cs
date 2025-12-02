@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class HopliteStack : TokenEntity, IPlayerOwned
+public class HopliteStack : TokenModel, IPlayerOwned
 {
     private PlayerColor _playerColor;
     private List<HopliteUnit> _hoplites = new List<HopliteUnit>();

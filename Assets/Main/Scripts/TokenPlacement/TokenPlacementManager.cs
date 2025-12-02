@@ -6,8 +6,7 @@ public class TokenPlacementManager
     private readonly TokenHolder _tokenHolder = new();
     private readonly TokenPlacementTracker _tokenPlacementTracker = new TokenPlacementTracker();
     private readonly TokenModelFactory _tokenModelFactory;
-    private readonly TokenViewFactory _tokenViewFactory;
-    private readonly TokenPlacementTerrainValidator _terrainValidator = new();
+    private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
     private readonly RegionViewManager _regionVisuals;
     private TokenVisualChanger _tokenVisualChanger;
@@ -15,7 +14,7 @@ public class TokenPlacementManager
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
-    private TokenEntity _currentToken;
+    private TokenModel _currentToken;
 
     public TokenPlacementTracker TokenPlacementTracker => _tokenPlacementTracker;
 
@@ -27,7 +26,6 @@ public class TokenPlacementManager
 
     public TokenPlacementManager(RegionDataManager regionManager, RegionViewManager regionVisuals) {
         _tokenModelFactory = new TokenModelFactory();
-        _tokenViewFactory = new TokenViewFactory();
         _regionManager = regionManager;
         _regionVisuals = regionVisuals;
         _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
@@ -56,11 +54,12 @@ public class TokenPlacementManager
             return false;
         }
 
-        TokenView tokenView = _tokenViewFactory.CreateTokenView(_currentToken);
+        var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
+        TokenView tokenView = tokenPrefabFactory.CreateTokenView(_currentToken);
 
         _tokenHolder.AttachToken(tokenView);
 
-        float radius = _tokenViewFactory.GetRadius(tokenType);
+        float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
 
         return true;
@@ -119,7 +118,7 @@ public class TokenPlacementManager
 
         SpawnPoint spawn = _regionVisuals.PlaceToken(_tokenHolder.TokenView.gameObject, regionId, _tokenHolder.GetGameObjectPosition());
         if (spawn != null) {
-            _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView.gameObject, color);
+            _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView, color);
             _tokenHolder.SetGameObjectPosition(spawn.Position);
             _tokenHolder.UnattachToken();
         }

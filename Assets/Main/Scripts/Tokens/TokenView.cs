@@ -1,10 +1,14 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TokenView : MonoBehaviour
+public class TokenView : MonoBehaviour, IPointerClickHandler
 {
+    public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TokenType _tokenType;
+    [SerializeField] private TokenModel _model;
 
     [SerializeField] private TMP_Text _leadershipText;
     [SerializeField] private TMP_Text _speedText;
@@ -19,6 +23,7 @@ public class TokenView : MonoBehaviour
     private TextMeshProUGUI _label = null;
 
     public TokenType TokenType => _tokenType;
+    public TokenModel Model => _model;
     public PlayerColor PlayerColor { get; set; }
     public RegionId RegionId { get; set; }
     public int SpawnPointId { get; set; }
@@ -29,17 +34,25 @@ public class TokenView : MonoBehaviour
         _canvas = transform.Find("Canvas");
         _label = _canvas?.GetComponentInChildren<TextMeshProUGUI>(true);
 
-        if (!_visual || !_renderer || !_canvas || !_label) {
+        if (!_visual || !_renderer || !_canvas || !_label) 
+        {
             Debug.LogError($"Initialization failed in {nameof(TokenView)}: Missing components.");
             enabled = false;
         }
     }
-    public void SubscribeOnModel(TokenEntity model) {
-        if (model is HopliteStack hoplite) {
+    public void SubscribeOnModel(TokenModel model) {        
+        if (model.Type != TokenType) 
+        {
+            Debug.LogWarning($"Can't subscribe TokenView type {TokenType} on model type {model.Type}");
+            return;
+        }
+        _model = model;
+        if (model is HopliteStack hoplite) 
+        {
             hoplite.OnCountChanged += count => SetLabel(count.ToString());
         }
-        if (model is Hero hero) {
-            Debug.Log("Subscribing on hero!");
+        if (model is Hero hero) 
+        {
             SetLabel(hero.DisplayName);
             hero.OnLeadershpChanged += value => _leadershipText.text = value.ToString();
             hero.OnSpeedChanged += value => _speedText.text = value.ToString();
@@ -49,23 +62,28 @@ public class TokenView : MonoBehaviour
             hero.ChangeLeadership(0);
         }
     }
-    public void SetVisualLayer(string layerName) {
+    public void SetVisualLayer(string layerName)
+    {
         if (_visual == null) return;
 
         int layer = LayerMask.NameToLayer(layerName);
-        if (layer < 0) {
+        if (layer < 0) 
+        {
             Debug.LogError($"Layer '{layerName}' not found.");
             return;
         }
         _visual.gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 
-    public void SetVisualTag(string tagName) {
-        if (_visual == null) {
+    public void SetVisualTag(string tagName) 
+    {
+        if (_visual == null) 
+        {
             return;
         }
 #if UNITY_EDITOR
-        if (!UnityEditorInternal.InternalEditorUtility.tags.Contains(tagName)) {
+        if (!UnityEditorInternal.InternalEditorUtility.tags.Contains(tagName)) 
+        {
             Debug.LogWarning($"Tag '{tagName}' does not exist.");
             return;
         }
@@ -74,22 +92,22 @@ public class TokenView : MonoBehaviour
     }
     public void SetGhostMaterial() {
         if (_renderer != null) {
-            //_renderer.material = GameContext.TokenMaterialPalette.ghostMaterial;
+            _renderer.material = GameData.TokenMaterialPalette.ghostMaterial;
         }
     }
-    public void SetGhostColor(TokenPlacementTerrainValidator.GhostState ghostState) {
+    public void SetGhostColor(TerrainValidator.GhostState ghostState) {
         switch (ghostState) {
-            case TokenPlacementTerrainValidator.GhostState.Neutral:
-                //SetGhostColor(GameContext.TokenMaterialPalette.ghostColorInit);
+            case TerrainValidator.GhostState.Neutral:
+                SetGhostColor(GameData.TokenMaterialPalette.ghostColorInit);
                 break;
-            case TokenPlacementTerrainValidator.GhostState.Allowed:
-                //SetGhostColor(GameContext.TokenMaterialPalette.ghostColorOk);
+            case TerrainValidator.GhostState.Allowed:
+                SetGhostColor(GameData.TokenMaterialPalette.ghostColorOk);
                 break;
-            case TokenPlacementTerrainValidator.GhostState.Forbidden:
-                //SetGhostColor(GameContext.TokenMaterialPalette.ghostColorError);
+            case TerrainValidator.GhostState.Forbidden:
+                SetGhostColor(GameData.TokenMaterialPalette.ghostColorError);
                 break;
             default:
-                //SetGhostColor(GameContext.TokenMaterialPalette.ghostColorInit);
+                SetGhostColor(GameData.TokenMaterialPalette.ghostColorInit);
                 break;
         }
     }
@@ -98,17 +116,9 @@ public class TokenView : MonoBehaviour
             Debug.LogError("TokenView: Renderer or material is missing!");
             return;
         }
-
-        //var oldColor = _renderer.material.GetColor(FresnelTintId);
-        
+    
         _renderer.material.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
-        //Debug.Log($"Fresnel color : {oldColor}");
 
-        //if (_renderer.material.GetColor(FresnelTintId) != color) {
-        //    Debug.LogError($"Failed to set _FresnelTint! Was: {oldColor}, Set: {color}");
-        //} else {
-        //    Debug.Log($"Fresnel color set: {color}");
-        //}
     }
     public void SetLabel(string text) {
         if (_label == null) {
@@ -131,5 +141,10 @@ public class TokenView : MonoBehaviour
             return -1;
         }
         return value;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ServiceLocator.Get<TokenSelector>().HandleTokenClick(this);
     }
 }

@@ -18,7 +18,8 @@ public class GameInitializer : MonoBehaviour
     private TokenPlacementViewModel _tokenPlacementViewModel;
     private RegionDataManager _regionDataManager = new();
     private CardSelectPanel _cardSelectPanel;
-
+    private TokenSelector _tokenSelector;
+    private TokenMover _tokenMover;
     private RaycastIntersector _raycastBoard;
 
     public RegionDataManager RegionDataManager => _regionDataManager;
@@ -33,6 +34,8 @@ public class GameInitializer : MonoBehaviour
         CheckIfExist(_startPlacementButton, "_startPlacementButton");
         CheckIfExist(_cardSelectPanelView, "_cardSelectPanelView");
         CheckIfExist(_regurlarActionPanel, "_regurlarActionPanel");
+
+        ServiceLocator.Register(_userInputController);
 
         GameData.Instance.Initialize();
         GameState.Instance.Initialize();
@@ -49,21 +52,34 @@ public class GameInitializer : MonoBehaviour
                                             _userInputController,
                                             _raycastBoard);
 
+        ServiceLocator.Register(_raycastBoard);
+        
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
 
         _gameManager = new GameManager(GameData.Instance, _tokenPlacementManager, _cardSelectPanel);
         _playerInfoPanelView.Subscribe(_gameManager.GamePhaseManager);
 
+        _tokenSelector = new TokenSelector();
+        ServiceLocator.Register(_tokenSelector);
+
+        _tokenMover = new TokenMover();
+        ServiceLocator.Register(_tokenMover);
+
         _startPlacementButton.onClick.AddListener(_gameManager.StartGame);
-        _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;
+        _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;        
+
+        var tokenPrefabFactory = new TokenPrefabFactory();
+        ServiceLocator.Register(tokenPrefabFactory);
 
         var regularActionController = new RegularActionController(_regurlarActionPanel);
         var regularActionService = new RegularActionService(regularActionController);
         ServiceLocator.Register(regularActionService);
+
     }
     private void Update() {
-        _tokenPlacementViewModel.UpdatePlacement();        
+        _tokenPlacementViewModel.UpdatePlacement();
+        _tokenMover.Update();
     }
     private void CheckIfExist(object parameter, string message) {
         if (parameter == null) Debug.LogWarning($"No {message} assigned in GameInitializer!");

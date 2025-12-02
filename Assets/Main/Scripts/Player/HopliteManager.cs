@@ -22,7 +22,6 @@ public class HopliteManager
         {
             if (!h.OnBoard)
             {
-                Debug.Log("Taking hoplite!");
                 h.OnBoard = true;
                 hoplite = h;
                 return true;

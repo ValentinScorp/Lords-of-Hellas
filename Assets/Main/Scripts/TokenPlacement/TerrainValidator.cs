@@ -1,7 +1,7 @@
 using UnityEngine;
 using static Board;
 
-public class TokenPlacementTerrainValidator
+public class TerrainValidator
 {
     public enum GhostState
     {
@@ -17,7 +17,7 @@ public class TokenPlacementTerrainValidator
 
     public bool IsCurrentStateAllowed => _currentState == GhostState.Allowed;
 
-    public TokenPlacementTerrainValidator() {
+    public TerrainValidator() {
         Init();
     }
     public void Init() {

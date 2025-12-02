@@ -13,16 +13,16 @@ public class TokenMaterialChanger
         GetRenderer(gameObject).material = _colorPallete.ghostMaterial;
     }
 
-    public void SetStateColor(GameObject gameObject, TokenPlacementTerrainValidator.GhostState state) {
+    public void SetStateColor(GameObject gameObject, TerrainValidator.GhostState state) {
         Debug.Log(state.ToString());
         switch (state) {
-            case TokenPlacementTerrainValidator.GhostState.Neutral:
+            case TerrainValidator.GhostState.Neutral:
                 SetColor(gameObject, _colorPallete.ghostColorInit);
                 break;
-            case TokenPlacementTerrainValidator.GhostState.Allowed:
+            case TerrainValidator.GhostState.Allowed:
                 SetColor(gameObject, _colorPallete.ghostColorOk);
                 break;
-            case TokenPlacementTerrainValidator.GhostState.Forbidden:
+            case TerrainValidator.GhostState.Forbidden:
                 SetColor(gameObject, _colorPallete.ghostColorError);
                 break;
             default:
@@ -31,30 +31,33 @@ public class TokenMaterialChanger
         }
     }
 
-    public void SetPlayerMaterial(GameObject gameObject, PlayerColor playerColor) {
+    public void SetPlayerMaterial(TokenView token, PlayerColor playerColor) {
+
+        Material material = _colorPallete.grayTokenMaterial;
         switch (playerColor) {
             case PlayerColor.Red:
-                SetMaterial(gameObject, _colorPallete.redTokenMaterial);
+                material = _colorPallete.redTokenMaterial;
                 break;
             case PlayerColor.Blue:
-                SetMaterial(gameObject, _colorPallete.blueTokenMaterial);
+                material = _colorPallete.blueTokenMaterial;
                 break;
             case PlayerColor.Green:
-                SetMaterial(gameObject, _colorPallete.greenTokenMaterial);
+                material = _colorPallete.greenTokenMaterial;
                 break;
             case PlayerColor.Yellow:
-                SetMaterial(gameObject, _colorPallete.yellowTokenMaterial);
+                material = _colorPallete.yellowTokenMaterial;
                 break;
             case PlayerColor.Purple:
-                SetMaterial(gameObject, _colorPallete.purpleTokenMaterial);
+                material = _colorPallete.purpleTokenMaterial;
                 break;
             case PlayerColor.Brown:
-                SetMaterial(gameObject, _colorPallete.brownTokenMaterial);
+                material = _colorPallete.brownTokenMaterial;
                 break;
             default:
-                SetMaterial(gameObject, _colorPallete.grayTokenMaterial);         
+                material = _colorPallete.grayTokenMaterial;         
                 break;
         }
+        SetMaterial(token.gameObject, material);  
     }
 
     private Renderer GetRenderer(GameObject gameObject) {

@@ -12,6 +12,11 @@ public class RegularActionPanel : MonoBehaviour
     [SerializeField] private Button _prayerButton;
     [SerializeField] private Button _endActionButton;
 
+    public event Action HeroMoveClicked;
+    void Awake()
+    {
+        _heroMovementButton.onClick.AddListener(() => HeroMoveClicked?.Invoke());
+    }
     public void UpdateButtonInteractability(RegularAction regularAction) {
         _heroMovementButton.interactable = regularAction.HeroSteps > 0;
         _hopliteMovementButton.interactable = regularAction.HoplitesMoveLeft() > 0;

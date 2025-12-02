@@ -42,7 +42,7 @@ public class CardSelectPanel
             .Cast<CardArtifact>()
             .ToList();
 
-        Debug.Log($"Selected {artifactCards.Count} cards");
+        // Debug.Log($"Selected {artifactCards.Count} cards");
         OnInitiateSelection?.Invoke(artifactCards);
     }
 
