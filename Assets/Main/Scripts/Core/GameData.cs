@@ -23,6 +23,7 @@ public class GameData
    
     public static PlayerColorPalette PlayerColorPalette { get; private set; }
     public static TokenMaterialPalette TokenMaterialPalette { get; private set; }
+    public static GlobalMaterials GlobalMaterials { get; private set; }
     public List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards;
     public List<CardCombat> CombatCards => _combatCards;
     public List<CardArtifact> ArtifactCards => _artifactCards;
@@ -30,8 +31,8 @@ public class GameData
     public List<CardMonster> MonsterCards => _monsterCards;
     public List<CardQuest> QuestCards => _questCards;
 
-    private List<RegionStaticData> _regionStaticData = new();
-    public List<RegionStaticData> RegionStaticData => _regionStaticData;
+    private List<RegionConfig> _regionStaticData = new();
+    public List<RegionConfig> RegionStaticData => _regionStaticData;
 
     private bool _initialized = false;
 
@@ -46,6 +47,10 @@ public class GameData
         TokenMaterialPalette = Resources.Load<TokenMaterialPalette>("ScriptableObjects/GameSetup/TokenMaterialPalette");
         if (TokenMaterialPalette == null) {
             Debug.Log("ColorPalette not loaded!");
+        }
+        GlobalMaterials = Resources.Load<GlobalMaterials>("ScriptableObjects/GameSetup/GlobalMaterials");
+        if (GlobalMaterials == null) {
+            Debug.Log("GlobalMaterials not loaded!");
         }
         CardLoader.Instance.LoadAllCards();
 
@@ -86,4 +91,25 @@ public class GameData
                 return LandId.Red;
         }
     }
+    public Color GetPlayerColor(PlayerColor playerColor)
+    {
+        if (PlayerColorPalette == null)
+        {
+            Debug.LogError("PlayerColorPalette is not loaded.");
+            return Color.white;
+        }
+
+        switch (playerColor)
+        {
+            case PlayerColor.Red:    return PlayerColorPalette.Red;
+            case PlayerColor.Blue:   return PlayerColorPalette.Blue;
+            case PlayerColor.Green:  return PlayerColorPalette.Green;
+            case PlayerColor.Yellow: return PlayerColorPalette.Yellow;
+            case PlayerColor.Purple: return PlayerColorPalette.Purple;
+            case PlayerColor.Brown:  return PlayerColorPalette.Brown;
+            case PlayerColor.Gray:
+            default:                 return PlayerColorPalette.Grey;
+        }
+    }
 }
+

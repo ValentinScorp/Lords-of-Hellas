@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RegionBorderEmissionController : MonoBehaviour
+public class RegionBorderView : MonoBehaviour
 {
     public Color baseEmissionColor = Color.white;
     public float pulseSpeed = 5f;

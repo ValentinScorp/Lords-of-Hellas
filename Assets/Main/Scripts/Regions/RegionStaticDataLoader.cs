@@ -24,7 +24,7 @@ public class RegionStaticDataLoader
             return false;
         }
         foreach (var jsonRegion in RegionJsonWrapper.regions) {
-            RegionStaticData regionData = new();
+            RegionConfig regionData = new();
             CopyRegionData(jsonRegion, regionData);
            
             GameData.Instance.RegionStaticData.Add(regionData);            
@@ -32,7 +32,7 @@ public class RegionStaticDataLoader
         
         return true;
     }
-    private void CopyRegionData(RegionJson source, RegionStaticData dest) {
+    private void CopyRegionData(RegionJson source, RegionConfig dest) {
         dest.CopyData(source);
     }
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class RegionEffectsManager : MonoBehaviour
+public class RegionAreaView : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private RegionId _regionId;
     [SerializeField] private Renderer _regionBorder;
-    [SerializeField] private RegionInfoUiPanel _regionInfoUiIPanel;
 
-    private RegionBorderEmissionController _emissionController;
+    private RegionBorderView _emissionController;
     private bool _isSelected = false;
     private Material _uniqueMaterial;
 
@@ -17,7 +17,7 @@ public class RegionEffectsManager : MonoBehaviour
             Debug.LogError("Error getting target object in RegionSelectManager!", gameObject);
             return;
         }
-        _emissionController = _regionBorder.GetComponent<RegionBorderEmissionController>();
+        _emissionController = _regionBorder.GetComponent<RegionBorderView>();
         if (_emissionController == null) {
             Debug.LogError("Error getting EmissionPulseController component of target object in RegionSelectManager!", gameObject);
         }
@@ -60,18 +60,13 @@ public class RegionEffectsManager : MonoBehaviour
     private void OnMouseEnter() {
         if (!_isSelected) { 
             _emissionController?.EnablePulse();
-
-            //HighlightRegion();
         }
     }
     private void OnMouseExit() {
         if (!_isSelected) {
             _emissionController?.DisablePulse();
-
-            //UnhighlightRegion();
         }
     }
-
     public void Activate() {
         _isSelected = true;
         _emissionController?.SetEmissionMax();
@@ -80,16 +75,12 @@ public class RegionEffectsManager : MonoBehaviour
         _isSelected = false;
         _emissionController?.SetEmissionMin();
     }
-
     private void HighlightRegion() {
         SetColorAlpha(0.2f);
-
-        //SetColor(GameContext.PlayerColorPalette.Red);
     }
     private void UnhighlightRegion() {
         SetColorAlpha(0.0f);
     }
-
     private void SetColorAlpha(float alpha) {
         if (_uniqueMaterial == null) {
             return;
@@ -104,5 +95,11 @@ public class RegionEffectsManager : MonoBehaviour
         }
         Color old = _uniqueMaterial.color;
         _uniqueMaterial.color = new Color(color.r, color.g, color.b, old.a);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+       // if (eventData.button != PointerEventData.InputButton.Left) return;
+        Debug.Log("Region clicked");
+        //ServiceLocator.Resolve<RegionSelectionManager>().HandleRegionClicked(_regionId);
     }
 }

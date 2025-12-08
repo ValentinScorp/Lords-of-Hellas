@@ -33,31 +33,7 @@ public class TokenMaterialChanger
 
     public void SetPlayerMaterial(TokenView token, PlayerColor playerColor) {
 
-        Material material = _colorPallete.grayTokenMaterial;
-        switch (playerColor) {
-            case PlayerColor.Red:
-                material = _colorPallete.redTokenMaterial;
-                break;
-            case PlayerColor.Blue:
-                material = _colorPallete.blueTokenMaterial;
-                break;
-            case PlayerColor.Green:
-                material = _colorPallete.greenTokenMaterial;
-                break;
-            case PlayerColor.Yellow:
-                material = _colorPallete.yellowTokenMaterial;
-                break;
-            case PlayerColor.Purple:
-                material = _colorPallete.purpleTokenMaterial;
-                break;
-            case PlayerColor.Brown:
-                material = _colorPallete.brownTokenMaterial;
-                break;
-            default:
-                material = _colorPallete.grayTokenMaterial;         
-                break;
-        }
-        SetMaterial(token.gameObject, material);  
+        SetMaterial(token.gameObject, _colorPallete.GetPlayerMaterial(playerColor));
     }
 
     private Renderer GetRenderer(GameObject gameObject) {

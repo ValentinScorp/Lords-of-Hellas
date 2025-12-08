@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class RegionStaticData
+public class RegionConfig
 {
     [Header("Static Properties")]
     [SerializeField] private string _regionName;
@@ -15,7 +15,7 @@ public class RegionStaticData
     [SerializeField] private string _monumentGodName;
     [SerializeField] private RegionJson _sourceData;
 
-    [System.NonSerialized] public List<RegionConnection> Neighbors;
+    [System.NonSerialized] public List<RegionConnection> RegionConnections;
 
     public string RegionName => _regionName;
     public string LandColor => _landColor;

@@ -76,7 +76,7 @@ public class TerrainValidator
             return false;
         }
 
-        var regionEffects = regionCollider.GetComponent<RegionEffectsManager>();
+        var regionEffects = regionCollider.GetComponent<RegionAreaView>();
         if (regionEffects == null) {
             Debug.LogWarning($"No RegionEffectsManager on collider {regionCollider.name}!");
             return false;

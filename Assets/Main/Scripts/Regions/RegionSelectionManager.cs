@@ -5,34 +5,39 @@ using UnityEngine.InputSystem;
 
 public class RegionSelectionManager : MonoBehaviour
 {
-    [SerializeField] private RegionInfoUiPanel _regionInfoUiPanel;
     [SerializeField] private UserInputController _userInputController;
-    [SerializeField] private GameInitializer _gameInitializer;
+    private RegionInfoUiPanel _regionInfoUiPanel;
 
     private InputAction _clickAction;
     private Camera _camera;
-    private RegionEffectsManager _selected;
+    private RegionAreaView _selected;
 
-    private void Awake() {
+    private void Awake()
+    {
         _camera = Camera.main;
     }
-    private void Start() {
+    private void Start()
+    {
+        _regionInfoUiPanel = ServiceLocator.Get<UiRegistry>().Get<RegionInfoUiPanel>();
         _userInputController.OnMouseClick += OnClickPerformed;
     }
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _userInputController.OnMouseClick -= OnClickPerformed;
     }
-    private void OnClickPerformed(InputAction.CallbackContext ctx) {
+    private void OnClickPerformed(InputAction.CallbackContext ctx)
+    {
         if (!_userInputController.IsPointerOverUINoTransparent()) {
-            RegionEffectsManager target = _userInputController.GetRaycastTarget<RegionEffectsManager>();
+            RegionAreaView target = _userInputController.GetRaycastTarget<RegionAreaView>();
             if (target != null) {
                 Select(target);
             } else {
                 Deselect();
             }
-        }        
+        }
     }
-    private bool IsPointerOverUI(Vector2 screenPosition) {
+    private bool IsPointerOverUI(Vector2 screenPosition)
+    {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current) {
             position = screenPosition
         };
@@ -51,18 +56,21 @@ public class RegionSelectionManager : MonoBehaviour
         return false;
     }
 
-    private void Select(RegionEffectsManager newTarget) {
-        if (_selected != null && _selected != newTarget) { 
+    private void Select(RegionAreaView newTarget)
+    {
+        if (_selected != null && _selected != newTarget) {
             _selected.Deactivate();
         }
 
         _selected = newTarget;
         _selected.Activate();
-        RegionDataRuntime regionRuntimeData = _gameInitializer.RegionDataManager.GetRegionData(_selected.RegionId);
-        _regionInfoUiPanel.ShowRegionInfo(regionRuntimeData);
+        var regionStatus = ServiceLocator.Get<RegionStatusRegistry>().GetRegionData(_selected.RegionId);
+
+        _regionInfoUiPanel.ShowRegionInfo(regionStatus);
     }
 
-    private void Deselect() {
+    private void Deselect()
+    {
         if (_selected != null) {
             _selected.Deactivate();
             _regionInfoUiPanel.HidePanel();

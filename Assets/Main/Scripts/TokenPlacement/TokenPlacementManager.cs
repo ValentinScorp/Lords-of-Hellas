@@ -10,7 +10,7 @@ public class TokenPlacementManager
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
     private readonly RegionViewManager _regionVisuals;
     private TokenVisualChanger _tokenVisualChanger;
-    private RegionDataManager _regionManager;
+    private RegionStatusRegistry _regionStatusRegistry;
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
@@ -24,9 +24,9 @@ public class TokenPlacementManager
 
     private const int MaxStartupPlacements = 3;
 
-    public TokenPlacementManager(RegionDataManager regionManager, RegionViewManager regionVisuals) {
+    public TokenPlacementManager(RegionViewManager regionVisuals) {
         _tokenModelFactory = new TokenModelFactory();
-        _regionManager = regionManager;
+        _regionStatusRegistry = ServiceLocator.Get<RegionStatusRegistry>();
         _regionVisuals = regionVisuals;
         _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
         _recorder = new();
@@ -86,7 +86,7 @@ public class TokenPlacementManager
             Debug.Log("Can't place: region not found at token position.");
             return false;
         }
-        if (!_rulesValidator.ValidateLogicalPlacement(_regionManager, regionId, _currentToken)) {
+        if (!_rulesValidator.ValidateLogicalPlacement(_regionStatusRegistry, regionId, _currentToken)) {
             return false;
         }
         PlaceToken(regionId, GameState.Instance.CurrentPlayer);
@@ -95,7 +95,7 @@ public class TokenPlacementManager
     }
     private void PlaceToken(RegionId regionId, Player player) {
         RecordStep(regionId, player.Color, _currentToken.Type);
-        _regionManager.RegisterEntity(regionId, _currentToken);
+        _regionStatusRegistry.RegisterEntity(regionId, _currentToken);
         HandleVisuals(_currentToken.Type, regionId, player.Color);
         _currentToken = null;
     }
@@ -108,7 +108,7 @@ public class TokenPlacementManager
         if (tokenType == TokenType.HopliteStack) {
             var existingHoplite = _regionVisuals.GetHopliteFromRegion(regionId, color);
             if (existingHoplite != null) {
-                int hopliteCount = _regionManager.GetHopliteNum(regionId, color);
+                int hopliteCount = _regionStatusRegistry.GetHopliteNum(regionId, color);
                 existingHoplite.GetComponent<TokenView>()?.SetCount(hopliteCount);
                 _tokenHolder.DestroyTokenView();
                 _tokenHolder.UnattachToken();
@@ -131,7 +131,7 @@ public class TokenPlacementManager
     }
     public void Cancel() {
         for (int i=0; i < _startupPlacementCounter; i++) {
-            _regionManager.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _regionStatusRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
             _regionVisuals.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
             _recorder.RemoveLastStep();
         }

@@ -34,4 +34,18 @@ public class PlayerColorPalette : ScriptableObject
             PlayerColor.Brown
         };
     }
+
+    public Color GetColor(PlayerColor playerColor)
+    {
+        switch (playerColor)
+        {
+            case PlayerColor.Red:    return Red;
+            case PlayerColor.Blue:   return Blue;
+            case PlayerColor.Green:  return Green;
+            case PlayerColor.Yellow: return Yellow;
+            case PlayerColor.Purple: return Purple;
+            case PlayerColor.Brown:  return Brown;
+            default:                 return Grey;
+        }
+    }
 }

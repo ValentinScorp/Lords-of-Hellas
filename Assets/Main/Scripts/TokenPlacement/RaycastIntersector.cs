@@ -40,9 +40,9 @@ public class RaycastIntersector
         int transparentLayer = LayerMask.NameToLayer("RaycastHitTransparent");
 
         foreach (RaycastResult result in results) {
-            if (result.gameObject.layer != transparentLayer) {
-                return true;
-            }
+            if (result.gameObject.GetComponent<RectTransform>() == null) continue;
+            if (result.gameObject.layer == transparentLayer) continue;
+            return true;
         }
 
         return false;

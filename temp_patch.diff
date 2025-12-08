@@ -1,0 +1,16 @@
+*** Begin Patch
+*** Update File: Assets/Main/Scripts/Regions/RegionView.cs
+@@
+ public class RegionView : MonoBehaviour
+ {
+     [SerializeField] private RegionId _regionId = RegionId.Unknown;
+     private void Awake() {
+-        
++        _regionId = RegionIdParser.Parse(gameObject.name);
++
++        if (_regionId == RegionId.Unknown) {
++            Debug.LogWarning($"RegionView '{name}' has unknown RegionId");
++        }
+     }
+ }
+*** End Patch

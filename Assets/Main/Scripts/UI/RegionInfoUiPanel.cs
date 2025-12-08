@@ -8,7 +8,7 @@ public class RegionInfoUiPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _ownerColorText;
     [SerializeField] private TextMeshProUGUI _hoplitesCount;
 
-    public void ShowRegionInfo(RegionDataRuntime regionRuntimeData) {
+    public void ShowRegionInfo(RegionStatus regionRuntimeData) {
         _regionNameText.text = $"Region Name: {regionRuntimeData.RegionStaticData.RegionName}";
         _populationStrengthText.text = $"Population Strength: {regionRuntimeData.RegionStaticData.PopulationStrength}";
         _ownerColorText.text = $"Owned By: {regionRuntimeData.OwnedBy.ToString()}";

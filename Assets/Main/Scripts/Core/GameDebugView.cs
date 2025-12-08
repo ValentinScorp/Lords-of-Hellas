@@ -8,6 +8,5 @@ public class GameDebugView : MonoBehaviour
     private void Update()
     {
         _gameState = GameState.Instance;
-       // _players = (List<Player>)_gameState.Players;
     }
 }

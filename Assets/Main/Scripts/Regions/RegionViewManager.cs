@@ -8,7 +8,6 @@ public class RegionViewManager : EventListener
     protected override Type EventType => typeof(RegionOwnerEvent);
 
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count) {
-        //Debug.Log("Setting hoplite counter!");
         var region = FindRegionById(regionId);
         GameObject hoplite = FindHopliteInRegion(region, color);
         if (hoplite != null) {
@@ -17,26 +16,6 @@ public class RegionViewManager : EventListener
     }
     public void MoveTokenToRegion(RegionId regionId, GameObject gameObject) {
         gameObject.transform.SetParent(FindRegionById(regionId), worldPositionStays: true);
-    }
-    public void UniteHopliteTokens(RegionId regionId) {
-        Transform regionTransform = transform.Find(RegionIdParser.IdToString(regionId));
-        if (regionTransform == null) {
-            Debug.LogError($"Region '{regionId}' not found under '{name}'!");
-            return;
-        }
-    }
-    public GameObject SetHopliteCounter(int value, RegionId regionId, PlayerColor color) {
-        var region = FindRegionById(regionId);
-        if (region != null) {
-            GameObject hoplite = FindHopliteInRegion(region, color);
-            if (hoplite != null) {
-                TokenView hoplitePrefab = hoplite.GetComponent<TokenView>();
-                hoplitePrefab.SetLabel(value.ToString());
-                return hoplite;
-            }
-        }
-        Debug.LogWarning("Couldn't set hoplite visuals counter!");
-        return null;
     }
     public SpawnPoint PlaceToken(GameObject token, RegionId regionId, Vector3? position) {
         var spawnPoint = GetFreeSpawnPoint(regionId, position);
@@ -91,7 +70,7 @@ public class RegionViewManager : EventListener
         var region = FindRegionById(regionId);
         if (region != null) {
             foreach (Transform child in region) {
-                var generator = child.GetComponent<SpawnPointGenerator>();
+                var generator = child.GetComponent<SpawnPointsView>();
                 if (generator != null) {
                     return position.HasValue
                         ? generator.GetNearestUnoccupied(position.Value)
@@ -118,7 +97,7 @@ public class RegionViewManager : EventListener
         var region = FindRegionById(regionId);
         if (region != null) {
             foreach (Transform child in region) {
-                var generator = child.GetComponent<SpawnPointGenerator>();
+                var generator = child.GetComponent<SpawnPointsView>();
                 if (generator != null) {
                     generator.ReleaseSpawnPoint(spawnPointId);                    
                 }
@@ -159,7 +138,7 @@ public class RegionViewManager : EventListener
     protected override void HandleEvent(IGameEvent gameEvent) {
         if (gameEvent is RegionOwnerEvent regionOwnerEvent) {
             Transform regionTransform = FindRegionById(regionOwnerEvent.regionId);
-            regionTransform.GetComponentInChildren<RegionEffectsManager>().HandleOwnerChanged(regionOwnerEvent.Color);
+            regionTransform.GetComponentInChildren<RegionAreaView>().HandleOwnerChanged(regionOwnerEvent.Color);
         }
         if (gameEvent is HopliteCountEvent hopliteCountEvent)
         {

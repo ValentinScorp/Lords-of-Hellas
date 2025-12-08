@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class RegularActionPanel : MonoBehaviour
 {
     [SerializeField] private Button _heroMovementButton;

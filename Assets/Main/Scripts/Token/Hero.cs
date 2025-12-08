@@ -23,10 +23,9 @@ public class Hero : TokenModel, IPlayerOwned
     public int Speed { get; private set; }
     public int Strength { get; private set; }
 
-
     public string DisplayName => HeroId.ToString();
     public PlayerColor PlayerColor { get; private set; }    
-    //public Player Player { get; private set; }    
+ 
 
     public event Action<int> OnLeadershpChanged;
     public event Action<int> OnSpeedChanged;

@@ -2,14 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter))]
-public class SpawnPointGenerator : MonoBehaviour
+public class SpawnPointsView : MonoBehaviour
 {
     [SerializeField] private float _step = 1f;
 
     private Mesh _mesh;
     private List<SpawnPoint> _spawnPoints = new();
 
-    public IReadOnlyList<SpawnPoint> SpawnPoints => _spawnPoints;
+    public IReadOnlyList<SpawnPoint> Points => _spawnPoints;
 
     private void Start() {
         _mesh = GetComponent<MeshFilter>().mesh;

@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9337259}
+  - component: {fileID: 9337260}
   m_Layer: 0
   m_Name: Elis
   m_TagString: Untagged
@@ -152,6 +153,19 @@ Transform:
   - {fileID: 1535734580}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9337260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9337258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &10179396
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +261,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -446,6 +461,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -501,7 +517,7 @@ GameObject:
   - component: {fileID: 33003405}
   - component: {fileID: 33003406}
   m_Layer: 12
-  m_Name: Euboea_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,6 +585,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &33003404
 MeshFilter:
@@ -630,7 +647,7 @@ GameObject:
   - component: {fileID: 50094195}
   - component: {fileID: 50094194}
   m_Layer: 12
-  m_Name: Thessaly_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -736,6 +753,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &50094197
 MeshFilter:
@@ -840,6 +858,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -895,7 +914,7 @@ GameObject:
   - component: {fileID: 71631465}
   - component: {fileID: 71631464}
   m_Layer: 12
-  m_Name: Crete_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1001,6 +1020,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &71631467
 MeshFilter:
@@ -1238,6 +1258,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1321,6 +1342,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &174435850
 GameObject:
@@ -1388,7 +1410,7 @@ GameObject:
   - component: {fileID: 189698842}
   - component: {fileID: 189698841}
   m_Layer: 12
-  m_Name: Achaea_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1494,6 +1516,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &189698844
 MeshFilter:
@@ -1518,7 +1541,7 @@ GameObject:
   - component: {fileID: 193114066}
   - component: {fileID: 193114067}
   m_Layer: 11
-  m_Name: Chalkidiki_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1608,6 +1631,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &193114065
 MeshFilter:
@@ -1631,7 +1655,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 7
   _regionBorder: {fileID: 1034790807}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!114 &193114067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1660,7 +1683,7 @@ GameObject:
   - component: {fileID: 214789609}
   - component: {fileID: 214789613}
   m_Layer: 11
-  m_Name: Corinthia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1695,7 +1718,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 13
   _regionBorder: {fileID: 1005589950}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &214789610
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1765,6 +1787,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &214789612
 MeshFilter:
@@ -2145,6 +2168,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2228,6 +2252,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &240691856
 GameObject:
@@ -2243,7 +2268,7 @@ GameObject:
   - component: {fileID: 240691859}
   - component: {fileID: 240691858}
   m_Layer: 12
-  m_Name: Laconia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2349,6 +2374,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &240691861
 MeshFilter:
@@ -2453,6 +2479,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2503,6 +2530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 268110881}
+  - component: {fileID: 268110882}
   m_Layer: 0
   m_Name: Boeotia
   m_TagString: Untagged
@@ -2527,6 +2555,19 @@ Transform:
   - {fileID: 1398301826}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268110882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268110880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &284437572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,7 +2583,7 @@ GameObject:
   - component: {fileID: 284437574}
   - component: {fileID: 284437578}
   m_Layer: 11
-  m_Name: Crete_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2577,7 +2618,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 19
   _regionBorder: {fileID: 71631466}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &284437575
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2647,6 +2687,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &284437577
 MeshFilter:
@@ -2809,6 +2850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327504132}
+  - component: {fileID: 327504133}
   m_Layer: 0
   m_Name: Laconia
   m_TagString: Untagged
@@ -2833,6 +2875,19 @@ Transform:
   - {fileID: 240691857}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327504133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327504131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,7 +2925,7 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2897,7 +2952,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2947,7 +3002,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 4294967295
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -3129,6 +3184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405204959}
+  - component: {fileID: 405204960}
   m_Layer: 0
   m_Name: Achaea
   m_TagString: Untagged
@@ -3153,6 +3209,19 @@ Transform:
   - {fileID: 189698840}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &405204960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405204958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3179,14 +3248,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -3294,7 +3363,7 @@ GameObject:
   - component: {fileID: 418107413}
   - component: {fileID: 418107412}
   m_Layer: 12
-  m_Name: Epirus_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3400,6 +3469,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &418107415
 MeshFilter:
@@ -3544,7 +3614,7 @@ GameObject:
   - component: {fileID: 454084242}
   - component: {fileID: 454084241}
   m_Layer: 12
-  m_Name: Macedonia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3650,6 +3720,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &454084244
 MeshFilter:
@@ -3801,6 +3872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476899541}
+  - component: {fileID: 476899542}
   m_Layer: 0
   m_Name: Corinthia
   m_TagString: Untagged
@@ -3825,6 +3897,19 @@ Transform:
   - {fileID: 1005589947}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &476899542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476899540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &507649794
 GameObject:
   m_ObjectHideFlags: 0
@@ -3839,7 +3924,7 @@ GameObject:
   - component: {fileID: 507649797}
   - component: {fileID: 507649796}
   m_Layer: 12
-  m_Name: Messenia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3945,6 +4030,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &507649799
 MeshFilter:
@@ -4049,6 +4135,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4185,6 +4272,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4235,6 +4323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 534741987}
+  - component: {fileID: 534741988}
   m_Layer: 0
   m_Name: Arcadia
   m_TagString: Untagged
@@ -4259,6 +4348,19 @@ Transform:
   - {fileID: 875796673}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &534741988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534741986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &535152899
 GameObject:
   m_ObjectHideFlags: 0
@@ -4354,6 +4456,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4410,7 +4513,7 @@ GameObject:
   - component: {fileID: 537980106}
   - component: {fileID: 537980110}
   m_Layer: 11
-  m_Name: Thessaly_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4445,7 +4548,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 2
   _regionBorder: {fileID: 50094196}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &537980107
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4515,6 +4617,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &537980109
 MeshFilter:
@@ -4632,6 +4735,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4688,7 +4792,7 @@ GameObject:
   - component: {fileID: 572710673}
   - component: {fileID: 572710677}
   m_Layer: 11
-  m_Name: Laconia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4723,7 +4827,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 3
   _regionBorder: {fileID: 240691860}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &572710674
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4793,6 +4896,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &572710676
 MeshFilter:
@@ -4910,6 +5014,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4966,7 +5071,7 @@ GameObject:
   - component: {fileID: 607348128}
   - component: {fileID: 607348132}
   m_Layer: 11
-  m_Name: Arcadia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5001,7 +5106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 16
   _regionBorder: {fileID: 875796676}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &607348129
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5071,6 +5175,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &607348131
 MeshFilter:
@@ -5223,6 +5328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 629953660}
+  - component: {fileID: 629953661}
   m_Layer: 0
   m_Name: Crete
   m_TagString: Untagged
@@ -5247,6 +5353,19 @@ Transform:
   - {fileID: 71631463}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &629953661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629953659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &655165503
 GameObject:
   m_ObjectHideFlags: 0
@@ -5377,6 +5496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685016653}
+  - component: {fileID: 685016654}
   m_Layer: 0
   m_Name: Phocis
   m_TagString: Untagged
@@ -5401,6 +5521,19 @@ Transform:
   - {fileID: 1451893468}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &685016654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685016652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &703609780
 GameObject:
   m_ObjectHideFlags: 0
@@ -5549,7 +5682,7 @@ GameObject:
   - component: {fileID: 740470161}
   - component: {fileID: 740470165}
   m_Layer: 11
-  m_Name: Argolis_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5584,7 +5717,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 18
   _regionBorder: {fileID: 1296006245}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &740470162
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5654,6 +5786,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &740470164
 MeshFilter:
@@ -6018,6 +6151,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6509,7 +6643,7 @@ GameObject:
   - component: {fileID: 875796675}
   - component: {fileID: 875796674}
   m_Layer: 12
-  m_Name: Arcadia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6615,6 +6749,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &875796677
 MeshFilter:
@@ -6688,9 +6823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a065dcc5422baac458b819e36804703b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionInfoUiPanel: {fileID: 1733055594}
   _userInputController: {fileID: 756044389}
-  _gameInitializer: {fileID: 1641279533}
 --- !u!114 &912145882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6785,8 +6918,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224725300}
   m_HandleRect: {fileID: 1224725299}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999998
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6843,7 +6976,7 @@ GameObject:
   - component: {fileID: 939379477}
   - component: {fileID: 939379476}
   m_Layer: 12
-  m_Name: Aetolia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6949,6 +7082,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &939379479
 MeshFilter:
@@ -7100,6 +7234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 991415515}
+  - component: {fileID: 991415516}
   m_Layer: 0
   m_Name: Locris
   m_TagString: Untagged
@@ -7124,6 +7259,19 @@ Transform:
   - {fileID: 1194410545}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &991415516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991415514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1005589946
 GameObject:
   m_ObjectHideFlags: 0
@@ -7138,7 +7286,7 @@ GameObject:
   - component: {fileID: 1005589949}
   - component: {fileID: 1005589948}
   m_Layer: 12
-  m_Name: Corinthia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7244,6 +7392,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1005589951
 MeshFilter:
@@ -7350,6 +7499,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -7405,7 +7555,7 @@ GameObject:
   - component: {fileID: 1034790806}
   - component: {fileID: 1034790809}
   m_Layer: 12
-  m_Name: Chalkidiki_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7495,6 +7645,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1034790808
 MeshFilter:
@@ -7769,6 +7920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1072283233}
+  - component: {fileID: 1072283234}
   m_Layer: 0
   m_Name: Thessaly
   m_TagString: Untagged
@@ -7793,6 +7945,19 @@ Transform:
   - {fileID: 50094193}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1072283234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072283232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1072693157
 GameObject:
   m_ObjectHideFlags: 0
@@ -7888,6 +8053,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -7944,7 +8110,7 @@ GameObject:
   - component: {fileID: 1076509945}
   - component: {fileID: 1076509949}
   m_Layer: 11
-  m_Name: Locris_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7979,7 +8145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 9
   _regionBorder: {fileID: 1194410548}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1076509946
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8049,6 +8214,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1076509948
 MeshFilter:
@@ -8086,7 +8252,7 @@ GameObject:
   - component: {fileID: 1083459159}
   - component: {fileID: 1083459163}
   m_Layer: 11
-  m_Name: Macedonia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8121,7 +8287,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 6
   _regionBorder: {fileID: 454084243}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1083459160
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8191,6 +8356,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1083459162
 MeshFilter:
@@ -8397,7 +8563,7 @@ GameObject:
   - component: {fileID: 1102793718}
   - component: {fileID: 1102793717}
   m_Layer: 12
-  m_Name: Acarnania_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8503,6 +8669,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1102793720
 MeshFilter:
@@ -8607,6 +8774,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -8743,6 +8911,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -8879,6 +9048,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -8934,7 +9104,7 @@ GameObject:
   - component: {fileID: 1194410547}
   - component: {fileID: 1194410546}
   m_Layer: 12
-  m_Name: Locris_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9040,6 +9210,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1194410549
 MeshFilter:
@@ -9064,7 +9235,7 @@ GameObject:
   - component: {fileID: 1199982724}
   - component: {fileID: 1199982728}
   m_Layer: 11
-  m_Name: Acarnania_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9099,7 +9270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 8
   _regionBorder: {fileID: 1102793719}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1199982725
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9169,6 +9339,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1199982727
 MeshFilter:
@@ -9200,6 +9371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1200852582}
+  - component: {fileID: 1200852583}
   m_Layer: 0
   m_Name: Argolis
   m_TagString: Untagged
@@ -9224,6 +9396,19 @@ Transform:
   - {fileID: 1296006242}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1200852583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200852581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1211828454
 GameObject:
   m_ObjectHideFlags: 0
@@ -9327,6 +9512,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1211828458
 MeshFilter:
@@ -9506,6 +9692,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -9849,6 +10036,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -10030,7 +10218,7 @@ GameObject:
   - component: {fileID: 1296006244}
   - component: {fileID: 1296006243}
   m_Layer: 12
-  m_Name: Argolis_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10136,6 +10324,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1296006246
 MeshFilter:
@@ -10379,6 +10568,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -10523,6 +10713,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -10571,7 +10762,7 @@ GameObject:
   - component: {fileID: 1387067755}
   - component: {fileID: 1387067756}
   m_Layer: 11
-  m_Name: Euboea_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10639,6 +10830,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1387067752
 MeshFilter:
@@ -10684,7 +10876,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 11
   _regionBorder: {fileID: 33003403}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!114 &1387067756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10712,7 +10903,7 @@ GameObject:
   - component: {fileID: 1398301828}
   - component: {fileID: 1398301827}
   m_Layer: 12
-  m_Name: Boeotia_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10818,6 +11009,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1398301830
 MeshFilter:
@@ -10843,7 +11035,7 @@ GameObject:
   - component: {fileID: 1430113622}
   - component: {fileID: 1430113621}
   m_Layer: 11
-  m_Name: Elis_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10878,7 +11070,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 15
   _regionBorder: {fileID: 1535734583}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1430113618
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10948,6 +11139,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1430113620
 MeshFilter:
@@ -11042,7 +11234,7 @@ GameObject:
   - component: {fileID: 1451893470}
   - component: {fileID: 1451893469}
   m_Layer: 12
-  m_Name: Phocis_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11148,6 +11340,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1451893472
 MeshFilter:
@@ -11249,7 +11442,7 @@ GameObject:
   - component: {fileID: 1535734582}
   - component: {fileID: 1535734581}
   m_Layer: 12
-  m_Name: Elis_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11355,6 +11548,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1535734584
 MeshFilter:
@@ -11446,7 +11640,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1636596167}
   m_HandleRect: {fileID: 1636596166}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11585,6 +11779,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -11635,6 +11830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1573058748}
+  - component: {fileID: 1573058749}
   m_Layer: 0
   m_Name: Acarnania
   m_TagString: Untagged
@@ -11659,6 +11855,19 @@ Transform:
   - {fileID: 1102793716}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1573058749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573058747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1579420101
 GameObject:
   m_ObjectHideFlags: 0
@@ -11668,6 +11877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579420102}
+  - component: {fileID: 1579420103}
   m_Layer: 0
   m_Name: Epirus
   m_TagString: Untagged
@@ -11692,6 +11902,19 @@ Transform:
   - {fileID: 418107411}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1579420103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579420101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1603465501
 GameObject:
   m_ObjectHideFlags: 0
@@ -11787,6 +12010,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -11870,6 +12094,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1636596165
 GameObject:
@@ -11961,7 +12186,7 @@ GameObject:
   - component: {fileID: 1638303772}
   - component: {fileID: 1638303776}
   m_Layer: 11
-  m_Name: Messenia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11996,7 +12221,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 17
   _regionBorder: {fileID: 507649798}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1638303773
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12066,6 +12290,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1638303775
 MeshFilter:
@@ -12140,7 +12365,8 @@ MonoBehaviour:
   _startPlacementButton: {fileID: 966822821}
   _cardSelectPanelView: {fileID: 1911162141}
   _playerInfoPanelView: {fileID: 1308430888}
-  _regurlarActionPanel: {fileID: 1719523139}
+  _regularActionPanel: {fileID: 1719523139}
+  _regionInfoUiPanel: {fileID: 1733055594}
 --- !u!1 &1656203678
 GameObject:
   m_ObjectHideFlags: 0
@@ -12236,6 +12462,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -12405,6 +12632,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -12594,7 +12822,7 @@ GameObject:
   - component: {fileID: 1682333997}
   - component: {fileID: 1682334001}
   m_Layer: 11
-  m_Name: Attica_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12629,7 +12857,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 1
   _regionBorder: {fileID: 1948942151}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1682333998
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12699,6 +12926,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1682334000
 MeshFilter:
@@ -13090,7 +13318,7 @@ GameObject:
   - component: {fileID: 1748952727}
   - component: {fileID: 1748952731}
   m_Layer: 11
-  m_Name: Boeotia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13125,7 +13353,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 12
   _regionBorder: {fileID: 1398301829}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1748952728
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13195,6 +13422,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1748952730
 MeshFilter:
@@ -13264,7 +13492,7 @@ GameObject:
   - component: {fileID: 1798442648}
   - component: {fileID: 1798442652}
   m_Layer: 11
-  m_Name: Phocis_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13299,7 +13527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 10
   _regionBorder: {fileID: 1451893471}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1798442649
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13369,6 +13596,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1798442651
 MeshFilter:
@@ -13400,6 +13628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1800169791}
+  - component: {fileID: 1800169792}
   m_Layer: 0
   m_Name: Aetolia
   m_TagString: Untagged
@@ -13424,6 +13653,19 @@ Transform:
   - {fileID: 939379475}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1800169792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800169790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1823043771
 GameObject:
   m_ObjectHideFlags: 0
@@ -13841,6 +14083,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -13891,6 +14134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942710771}
+  - component: {fileID: 1942710772}
   m_Layer: 0
   m_Name: Chalkidiki
   m_TagString: Untagged
@@ -13915,6 +14159,19 @@ Transform:
   - {fileID: 1034790805}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942710772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942710770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1946094816
 GameObject:
   m_ObjectHideFlags: 0
@@ -13930,7 +14187,7 @@ GameObject:
   - component: {fileID: 1946094818}
   - component: {fileID: 1946094822}
   m_Layer: 11
-  m_Name: Achaea_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13965,7 +14222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 14
   _regionBorder: {fileID: 189698843}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &1946094819
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14035,6 +14291,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1946094821
 MeshFilter:
@@ -14071,7 +14328,7 @@ GameObject:
   - component: {fileID: 1948942150}
   - component: {fileID: 1948942149}
   m_Layer: 12
-  m_Name: Attica_Border
+  m_Name: Border
   m_TagString: RegionBorder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14177,6 +14434,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1948942152
 MeshFilter:
@@ -14289,6 +14547,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -14331,6 +14590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993380923}
+  - component: {fileID: 1993380924}
   m_Layer: 0
   m_Name: Macedonia
   m_TagString: Untagged
@@ -14355,6 +14615,19 @@ Transform:
   - {fileID: 454084240}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1993380924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993380922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &1998928994
 GameObject:
   m_ObjectHideFlags: 0
@@ -14485,6 +14758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2008936636}
+  - component: {fileID: 2008936637}
   m_Layer: 0
   m_Name: Euboea
   m_TagString: Untagged
@@ -14509,6 +14783,19 @@ Transform:
   - {fileID: 33003402}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008936637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008936635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &2012962745
 GameObject:
   m_ObjectHideFlags: 0
@@ -14604,6 +14891,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -14737,7 +15025,7 @@ GameObject:
   - component: {fileID: 2046155937}
   - component: {fileID: 2046155941}
   m_Layer: 11
-  m_Name: Epirus_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14772,7 +15060,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 5
   _regionBorder: {fileID: 418107414}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &2046155938
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14842,6 +15129,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2046155940
 MeshFilter:
@@ -14879,7 +15167,7 @@ GameObject:
   - component: {fileID: 2056269601}
   - component: {fileID: 2056269605}
   m_Layer: 11
-  m_Name: Aetolia_Area
+  m_Name: Area
   m_TagString: PlaceableRegion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14914,7 +15202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _regionId: 4
   _regionBorder: {fileID: 939379478}
-  _regionInfoUiIPanel: {fileID: 1733055594}
 --- !u!64 &2056269602
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14984,6 +15271,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2056269604
 MeshFilter:
@@ -15148,6 +15436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2064248852}
+  - component: {fileID: 2064248853}
   m_Layer: 0
   m_Name: Messenia
   m_TagString: Untagged
@@ -15172,6 +15461,19 @@ Transform:
   - {fileID: 507649795}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2064248853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064248851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &2069047672
 GameObject:
   m_ObjectHideFlags: 0
@@ -15181,6 +15483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069047673}
+  - component: {fileID: 2069047674}
   m_Layer: 0
   m_Name: Attica
   m_TagString: Untagged
@@ -15205,6 +15508,19 @@ Transform:
   - {fileID: 1948942148}
   m_Father: {fileID: 912145880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2069047674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069047672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegionView
+  _regionId: 0
 --- !u!1 &2070198462
 GameObject:
   m_ObjectHideFlags: 0
@@ -15610,6 +15926,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

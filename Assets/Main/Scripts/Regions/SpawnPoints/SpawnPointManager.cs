@@ -7,7 +7,6 @@ public class SpawnPointManager : MonoBehaviour
     private void Start() {
         for (int i = 0; i < 5; i++) {
             Vector3 position = new Vector3(i * _spawnDistance, 0, 0);
-            //SpawnAt(position);
         }
     }
     private GameObject SpawnAt(Vector3 position, Quaternion? rotation = null, Transform parent = null) {

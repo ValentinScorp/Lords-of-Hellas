@@ -19,8 +19,13 @@ public class HeroMoveAction
     private void HandleSelection(TokenView token)
     {
         _heroToken = token;
-         _tokenMover.StartMove(token, HandleMoveComplete);
-         Debug.Log("Clicked hero token!");
+
+
+        _tokenMover.StartMove(token, HandleStep);
+    }
+    private void HandleStep(RegionId regionId)
+    {
+        //HandleStep
     }
     private void HandleMoveComplete()
     {
