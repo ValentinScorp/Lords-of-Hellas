@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class RegionSelectionManager : MonoBehaviour
 {
-    [SerializeField] private UserInputController _userInputController;
+    // [SerializeField] private UserInputController _userInputController;
     private RegionInfoUiPanel _regionInfoUiPanel;
 
     private InputAction _clickAction;
@@ -19,42 +19,35 @@ public class RegionSelectionManager : MonoBehaviour
     private void Start()
     {
         _regionInfoUiPanel = ServiceLocator.Get<UiRegistry>().Get<RegionInfoUiPanel>();
-        _userInputController.OnMouseClick += OnClickPerformed;
     }
-    private void OnDestroy()
-    {
-        _userInputController.OnMouseClick -= OnClickPerformed;
-    }
-    private void OnClickPerformed(InputAction.CallbackContext ctx)
-    {
-        if (!_userInputController.IsPointerOverUINoTransparent()) {
-            RegionAreaView target = _userInputController.GetRaycastTarget<RegionAreaView>();
-            if (target != null) {
-                Select(target);
-            } else {
-                Deselect();
-            }
-        }
-    }
-    private bool IsPointerOverUI(Vector2 screenPosition)
-    {
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current) {
-            position = screenPosition
-        };
+    // private void OnClickPerformed(Vector2 screenPosition)
+    // {
+    //     RegionAreaView target = _userInputController.GetRaycastTarget<RegionAreaView>();
+    //     if (target != null) {
+    //         Select(target);
+    //     } else {
+    //         Deselect();
+    //     }
+    // }
+    // private bool IsPointerOverUI(Vector2 screenPosition)
+    // {
+    //     PointerEventData pointerEventData = new PointerEventData(EventSystem.current) {
+    //         position = screenPosition
+    //     };
 
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerEventData, results);
+    //     List<RaycastResult> results = new List<RaycastResult>();
+    //     EventSystem.current.RaycastAll(pointerEventData, results);
 
-        int excludedLayer = LayerMask.NameToLayer("RaycastHitTransparent");
+    //     int excludedLayer = LayerMask.NameToLayer("RaycastHitTransparent");
 
-        foreach (var result in results) {
-            if (result.gameObject.layer != excludedLayer) {
-                return true;
-            }
-        }
+    //     foreach (var result in results) {
+    //         if (result.gameObject.layer != excludedLayer) {
+    //             return true;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     private void Select(RegionAreaView newTarget)
     {

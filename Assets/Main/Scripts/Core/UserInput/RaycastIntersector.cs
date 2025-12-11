@@ -21,6 +21,7 @@ public class RaycastIntersector
             position = hit.point;
             return true;
         }
+        
         return false;
     }
 

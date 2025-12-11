@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 public class TokenSelector
 {
     private bool _waitingToken;
@@ -13,16 +15,23 @@ public class TokenSelector
         _playerColor = playerColor;
         _tokenType = type;
         _handleSelection = handleToken;
+        ServiceLocator.Get<ClickMgr>().ListenClicks(HandleClickables);
     }
-    public void HandleTokenClick(TokenView token)
+
+    private void HandleClickables(List<IClickable> clickables)
     {
-        // Debug.Log($"[TokenSelector] HandleTokenClick waiting={_waitingToken}, tokenColor={token.PlayerColor}, tokenType={token.TokenType}");
-        if (!_waitingToken) return;
-        if (_playerColor != token.PlayerColor) return;
-        if (_tokenType != token.TokenType) return;
-        // Debug.Log("HandleTokenClick guard pass!");
-        _waitingToken = false;
-        _handleSelection?.Invoke(token);
-        _handleSelection = null;
+        if (!_waitingToken || clickables == null) return;
+
+        foreach (var clickable in clickables) {
+            if (clickable is TokenView token) {
+                if (token.PlayerColor == _playerColor &&  token.TokenType == _tokenType)  {
+                    ServiceLocator.Get<ClickMgr>().UnlistenClicks();
+                    _waitingToken = false;
+                    _handleSelection?.Invoke(token);
+                    _handleSelection = null;
+                    break;
+                }
+            }
+        }
     }
 }

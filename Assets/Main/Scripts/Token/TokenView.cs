@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TokenView : MonoBehaviour, IPointerClickHandler
+public class TokenView : MonoBehaviour, IClickable
 {
     public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TokenType _tokenType;
@@ -143,8 +143,4 @@ public class TokenView : MonoBehaviour, IPointerClickHandler
         return value;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        ServiceLocator.Get<TokenSelector>().HandleTokenClick(this);
-    }
 }

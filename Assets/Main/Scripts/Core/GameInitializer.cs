@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class GameInitializer : MonoBehaviour
 {    
+    [SerializeField] private Canvas _canvas;
     [SerializeField] private UserInputController _userInputController;
     [SerializeField] private RegionViewManager _regionViewManager;
     [SerializeField] private TokenPlacementView _tokenPlacementView;
@@ -27,6 +28,8 @@ public class GameInitializer : MonoBehaviour
 
     public RegionStatusRegistry RegionDataManager => _regionStatusRegistry;
 
+    public ClickMgr _clickMgr;
+
 
     private void Awake() 
     {
@@ -39,6 +42,7 @@ public class GameInitializer : MonoBehaviour
         CheckIfExist(_cardSelectPanelView, "_cardSelectPanelView");
         CheckIfExist(_regularActionPanel, "_regularActionPanel");
 
+        ServiceLocator.Register(_canvas);
         ServiceLocator.Register(_userInputController);
 
         GameData.Instance.Initialize();
@@ -62,7 +66,10 @@ public class GameInitializer : MonoBehaviour
                                             _raycastBoard);
 
         ServiceLocator.Register(_raycastBoard);
-        
+
+        _clickMgr = new ClickMgr(Camera.main, _userInputController);
+        ServiceLocator.Register(_clickMgr);
+
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
 

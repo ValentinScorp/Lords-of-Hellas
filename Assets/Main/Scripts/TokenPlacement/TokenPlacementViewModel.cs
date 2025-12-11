@@ -31,7 +31,7 @@ public class TokenPlacementViewModel
 
         _isSubscribed = true;
 
-        _userInputController.OnMouseClick += HandleClick;
+        // _userInputController.OnMouseClick += HandleClick;
         _tokenPlacementManager.OnPlacementStarted += OnPlacementStarted;
         _tokenPlacementManager.OnPlacementCompleted += OnPlacementCompleted;
         _tokenPlacementManager.OnTokenPlaced += UpdateButtonInteractability;
@@ -42,7 +42,7 @@ public class TokenPlacementViewModel
         if (_isSubscribed == false) return;
 
         _isSubscribed = false;
-        _userInputController.OnMouseClick -= HandleClick;
+        // _userInputController.OnMouseClick -= HandleClick;
         _tokenPlacementManager.OnPlacementStarted -= OnPlacementStarted;
         _tokenPlacementManager.OnPlacementCompleted -= OnPlacementCompleted;
         _tokenPlacementManager.OnTokenPlaced -= UpdateButtonInteractability;
@@ -71,12 +71,13 @@ public class TokenPlacementViewModel
         OnTokenPlacementActive?.Invoke(false);
         UpdateButtonInteractability(); 
     }
-    private void HandleClick(InputAction.CallbackContext ctx) {
-        if (!_raycastBoard.IsPointerOverUI() && _raycastBoard.IsMouseOverGameWindow()) {
-            _tokenPlacementManager.TryPlace();
-            UpdateButtonInteractability();
-        }
-    }
+    // private void HandleClick(Vector2 screenPosition) {
+    //     Debug.Log("TokenPlacementViewModel: HandleClick called");
+    //     if (/*!_raycastBoard.IsPointerOverUI() &&*/ _raycastBoard.IsMouseOverGameWindow()) {
+    //         _tokenPlacementManager.TryPlace();
+    //         UpdateButtonInteractability();
+    //     }
+    // }
     private void UpdateButtonInteractability() {
         var tracker = _tokenPlacementManager.TokenPlacementTracker;
         OnHeroButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.Hero));

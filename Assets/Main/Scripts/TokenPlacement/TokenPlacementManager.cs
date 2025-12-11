@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TokenPlacementManager
@@ -40,18 +41,18 @@ public class TokenPlacementManager
     private void OnHeroBonusCompleted() {
         OnPlacementCompleted?.Invoke();        
     }
-    public bool StartPlacingToken(TokenType tokenType) {
+    public void StartPlacingToken(TokenType tokenType) {
         if (_tokenHolder.HasObject()) {
             _tokenHolder.DestroyTokenView();
         }
         if (!_tokenPlacementTracker.CanPlace(tokenType)) {
             Debug.Log($"[TokenPlacementManager] Cannot start placing {tokenType} — limit reached");
-            return false;
+            return;
         }
         _currentToken = _tokenPlacementTracker.TakeToken(tokenType);
         if (_currentToken == null) {
             Debug.LogWarning($"[TokenPlacementManager] No available token for type {tokenType}");
-            return false;
+            return;
         }
 
         var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
@@ -61,8 +62,7 @@ public class TokenPlacementManager
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
-
-        return true;
+        ServiceLocator.Get<ClickMgr>().ListenClicks(HandleClickables);
     }
     public void UpdatePlacement(RaycastIntersector raycastBoard) {
         if (!_tokenHolder.HasObject()) return;
@@ -74,29 +74,30 @@ public class TokenPlacementManager
             }
         }
     }
-    public bool TryPlace() {
+    public bool CanPlaceToken(out RegionId regionId) {
+        regionId = RegionId.Unknown;
         if (!_tokenHolder.HasObject() || !_terrainValidator.IsCurrentStateAllowed) {
-            //Debug.Log("Can't place: no token held or placement not allowed.");
             return false;
         }
         var position = _tokenHolder.GetGameObjectPosition();
-        if (!position.HasValue) return false;
+        if (!position.HasValue) 
+            return false;
 
-        if (!_terrainValidator.TryGetRegionIdAtPosition(position.Value, out RegionId regionId)) {
+        if (!_terrainValidator.TryGetRegionIdAtPosition(position.Value, out regionId)) {
             Debug.Log("Can't place: region not found at token position.");
             return false;
         }
         if (!_rulesValidator.ValidateLogicalPlacement(_regionStatusRegistry, regionId, _currentToken)) {
             return false;
         }
-        PlaceToken(regionId, GameState.Instance.CurrentPlayer);
-        OnTokenPlaced?.Invoke();
         return true;
     }
-    private void PlaceToken(RegionId regionId, Player player) {
-        RecordStep(regionId, player.Color, _currentToken.Type);
+    private void PlaceToken(RegionId regionId) {
+        PlayerColor color = GameState.Instance.CurrentPlayer.Color;
+        RecordStep(regionId, color, _tokenHolder.TokenView.TokenType);
         _regionStatusRegistry.RegisterEntity(regionId, _currentToken);
-        HandleVisuals(_currentToken.Type, regionId, player.Color);
+        HandleVisuals(_tokenHolder.TokenView.TokenType, regionId, color);
+        OnTokenPlaced?.Invoke();
         _currentToken = null;
     }
     private void RecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
@@ -140,4 +141,18 @@ public class TokenPlacementManager
         _tokenHolder.DestroyTokenView();        
         _tokenPlacementTracker.Reset();
     } 
+    private void HandleClickables(List<IClickable> clickables)
+    {
+        if (_currentToken == null || clickables == null) return;
+
+        foreach (var clickable in clickables) {
+            if (clickable is RegionAreaView regionArea) {
+                if (CanPlaceToken(out RegionId regionId)) {
+                    PlaceToken(regionId);
+                }
+                ServiceLocator.Get<ClickMgr>().UnlistenClicks();
+                break;
+            }
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TokenMover
@@ -19,10 +20,40 @@ public class TokenMover
         _onComplete = onComplete;
         CreateGhostToken(token);
 
-        var regDataMngr = ServiceLocator.Get<RegionStatusRegistry>();
+        ServiceLocator.Get<ClickMgr>().ListenClicks(HandleClickables);
+
+        var regRegistry = ServiceLocator.Get<RegionStatusRegistry>();
         RegionId regionId = token.Model.RegionId;
 
-        var neibRegions = regDataMngr.GetNeighborRegionIds(regionId);
+        var neibRegions = regRegistry.GetNeighborRegionIds(regionId);
+        foreach (var regId in neibRegions) {
+            // Debug.Log($"Neighbor region: {regId}");  
+        }        
+    }
+    private void HandleClickables(List<IClickable> clickables)
+    {
+        if (_originToken == null || clickables == null) return;
+
+        foreach (var clickable in clickables){
+            if (clickable is RegionAreaView regionArea) {
+                RegionClicked(regionArea.RegionId);
+                break;
+            }
+        }
+    }
+    private void RegionClicked(RegionId regionId)
+    {
+        var regRegistry = ServiceLocator.Get<RegionStatusRegistry>();
+        RegionId originRegionId = _originToken.Model.RegionId;
+
+        var neibRegions = regRegistry.GetNeighborRegionIds(originRegionId);
+        foreach (var regId in neibRegions) {
+            if (regionId == regId) {
+                ServiceLocator.Get<ClickMgr>().UnlistenClicks();
+                _onComplete?.Invoke(regionId);
+                break;
+            }
+        }        
     }
     public void Update()
     {

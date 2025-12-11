@@ -4,7 +4,7 @@ public class HeroMoveAction
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
-    private int _heroSpeed;
+    private int _stepsLeft;
     private TokenView _heroToken;
     public HeroMoveAction()
     {
@@ -13,19 +13,17 @@ public class HeroMoveAction
     }
     public void Start(Player player)
     {
-        _heroSpeed = player.Hero.Speed;
+        _stepsLeft = player.Hero.Speed;
         _tokenSelector.WaitTokenSelection(player.Color, TokenType.Hero, HandleSelection);
     }
     private void HandleSelection(TokenView token)
     {
         _heroToken = token;
-
-
         _tokenMover.StartMove(token, HandleStep);
     }
     private void HandleStep(RegionId regionId)
     {
-        //HandleStep
+        Debug.Log("Clicked region: " + regionId);   
     }
     private void HandleMoveComplete()
     {

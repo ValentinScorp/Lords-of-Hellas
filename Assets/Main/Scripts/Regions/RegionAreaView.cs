@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RegionAreaView : MonoBehaviour, IPointerClickHandler
+public class RegionAreaView : MonoBehaviour, IClickable
 {
     [SerializeField] private RegionId _regionId;
     [SerializeField] private Renderer _regionBorder;
@@ -95,11 +95,5 @@ public class RegionAreaView : MonoBehaviour, IPointerClickHandler
         }
         Color old = _uniqueMaterial.color;
         _uniqueMaterial.color = new Color(color.r, color.g, color.b, old.a);
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-       // if (eventData.button != PointerEventData.InputButton.Left) return;
-        Debug.Log("Region clicked");
-        //ServiceLocator.Resolve<RegionSelectionManager>().HandleRegionClicked(_regionId);
     }
 }
