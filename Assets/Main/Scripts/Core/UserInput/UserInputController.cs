@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class UserInputController : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
-    private ClickMgr _clickMgr;
+    private SelectMgr _clickMgr;
     private UserInput _inputActions;
     // public event Action<Vector2> OnMouseClick;
 
@@ -17,7 +17,7 @@ public class UserInputController : MonoBehaviour
         _inputActions.Enable();
         _inputActions.Player.Click.performed += OnClick;
     }
-    public void SetClickMgr(ClickMgr clickMgr)
+    public void SetClickMgr(SelectMgr clickMgr)
     {
         _clickMgr = clickMgr;
     }   

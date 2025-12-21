@@ -9,18 +9,18 @@ public class TokenMover
     private LineRenderer _line;
     private static Material _lineMaterial;
     private TokenView _originToken;
-    private System.Action<RegionId> _onComplete;
+    private System.Action<RegionId, int> _onComplete;
     public TokenMover()
     {
         _raycastBoard = ServiceLocator.Get<RaycastIntersector>();
     }
-    public void StartMove(TokenView token, System.Action<RegionId> onComplete, System.Action onCancel = null)    
+    public void StartMove(TokenView token, RegionId fromRegion, System.Action<RegionId, int> onComplete, System.Action onCancel = null)    
     {
         _originToken = token;
         _onComplete = onComplete;
         CreateGhostToken(token);
 
-        ServiceLocator.Get<ClickMgr>().ListenClicks(HandleClickables);
+        ServiceLocator.Get<SelectMgr>().ListenSelection(HandleClickables);
 
         var regRegistry = ServiceLocator.Get<RegionStatusRegistry>();
         RegionId regionId = token.Model.RegionId;
@@ -30,12 +30,12 @@ public class TokenMover
             // Debug.Log($"Neighbor region: {regId}");  
         }        
     }
-    private void HandleClickables(List<IClickable> clickables)
+    private void HandleClickables(List<ISelectable> selectables)
     {
-        if (_originToken == null || clickables == null) return;
+        if (_originToken == null || selectables == null) return;
 
-        foreach (var clickable in clickables){
-            if (clickable is RegionAreaView regionArea) {
+        foreach (var selectable in selectables){
+            if (selectable is RegionAreaView regionArea) {
                 RegionClicked(regionArea.RegionId);
                 break;
             }
@@ -49,8 +49,9 @@ public class TokenMover
         var neibRegions = regRegistry.GetNeighborRegionIds(originRegionId);
         foreach (var regId in neibRegions) {
             if (regionId == regId) {
-                ServiceLocator.Get<ClickMgr>().UnlistenClicks();
-                _onComplete?.Invoke(regionId);
+                ServiceLocator.Get<SelectMgr>().UnlistenSelection();
+                // TODO: add spawn point selection
+                _onComplete?.Invoke(regionId, 0);
                 break;
             }
         }        

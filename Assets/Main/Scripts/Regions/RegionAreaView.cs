@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RegionAreaView : MonoBehaviour, IClickable
+public class RegionAreaView : MonoBehaviour, ISelectable
 {
     [SerializeField] private RegionId _regionId;
     [SerializeField] private Renderer _regionBorder;
@@ -9,6 +9,11 @@ public class RegionAreaView : MonoBehaviour, IClickable
     private RegionBorderView _emissionController;
     private bool _isSelected = false;
     private Material _uniqueMaterial;
+    private Vector3 _hitPoint;
+    Vector3 ISelectable.HitPoint {
+        get => _hitPoint;
+        set => _hitPoint = value;
+    }
 
     public RegionId RegionId => _regionId;
 

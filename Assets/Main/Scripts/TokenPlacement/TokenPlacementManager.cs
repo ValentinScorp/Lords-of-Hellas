@@ -5,7 +5,7 @@ using UnityEngine;
 public class TokenPlacementManager
 {
     private readonly TokenHolder _tokenHolder = new();
-    private readonly TokenPlacementTracker _tokenPlacementTracker = new TokenPlacementTracker();
+    private readonly TokenPlacementPool _tokenPlacementPool = new TokenPlacementPool();
     private readonly TokenModelFactory _tokenModelFactory;
     private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
@@ -15,9 +15,10 @@ public class TokenPlacementManager
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
+    private Player _currentPlayer;
     private TokenModel _currentToken;
 
-    public TokenPlacementTracker TokenPlacementTracker => _tokenPlacementTracker;
+    public TokenPlacementPool TokenPlacementPool => _tokenPlacementPool;
 
     public event Action OnPlacementStarted;
     public event Action OnPlacementCompleted;
@@ -33,7 +34,8 @@ public class TokenPlacementManager
         _recorder = new();
     }
     public void InitiatePlacing(Player player) {
-        _tokenPlacementTracker.SetPlacementTargets(player);
+        _currentPlayer = player;
+        _tokenPlacementPool.SetPlacementTargets(player);
         _startupPlacementCounter = 0;
         _currentToken = null;
         OnPlacementStarted?.Invoke();
@@ -43,13 +45,13 @@ public class TokenPlacementManager
     }
     public void StartPlacingToken(TokenType tokenType) {
         if (_tokenHolder.HasObject()) {
-            _tokenHolder.DestroyTokenView();
+            return;
         }
-        if (!_tokenPlacementTracker.CanPlace(tokenType)) {
+        if (!_tokenPlacementPool.CanPlace(tokenType)) {
             Debug.Log($"[TokenPlacementManager] Cannot start placing {tokenType} — limit reached");
             return;
         }
-        _currentToken = _tokenPlacementTracker.TakeToken(tokenType);
+        _currentToken = _tokenPlacementPool.TakeToken(tokenType);
         if (_currentToken == null) {
             Debug.LogWarning($"[TokenPlacementManager] No available token for type {tokenType}");
             return;
@@ -62,7 +64,7 @@ public class TokenPlacementManager
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
-        ServiceLocator.Get<ClickMgr>().ListenClicks(HandleClickables);
+        ServiceLocator.Get<SelectMgr>().ListenSelection(HandleClickables);
     }
     public void UpdatePlacement(RaycastIntersector raycastBoard) {
         if (!_tokenHolder.HasObject()) return;
@@ -139,9 +141,10 @@ public class TokenPlacementManager
         _startupPlacementCounter = 0;
         _currentToken = null;
         _tokenHolder.DestroyTokenView();        
-        _tokenPlacementTracker.Reset();
+        _tokenPlacementPool.Reset();
+        InitiatePlacing(_currentPlayer);
     } 
-    private void HandleClickables(List<IClickable> clickables)
+    private void HandleClickables(List<ISelectable> clickables)
     {
         if (_currentToken == null || clickables == null) return;
 
@@ -149,8 +152,8 @@ public class TokenPlacementManager
             if (clickable is RegionAreaView regionArea) {
                 if (CanPlaceToken(out RegionId regionId)) {
                     PlaceToken(regionId);
-                }
-                ServiceLocator.Get<ClickMgr>().UnlistenClicks();
+                    ServiceLocator.Get<SelectMgr>().UnlistenSelection();
+                }                
                 break;
             }
         }

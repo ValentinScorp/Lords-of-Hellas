@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TokenPlacementTracker
+public class TokenPlacementPool
 {
     private List<Hero> _hero = new List<Hero>();
     private List<HopliteStack> _hoplites = new List<HopliteStack>();

@@ -79,7 +79,7 @@ public class TokenPlacementViewModel
     //     }
     // }
     private void UpdateButtonInteractability() {
-        var tracker = _tokenPlacementManager.TokenPlacementTracker;
+        var tracker = _tokenPlacementManager.TokenPlacementPool;
         OnHeroButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.Hero));
         OnHopliteButtonInteractableChanged?.Invoke(tracker.CanPlace(TokenType.HopliteStack));
         OnOkButtonInteractableChanged?.Invoke(tracker.AllPlaced());

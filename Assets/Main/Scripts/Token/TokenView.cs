@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TokenView : MonoBehaviour, IClickable
+public class TokenView : MonoBehaviour, ISelectable
 {
     public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TokenType _tokenType;
@@ -18,9 +18,14 @@ public class TokenView : MonoBehaviour, IClickable
     const float GHOST_COLOR_INTENCITY = 5.0f;
 
     private Renderer _renderer = null;
-    private Transform _visual = null;
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
+
+    private Vector3 _hitPoint;
+    Vector3 ISelectable.HitPoint  {
+        get => _hitPoint;
+        set => _hitPoint = value;
+    }
 
     public TokenType TokenType => _tokenType;
     public TokenModel Model => _model;
@@ -28,31 +33,29 @@ public class TokenView : MonoBehaviour, IClickable
     public RegionId RegionId { get; set; }
     public int SpawnPointId { get; set; }
 
-    private void Awake() {
-        _visual = transform.Find("Visual");
-        _renderer = _visual?.GetComponent<Renderer>();
+    private void Awake()
+    {
+        _renderer = transform.Find("MeshVisual")?.GetComponent<Renderer>();
         _canvas = transform.Find("Canvas");
         _label = _canvas?.GetComponentInChildren<TextMeshProUGUI>(true);
 
-        if (!_visual || !_renderer || !_canvas || !_label) 
-        {
+        if (!_renderer || !_canvas || !_label) {
             Debug.LogError($"Initialization failed in {nameof(TokenView)}: Missing components.");
             enabled = false;
         }
     }
-    public void SubscribeOnModel(TokenModel model) {        
-        if (model.Type != TokenType) 
-        {
+    public void SubscribeOnModel(TokenModel model)
+    {
+        if (model.Type != TokenType) {
             Debug.LogWarning($"Can't subscribe TokenView type {TokenType} on model type {model.Type}");
             return;
         }
         _model = model;
-        if (model is HopliteStack hoplite) 
-        {
+        
+        if (model is HopliteStack hoplite) {
             hoplite.OnCountChanged += count => SetLabel(count.ToString());
         }
-        if (model is Hero hero) 
-        {
+        if (model is Hero hero) {
             SetLabel(hero.DisplayName);
             hero.OnLeadershpChanged += value => _leadershipText.text = value.ToString();
             hero.OnSpeedChanged += value => _speedText.text = value.ToString();
@@ -62,40 +65,28 @@ public class TokenView : MonoBehaviour, IClickable
             hero.ChangeLeadership(0);
         }
     }
-    public void SetVisualLayer(string layerName)
+    public void SetLayer(string layerName)
     {
-        if (_visual == null) return;
-
         int layer = LayerMask.NameToLayer(layerName);
-        if (layer < 0) 
-        {
+        if (layer < 0) {
             Debug.LogError($"Layer '{layerName}' not found.");
             return;
         }
-        _visual.gameObject.layer = LayerMask.NameToLayer(layerName);
+        gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 
-    public void SetVisualTag(string tagName) 
+    public void SetTag(string tagName)
     {
-        if (_visual == null) 
-        {
-            return;
-        }
-#if UNITY_EDITOR
-        if (!UnityEditorInternal.InternalEditorUtility.tags.Contains(tagName)) 
-        {
-            Debug.LogWarning($"Tag '{tagName}' does not exist.");
-            return;
-        }
-#endif
-        _visual.tag = tagName;
+        gameObject.tag = tagName;
     }
-    public void SetGhostMaterial() {
+    public void SetGhostMaterial()
+    {
         if (_renderer != null) {
             _renderer.material = GameData.TokenMaterialPalette.ghostMaterial;
         }
     }
-    public void SetGhostColor(TerrainValidator.GhostState ghostState) {
+    public void SetGhostColor(TerrainValidator.GhostState ghostState)
+    {
         switch (ghostState) {
             case TerrainValidator.GhostState.Neutral:
                 SetGhostColor(GameData.TokenMaterialPalette.ghostColorInit);
@@ -111,16 +102,17 @@ public class TokenView : MonoBehaviour, IClickable
                 break;
         }
     }
-    public void SetGhostColor(Color color) {
+    public void SetGhostColor(Color color)
+    {
         if (_renderer == null || _renderer.material == null) {
             Debug.LogError("TokenView: Renderer or material is missing!");
             return;
         }
-    
         _renderer.material.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
 
     }
-    public void SetLabel(string text) {
+    public void SetLabel(string text)
+    {
         if (_label == null) {
             Debug.LogWarning("TextMeshProUGUI not found.");
             return;
@@ -128,7 +120,8 @@ public class TokenView : MonoBehaviour, IClickable
         _label.text = text;
     }
 
-    public void SetCount(int count) {
+    public void SetCount(int count)
+    {
         if (count <= 0) {
             Debug.LogWarning("Count must be positive.");
             return;
@@ -136,11 +129,19 @@ public class TokenView : MonoBehaviour, IClickable
         SetLabel(count.ToString());
     }
 
-    public int GetHopliteCount() {
+    public int GetHopliteCount()
+    {
         if (_label == null || !int.TryParse(_label.text, out int value) || value <= 0) {
             return -1;
         }
         return value;
     }
-
+    public void OnClick(Vector3 hitPoint)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Camera.main.WorldToScreenPoint(hitPoint)
+        };
+        Clicked?.Invoke(this, eventData);
+    }
 }

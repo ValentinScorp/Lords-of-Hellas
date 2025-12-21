@@ -19,7 +19,7 @@ public class TokenPlacementView : MonoBehaviour
         //Debug.Log("ShowPanel: " + show);
         gameObject.SetActive(show);
     }
-    public void UpdateButtonInteractability(TokenPlacementTracker tracker) {
+    public void UpdateButtonInteractability(TokenPlacementPool tracker) {
         _placeHeroButton.interactable = tracker.CanPlace(TokenType.Hero);
         _placeHopliteButton.interactable = tracker.CanPlace(TokenType.HopliteStack);
         _okButton.interactable = tracker.AllPlaced();

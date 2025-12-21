@@ -8,6 +8,16 @@ public class RegionInfoUiPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _ownerColorText;
     [SerializeField] private TextMeshProUGUI _hoplitesCount;
 
+    RegionInfoUiController _regionInfoUiController;
+
+    private void Awake() {
+        _regionInfoUiController = new RegionInfoUiController();
+        _regionInfoUiController.RegisterPanel(this);
+        ServiceLocator.Register(_regionInfoUiController);
+    }
+    private void Start() {
+        ServiceLocator.Get<SelectMgr>().RegisterSelctionListener(_regionInfoUiController);
+    }
     public void ShowRegionInfo(RegionStatus regionRuntimeData) {
         _regionNameText.text = $"Region Name: {regionRuntimeData.RegionStaticData.RegionName}";
         _populationStrengthText.text = $"Population Strength: {regionRuntimeData.RegionStaticData.PopulationStrength}";

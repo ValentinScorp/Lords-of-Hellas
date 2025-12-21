@@ -19,11 +19,18 @@ public class HeroMoveAction
     private void HandleSelection(TokenView token)
     {
         _heroToken = token;
-        _tokenMover.StartMove(token, HandleStep);
+        _tokenMover.StartMove(token, token.Model.RegionId, HandleStep);
     }
-    private void HandleStep(RegionId regionId)
-    {
-        Debug.Log("Clicked region: " + regionId);   
+    private void HandleStep(RegionId regionId, int spawnPoint)
+    {        
+        _stepsLeft--;
+        Debug.Log($"Steps left : {_stepsLeft}");
+        if (_stepsLeft <= 0) {
+            
+            HandleMoveComplete();
+        } else {
+            _tokenMover.StartMove(_heroToken, regionId, HandleStep);
+        }
     }
     private void HandleMoveComplete()
     {

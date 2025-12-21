@@ -28,7 +28,7 @@ public class GameInitializer : MonoBehaviour
 
     public RegionStatusRegistry RegionDataManager => _regionStatusRegistry;
 
-    public ClickMgr _clickMgr;
+    public SelectMgr _clickMgr;
 
 
     private void Awake() 
@@ -67,7 +67,7 @@ public class GameInitializer : MonoBehaviour
 
         ServiceLocator.Register(_raycastBoard);
 
-        _clickMgr = new ClickMgr(Camera.main, _userInputController);
+        _clickMgr = new SelectMgr(Camera.main, _userInputController);
         ServiceLocator.Register(_clickMgr);
 
         _cardSelectPanel = new CardSelectPanel();

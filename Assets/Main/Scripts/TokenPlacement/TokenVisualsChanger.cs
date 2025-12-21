@@ -14,8 +14,9 @@ public class TokenVisualChanger
         _tokenMaterialChanger.SetStateColor(gameObject, state);
     }
     public void PrepareTokenPlacement(TokenView token, PlayerColor color) {
-        token.SetVisualLayer("HoplonToken");
-        token.SetVisualTag("PlacedToken");
+        Debug.Log($"Preparing token placement visuals for player color: {color}");
+        token.SetLayer("HoplonToken");
+        token.SetTag("PlacedToken");
         token.PlayerColor = color;
 
         _tokenMaterialChanger.SetPlayerMaterial(token, color);        
@@ -28,8 +29,8 @@ public class TokenVisualChanger
     public void ApplyPlacementVisuals(TokenView token, PlayerColor playerColor) {
         _tokenMaterialChanger.SetPlayerMaterial(token, playerColor);
 
-        token?.SetVisualLayer("HoplonToken");
-        token?.SetVisualTag("PlacedToken");
+        token?.SetLayer("HoplonToken");
+        token?.SetTag("PlacedToken");
 
         TryDestroyRigidbody(token.gameObject);
     }
