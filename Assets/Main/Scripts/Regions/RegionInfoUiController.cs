@@ -7,7 +7,7 @@ public class RegionInfoUiController
     {
         _regionInfoUiPanel = panel;
     }
-    private void Select(RegionAreaView newTarget)
+    public void Select(RegionAreaView newTarget)
     {
         if (_selected != null && _selected != newTarget) {
             _selected.Deactivate();

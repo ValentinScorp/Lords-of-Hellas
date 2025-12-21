@@ -69,7 +69,14 @@ public class SelectMgr
             }            
         }
         if (selectables.Count > 0)
-            _onSelected?.Invoke(selectables);        
+            _onSelected?.Invoke(selectables);
+
+        foreach (var sel in selectables) {
+            if (sel is RegionAreaView regionArea) {
+                _regionInfoUiController?.Select(regionArea);
+                break;
+            }
+        }    
     }
 
     public void ListenSelection(Action<List<ISelectable>> onSelected)
