@@ -9,9 +9,9 @@ public class TokenPlacementManager
     private readonly TokenModelFactory _tokenModelFactory;
     private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
-    private readonly RegionViewManager _regionVisuals;
+    private readonly RegionsView _regionVisuals;
     private TokenVisualChanger _tokenVisualChanger;
-    private RegionStatusRegistry _regionStatusRegistry;
+    private RegionDataRegistry _regionStatusRegistry;
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
@@ -26,9 +26,9 @@ public class TokenPlacementManager
 
     private const int MaxStartupPlacements = 3;
 
-    public TokenPlacementManager(RegionViewManager regionVisuals) {
+    public TokenPlacementManager(RegionsView regionVisuals) {
         _tokenModelFactory = new TokenModelFactory();
-        _regionStatusRegistry = ServiceLocator.Get<RegionStatusRegistry>();
+        _regionStatusRegistry = ServiceLocator.Get<RegionDataRegistry>();
         _regionVisuals = regionVisuals;
         _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
         _recorder = new();

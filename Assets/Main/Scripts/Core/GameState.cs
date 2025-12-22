@@ -25,8 +25,8 @@ public class GameState
     public CardDeck BlessingDeck => _blessingDeck;
     public TemplePool TemplePool => _templePool;
 
-    private List<RegionStatus> _regionStatuses = new();
-    public List<RegionStatus> RegionStatuses => _regionStatuses;
+    private List<RegionData> _regionStatuses = new();
+    public List<RegionData> RegionStatuses => _regionStatuses;
 
     public event Action<Player> OnPlayerChanged;
     public Player CurrentPlayer {

@@ -1,9 +1,9 @@
 public class RegionInfoUiController
 {
     private RegionAreaView _selected;
-    private RegionInfoUiPanel _regionInfoUiPanel;
+    private RegionInfoPanel _regionInfoUiPanel;
 
-    public void RegisterPanel(RegionInfoUiPanel panel)
+    public void RegisterPanel(RegionInfoPanel panel)
     {
         _regionInfoUiPanel = panel;
     }
@@ -15,7 +15,7 @@ public class RegionInfoUiController
 
         _selected = newTarget;
         _selected.Activate();
-        var regionStatus = ServiceLocator.Get<RegionStatusRegistry>().GetRegionData(_selected.RegionId);
+        var regionStatus = ServiceLocator.Get<RegionDataRegistry>().GetRegionData(_selected.RegionId);
 
         _regionInfoUiPanel?.ShowRegionInfo(regionStatus);
     }

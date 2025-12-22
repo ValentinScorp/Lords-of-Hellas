@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class TokenPlacer
 {
-    private RegionViewManager _regionVisuals;
-    private RegionStatusRegistry _regionManager;
+    private RegionsView _regionVisuals;
+    private RegionDataRegistry _regionManager;
     private TokenVisualChanger _tokenVisualChanger;
-    public TokenPlacer(RegionViewManager regionManagerVisuals, RegionStatusRegistry regionManager, TokenMaterialPalette colorPalette) {
+    public TokenPlacer(RegionsView regionManagerVisuals, RegionDataRegistry regionManager, TokenMaterialPalette colorPalette) {
         _regionVisuals = regionManagerVisuals;
         _regionManager = regionManager;
         _tokenVisualChanger = new(colorPalette);

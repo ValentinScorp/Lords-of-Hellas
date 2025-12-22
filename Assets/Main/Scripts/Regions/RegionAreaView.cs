@@ -42,7 +42,10 @@ public class RegionAreaView : MonoBehaviour, ISelectable
             Destroy(_uniqueMaterial);
         }
     }
-    public void HandleOwnerChanged(PlayerColor newOwner) {
+    private void OnOwnerChanged(PlayerColor newOwner) {
+        HandleOwnerChanged(newOwner);
+    }
+    private void HandleOwnerChanged(PlayerColor newOwner) {
         var palette = GameData.PlayerColorPalette;
         Color color = palette.Grey;
 

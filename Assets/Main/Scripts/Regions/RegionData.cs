@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 
 [System.Serializable]
-public class RegionStatus
+public class RegionData
 {
     public RegionId RegionId { get; private set; }
     public RegionConfig RegionStaticData { get; private set; }
@@ -17,10 +17,10 @@ public class RegionStatus
     [SerializeField] private List<TokenModel> _tokens = new();
     public IReadOnlyList<TokenModel> Tokens => _tokens;
 
-    public RegionStatus(RegionConfig regionData)
+    public RegionData(RegionConfig regionCfg)
     {
-        RegionId = RegionIdParser.Parse(regionData.RegionName);
-        RegionStaticData = regionData;
+        RegionId = RegionIdParser.Parse(regionCfg.RegionName);
+        RegionStaticData = regionCfg;
         OwnedBy = PlayerColor.Gray;
     }
     public void RegisterEntity<T>(T token) where T : TokenModel

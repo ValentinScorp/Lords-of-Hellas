@@ -22,7 +22,7 @@ public class TokenMover
 
         ServiceLocator.Get<SelectMgr>().ListenSelection(HandleClickables);
 
-        var regRegistry = ServiceLocator.Get<RegionStatusRegistry>();
+        var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
         RegionId regionId = token.Model.RegionId;
 
         var neibRegions = regRegistry.GetNeighborRegionIds(regionId);
@@ -43,7 +43,7 @@ public class TokenMover
     }
     private void RegionClicked(RegionId regionId)
     {
-        var regRegistry = ServiceLocator.Get<RegionStatusRegistry>();
+        var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
         RegionId originRegionId = _originToken.Model.RegionId;
 
         var neibRegions = regRegistry.GetNeighborRegionIds(originRegionId);

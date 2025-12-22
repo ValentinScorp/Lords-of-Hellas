@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class RegionInfoUiPanel : MonoBehaviour
+public class RegionInfoPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _regionNameText;
     [SerializeField] private TextMeshProUGUI _populationStrengthText;
@@ -18,7 +18,7 @@ public class RegionInfoUiPanel : MonoBehaviour
     private void Start() {
         ServiceLocator.Get<SelectMgr>().RegisterSelctionListener(_regionInfoUiController);
     }
-    public void ShowRegionInfo(RegionStatus regionRuntimeData) {
+    public void ShowRegionInfo(RegionData regionRuntimeData) {
         _regionNameText.text = $"Region Name: {regionRuntimeData.RegionStaticData.RegionName}";
         _populationStrengthText.text = $"Population Strength: {regionRuntimeData.RegionStaticData.PopulationStrength}";
         _ownerColorText.text = $"Owned By: {regionRuntimeData.OwnedBy.ToString()}";

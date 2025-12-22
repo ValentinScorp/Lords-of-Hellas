@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RegionStatusRegistry
+public class RegionDataRegistry
 {
-    private readonly Dictionary<RegionId, RegionStatus> _regionMap = new();
+    private readonly Dictionary<RegionId, RegionData> _regionMap = new();
     private RegionStaticDataLoader _mapLoader = new();
 
-    public RegionStatusRegistry()
+    public RegionDataRegistry()
     {
         _mapLoader.LoadMapData();
 
         foreach (var regionData in GameData.Instance.RegionStaticData) {
-            RegionStatus regionStatus = new(regionData);
+            RegionData regionStatus = new(regionData);
             GameState.Instance.RegionStatuses.Add(regionStatus);
         }
         foreach (var region in GameState.Instance.RegionStatuses) {
@@ -23,11 +23,11 @@ public class RegionStatusRegistry
 
     private void BuildGraph()
     {
-        foreach (RegionStatus region in GameState.Instance.RegionStatuses) {
+        foreach (RegionData region in GameState.Instance.RegionStatuses) {
             region.RegionStaticData.RegionConnections = new List<RegionConnection>();
 
             foreach (string neighborName in region.RegionStaticData.SourceData.neighbors_land) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionStatus neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionData neighbor)) {
                     region.RegionStaticData.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Land
@@ -37,7 +37,7 @@ public class RegionStatusRegistry
                 }
             }
             foreach (string seaNeighborName in region.RegionStaticData.SourceData.neighbors_sea) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionStatus neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionData neighbor)) {
                     region.RegionStaticData.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Sea
@@ -49,9 +49,9 @@ public class RegionStatusRegistry
         }
     }
 
-    public RegionStatus GetRegionData(RegionId regionId)
+    public RegionData GetRegionData(RegionId regionId)
     {
-        if (_regionMap.TryGetValue(regionId, out RegionStatus regionData)) {
+        if (_regionMap.TryGetValue(regionId, out RegionData regionData)) {
             return regionData;
         }
         Debug.LogWarning($"Region with ID {regionId} not found in _regionMap");
@@ -146,9 +146,9 @@ public class RegionStatusRegistry
         }
         return regionIds;
     }
-    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionStatus> neighbors)
+    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionData> neighbors)
     {
-        neighbors = new List<RegionStatus>();
+        neighbors = new List<RegionData>();
         if (!_regionMap.TryGetValue(regionId, out var region)) {
             Debug.LogWarning($"Region {regionId} not found in map.");
             return false;

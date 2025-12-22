@@ -5,7 +5,7 @@ public class GameInitializer : MonoBehaviour
 {    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private UserInputController _userInputController;
-    [SerializeField] private RegionViewManager _regionViewManager;
+    [SerializeField] private RegionsView _regionViewManager;
     [SerializeField] private TokenPlacementView _tokenPlacementView;
     [SerializeField] private GameObject _templePoolUIPanel;
     [SerializeField] private GameObject _boardSurface;
@@ -13,20 +13,18 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private CardSelectPanelView _cardSelectPanelView;
     [SerializeField] private PlayerInfoPanel _playerInfoPanelView;
     [SerializeField] private RegularActionPanel _regularActionPanel;
-    [SerializeField] private RegionInfoUiPanel _regionInfoUiPanel;
+    [SerializeField] private RegionInfoPanel _regionInfoUiPanel;
     
     private RouteLink _routeLink;
     private GameManager _gameManager;
     private TokenPlacementManager _tokenPlacementManager;
     private TokenPlacementViewModel _tokenPlacementViewModel;
-    private RegionStatusRegistry _regionStatusRegistry = new();
+    private RegionDataRegistry _regionDataRegistry = new();
     private CardSelectPanel _cardSelectPanel;
     private TokenSelector _tokenSelector;
     private TokenMover _tokenMover;
     private RaycastIntersector _raycastBoard;
     private UiRegistry _uiRegistry = new();
-
-    public RegionStatusRegistry RegionDataManager => _regionStatusRegistry;
 
     public SelectMgr _clickMgr;
 
@@ -51,7 +49,7 @@ public class GameInitializer : MonoBehaviour
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
 
-        ServiceLocator.Register(_regionStatusRegistry);
+        ServiceLocator.Register(_regionDataRegistry);
 
        _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
