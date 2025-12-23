@@ -14,7 +14,7 @@ public class TokenVisualChanger
         _tokenMaterialChanger.SetStateColor(gameObject, state);
     }
     public void PrepareTokenPlacement(TokenView token, PlayerColor color) {
-        Debug.Log($"Preparing token placement visuals for player color: {color}");
+        // Debug.Log($"Preparing token placement visuals for player color: {color}");
         token.SetLayer("HoplonToken");
         token.SetTag("PlacedToken");
         token.PlayerColor = color;

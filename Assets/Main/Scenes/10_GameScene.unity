@@ -165,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &10179396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2567,7 +2566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &284437572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2887,7 +2885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,7 +3218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3909,7 +3905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &507649794
 GameObject:
   m_ObjectHideFlags: 0
@@ -4360,7 +4355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &535152899
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,7 +5359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &655165503
 GameObject:
   m_ObjectHideFlags: 0
@@ -5533,7 +5526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &703609780
 GameObject:
   m_ObjectHideFlags: 0
@@ -6905,7 +6897,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1224725299}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7257,7 +7249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1005589946
 GameObject:
   m_ObjectHideFlags: 0
@@ -7943,7 +7934,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1072693157
 GameObject:
   m_ObjectHideFlags: 0
@@ -9394,7 +9384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1211828454
 GameObject:
   m_ObjectHideFlags: 0
@@ -10329,11 +10318,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1308430883}
+  - component: {fileID: 1308430888}
   - component: {fileID: 1308430887}
   - component: {fileID: 1308430886}
   - component: {fileID: 1308430885}
   - component: {fileID: 1308430884}
-  - component: {fileID: 1308430888}
   m_Layer: 5
   m_Name: PlayerInfoPanel
   m_TagString: Untagged
@@ -11853,7 +11842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1579420101
 GameObject:
   m_ObjectHideFlags: 0
@@ -11900,7 +11888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1603465501
 GameObject:
   m_ObjectHideFlags: 0
@@ -13188,10 +13175,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1733055589}
+  - component: {fileID: 1733055594}
   - component: {fileID: 1733055593}
   - component: {fileID: 1733055591}
   - component: {fileID: 1733055590}
-  - component: {fileID: 1733055594}
   m_Layer: 5
   m_Name: RegionInfo_Panel
   m_TagString: Untagged
@@ -13652,7 +13639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1823043771
 GameObject:
   m_ObjectHideFlags: 0
@@ -14158,7 +14144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1946094816
 GameObject:
   m_ObjectHideFlags: 0
@@ -14614,7 +14599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &1998928994
 GameObject:
   m_ObjectHideFlags: 0
@@ -14782,7 +14766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &2012962745
 GameObject:
   m_ObjectHideFlags: 0
@@ -15460,7 +15443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &2069047672
 GameObject:
   m_ObjectHideFlags: 0
@@ -15507,7 +15489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9d99b60f39378468e1faaf467b3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RegionView
-  _regionId: 0
 --- !u!1 &2070198462
 GameObject:
   m_ObjectHideFlags: 0

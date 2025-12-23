@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class RegionsView
+public class RegionsView : MonoBehaviour
 {
     // protected override Type EventType => typeof(RegionOwnerEvent);
 
@@ -150,7 +150,7 @@ public class RegionsView
     // {
     //     if (gameEvent is RegionOwnerEvent regionOwnerEvent) {
     //         Transform regionTransform = FindRegionById(regionOwnerEvent.regionId);
-    //         regionTransform.GetComponentInChildren<RegionAreaView>().HandleOwnerChanged(regionOwnerEvent.Color);
+    //       regionTransform.GetComponentInChildren<RegionAreaView>().HandleOwnerChanged(regionOwnerEvent.Color);
     //     }
     //     if (gameEvent is HopliteCountEvent hopliteCountEvent) {
     //         SetHopliteCounter(hopliteCountEvent.RegionId, hopliteCountEvent.Color, hopliteCountEvent.Count);

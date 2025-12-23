@@ -20,7 +20,7 @@ public class TokenMover
         _onComplete = onComplete;
         CreateGhostToken(token);
 
-        ServiceLocator.Get<SelectMgr>().ListenSelection(HandleClickables);
+        ServiceLocator.Get<SelectMgr>().ListenTokenSelection(HandleClickables);
 
         var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
         RegionId regionId = token.Model.RegionId;
@@ -49,7 +49,7 @@ public class TokenMover
         var neibRegions = regRegistry.GetNeighborRegionIds(originRegionId);
         foreach (var regId in neibRegions) {
             if (regionId == regId) {
-                ServiceLocator.Get<SelectMgr>().UnlistenSelection();
+                ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
                 // TODO: add spawn point selection
                 _onComplete?.Invoke(regionId, 0);
                 break;

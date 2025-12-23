@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameInitializer : MonoBehaviour
+public class GameLoader : MonoBehaviour
 {    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private UserInputController _userInputController;
@@ -11,9 +11,9 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private GameObject _boardSurface;
     [SerializeField] private Button _startPlacementButton;
     [SerializeField] private CardSelectPanelView _cardSelectPanelView;
-    [SerializeField] private PlayerInfoPanel _playerInfoPanelView;
+    [SerializeField] private PlayerInfoUi _playerInfoPanelView;
     [SerializeField] private RegularActionPanel _regularActionPanel;
-    [SerializeField] private RegionInfoPanel _regionInfoUiPanel;
+    [SerializeField] private RegionInfoUi _regionInfoUiPanel;
     
     private RouteLink _routeLink;
     private GameManager _gameManager;
@@ -26,7 +26,7 @@ public class GameInitializer : MonoBehaviour
     private RaycastIntersector _raycastBoard;
     private UiRegistry _uiRegistry = new();
 
-    public SelectMgr _clickMgr;
+    public SelectMgr _selectMgr;
 
 
     private void Awake() 
@@ -65,8 +65,8 @@ public class GameInitializer : MonoBehaviour
 
         ServiceLocator.Register(_raycastBoard);
 
-        _clickMgr = new SelectMgr(Camera.main, _userInputController);
-        ServiceLocator.Register(_clickMgr);
+        _selectMgr = new SelectMgr(Camera.main, _userInputController);
+        ServiceLocator.Register(_selectMgr);
 
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
@@ -92,6 +92,11 @@ public class GameInitializer : MonoBehaviour
 
         _routeLink = new RouteLink();
         _routeLink.Create(new Vector3(0f, 0f, 0f), new Vector3(10f, 0f, 0f), PlayerColor.Red);
+    }
+    private void Start() 
+    {
+        var regionInfoUiCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
+        ServiceLocator.Get<SelectMgr>().RegisterRegionInfoController(regionInfoUiCtlr);
     }
     private void Update() {
         _tokenPlacementViewModel.UpdatePlacement();

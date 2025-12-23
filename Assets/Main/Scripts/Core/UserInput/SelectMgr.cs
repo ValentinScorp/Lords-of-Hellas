@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class SelectMgr
 {
@@ -12,8 +11,8 @@ public class SelectMgr
     // private UserInputController _userInputController;
     // private Action<TokenView> _onTokenClicked;
     // private Action<RegionId> _onRegionClicked;
-    private RegionInfoUiController _regionInfoUiController;
-    private Action<List<ISelectable>> _onSelected;
+    private RegionInfoUiCtlr _regionInfoController;
+    private Action<List<ISelectable>> _onTokenSelected;
 
     public SelectMgr(Camera camera, UserInputController userInputController)
     {
@@ -42,17 +41,17 @@ public class SelectMgr
         var results = new List<RaycastResult>();
         gr.Raycast(ped, results);
 
-        foreach (var result in results)
-            Debug.Log($"MouseOverCanvas hit: {result.gameObject.name}");
+        // foreach (var result in results)
+        //     Debug.Log($"MouseOverCanvas hit: {result.gameObject.name}");
 
         return results.Count > 0;
     }
 
     public void HandleClick(Vector2 screenPosition)
     {
-        Debug.Log($"ClickMgr: HandleClick at {screenPosition}");
+        // Debug.Log($"ClickMgr: HandleClick at {screenPosition}");
         if (IsMouseOverCanvas(ServiceLocator.Get<Canvas>(), screenPosition)) return;
-        Debug.Log("ClickMgr: Click not over canvas, proceeding with raycast.");
+        // Debug.Log("ClickMgr: Click not over canvas, proceeding with raycast.");
 
         var ray = _camera.ScreenPointToRay((Vector3)screenPosition);
         var hits = Physics.RaycastAll(ray, _camera.farClipPlane);
@@ -61,39 +60,43 @@ public class SelectMgr
         List<ISelectable> selectables = new List<ISelectable>();
         
         foreach (var hit in hits) {
-            Debug.Log($"ClickMgr: Raycast hit {hit.collider.gameObject.name}");
+            // Debug.Log($"ClickMgr: Raycast hit {hit.collider.gameObject.name}");
             
             foreach (var selectable in hit.collider.GetComponents<ISelectable>()) {
                 selectable.HitPoint = hit.point;
                 selectables.Add(selectable);
             }            
         }
-        if (selectables.Count > 0)
-            _onSelected?.Invoke(selectables);
-
-        foreach (var sel in selectables) {
-            if (sel is RegionAreaView regionArea) {
-                _regionInfoUiController?.Select(regionArea);
-                break;
+        if (_onTokenSelected != null) {
+            if (selectables.Count > 0) {
+                _onTokenSelected.Invoke(selectables);
             }
-        }    
+        } else {
+            foreach (var sel in selectables) {
+                if (sel is RegionAreaView regionArea) {
+                    _regionInfoController?.Select(regionArea);
+                    break;
+                }
+            }
+        }
     }
-
-    public void ListenSelection(Action<List<ISelectable>> onSelected)
+    public void ListenTokenSelection(Action<List<ISelectable>> onTokenSelected)
     {
-        if (_onSelected != null) {
+        if (_onTokenSelected != null) {
             Debug.LogWarning("ClickMgr: Overwriting existing click listener!");
         }
-        Debug.Log("ClickMgr: Listening for clicks.");
-        _onSelected = onSelected;
+        // Debug.Log("ClickMgr: Listening for clicks.");
+        _onTokenSelected = onTokenSelected;
+        var regionInfoCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
+        regionInfoCtlr.Deactivate();
     }
-    public void UnlistenSelection()
+    public void UnlistenTokneSelection()
     {
-        _onSelected = null;
+        _onTokenSelected = null;
     }
-    public void RegisterSelctionListener(RegionInfoUiController regionInfoUiController)
+    public void RegisterRegionInfoController(RegionInfoUiCtlr regionInfoController)
     {
-        _regionInfoUiController = regionInfoUiController;
+        _regionInfoController = regionInfoController;
     }
 }
 

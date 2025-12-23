@@ -14,6 +14,8 @@ public class RegionData
     public List<Quest> ActiveQuests { get; private set; } = new();
     public bool IsFortified { get; private set; }
 
+    public event Action<PlayerColor> OnOwnerChanged;
+
     [SerializeField] private List<TokenModel> _tokens = new();
     public IReadOnlyList<TokenModel> Tokens => _tokens;
 
@@ -114,7 +116,8 @@ public class RegionData
     private void ChangeOwner(PlayerColor color)
     {
         OwnedBy = color;
-        EventBus.SendEvent(new RegionOwnerEvent(RegionId, color));
+        // EventBus.SendEvent(new RegionOwnerEvent(RegionId, color));
+        OnOwnerChanged?.Invoke(color);
     }
     private LandId GetLandId(string landColor)
     {

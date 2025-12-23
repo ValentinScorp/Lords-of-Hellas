@@ -15,7 +15,7 @@ public class TokenSelector
         _playerColor = playerColor;
         _tokenType = type;
         _handleSelection = handleToken;
-        ServiceLocator.Get<SelectMgr>().ListenSelection(HandleSelectables);
+        ServiceLocator.Get<SelectMgr>().ListenTokenSelection(HandleSelectables);
     }
 
     private void HandleSelectables(List<ISelectable> selectables)
@@ -25,7 +25,7 @@ public class TokenSelector
         foreach (var selectable in selectables) {
             if (selectable is TokenView token) {
                 if (token.PlayerColor == _playerColor &&  token.TokenType == _tokenType)  {
-                    ServiceLocator.Get<SelectMgr>().UnlistenSelection();
+                    ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
                     _waitingToken = false;
                     _handleSelection?.Invoke(token);
                     _handleSelection = null;

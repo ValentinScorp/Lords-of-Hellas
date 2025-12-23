@@ -42,7 +42,7 @@ public class RegionAreaView : MonoBehaviour, ISelectable
             Destroy(_uniqueMaterial);
         }
     }
-    private void OnOwnerChanged(PlayerColor newOwner) {
+    public void OnOwnerChanged(PlayerColor newOwner) {
         HandleOwnerChanged(newOwner);
     }
     private void HandleOwnerChanged(PlayerColor newOwner) {

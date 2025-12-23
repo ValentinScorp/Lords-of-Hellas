@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoPanel : MonoBehaviour
+public class PlayerInfoUi : MonoBehaviour
 {
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private TMP_Text _currentGamePhaseText;
