@@ -9,5 +9,6 @@ public class PerseusStartingBonus : PlayerAbitilyAsset
     }
     public override void Apply(Player player, Action onCompleted) {
         player.AddLandToken();
+        onCompleted?.Invoke();
     }
 }

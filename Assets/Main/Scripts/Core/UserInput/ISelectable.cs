@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface ISelectable
 {
-    Vector3 HitPoint { get; set; }
+    // Vector3 HitPoint { get; set; }
 }

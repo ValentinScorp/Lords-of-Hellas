@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 public class TokenHolder
 {
@@ -15,9 +13,6 @@ public class TokenHolder
     }
     public void AttachToken(TokenView token) {
         _tokenView = token;
-    }
-    public void SetGhostColor(TerrainValidator.GhostState ghostState) {
-
     }
     public void SetGameObjectPosition(Vector3? newPosition) {
         if (newPosition.HasValue) {

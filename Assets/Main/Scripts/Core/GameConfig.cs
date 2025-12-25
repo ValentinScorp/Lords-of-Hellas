@@ -17,7 +17,7 @@ public class GameConfig
     }
     public List<PlayerSetupConfig> GetPlayers() { 
         if (_players.Count == 0) {
-            PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", Hero.Id.Helen, PlayerColor.Red);
+            PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", Hero.Id.Achilles, PlayerColor.Red);
             PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", Hero.Id.Heracles, PlayerColor.Blue);
             _players.Add(player1);
             _players.Add(player2);

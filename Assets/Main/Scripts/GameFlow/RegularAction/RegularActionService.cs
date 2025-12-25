@@ -2,9 +2,9 @@ using System;
 
 public class RegularActionService
 {
-    private readonly RegularActionController _controller;
+    private readonly RegularActionCtlr _controller;
 
-    public RegularActionService(RegularActionController controller) => _controller = controller;
+    public RegularActionService(RegularActionCtlr controller) => _controller = controller;
 
     public void Launch(RegularAction regularAction, Action onComplete)
     {

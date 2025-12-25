@@ -28,7 +28,7 @@ public class UserInputController : MonoBehaviour
             ? pointer.position.ReadValue()
             : (Vector2?)Touchscreen.current?.primaryTouch.position.ReadValue()
             ?? Vector2.zero;
-        _clickMgr?.HandleClick(pos);
+        _clickMgr?.HandleHits(pos);
         // OnMouseClick?.Invoke(pos);
     }
     public T GetRaycastTarget<T>() where T : Component

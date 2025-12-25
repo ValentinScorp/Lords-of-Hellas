@@ -108,14 +108,14 @@ public class RegionDataRegistry
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    public bool RegisterEntity(RegionId regionId, TokenModel token)
+    public bool RegisterToken(RegionId regionId, TokenModel token)
     {
         var region = GetRegionData(regionId);
         if (region == null) {
             Debug.LogWarning($"Region {regionId} not found for registering token.");
             return false;
         }
-        region.RegisterEntity(token);
+        region.RegisterToken(token);
         GameLogger.Instance.Event($"Adding {token.Type} to {regionId}");
         return true;
     }

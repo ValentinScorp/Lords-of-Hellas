@@ -5810,10 +5810,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 744716982}
+  - component: {fileID: 744716987}
   - component: {fileID: 744716986}
   - component: {fileID: 744716985}
   - component: {fileID: 744716984}
-  - component: {fileID: 744716987}
   m_Layer: 5
   m_Name: TokenPlacement_Panel
   m_TagString: Untagged
@@ -9205,11 +9205,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199982723}
+  - component: {fileID: 1199982724}
+  - component: {fileID: 1199982728}
   - component: {fileID: 1199982727}
   - component: {fileID: 1199982726}
   - component: {fileID: 1199982725}
-  - component: {fileID: 1199982724}
-  - component: {fileID: 1199982728}
   m_Layer: 11
   m_Name: Area
   m_TagString: PlaceableRegion
@@ -11179,7 +11179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fa1d0eab0e3d04bb2665119d8c3f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnPointDisplay
-  _spawnPointPrefab: {fileID: 3422210995580075639, guid: 42d721c719d56974b875903c16f716f6, type: 3}
 --- !u!4 &1450658299
 Transform:
   m_ObjectHideFlags: 0
@@ -12297,7 +12296,7 @@ GameObject:
   - component: {fileID: 1641279532}
   - component: {fileID: 1641279533}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12332,7 +12331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameInitializer
   _canvas: {fileID: 1065165625}
   _userInputController: {fileID: 756044389}
-  _regionViewManager: {fileID: 912145882}
+  _regionsView: {fileID: 912145882}
   _tokenPlacementView: {fileID: 744716987}
   _templePoolUIPanel: {fileID: 2100519687}
   _boardSurface: {fileID: 1211828454}

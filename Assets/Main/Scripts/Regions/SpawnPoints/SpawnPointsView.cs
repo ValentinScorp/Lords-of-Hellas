@@ -1,21 +1,24 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class SpawnPointsView : MonoBehaviour
 {
     [SerializeField] private float _step = 1f;
-
+    private RegionId _regionId;
     private Mesh _mesh;
     private List<SpawnPoint> _spawnPoints = new();
 
     public IReadOnlyList<SpawnPoint> Points => _spawnPoints;
 
-    private void Start() {
+    private void Start()
+    {
+        _regionId = GetComponent<RegionAreaView>().RegionId;
         _mesh = GetComponent<MeshFilter>().mesh;
         GenerateSpawnPoints();
     }
-    public SpawnPoint GetFreeSpawnPoint() {
+    public SpawnPoint GetFreeSpawnPoint()
+    {
         foreach (var point in _spawnPoints) {
             if (!point.IsOccupied) {
                 return point;
@@ -24,11 +27,13 @@ public class SpawnPointsView : MonoBehaviour
         Debug.LogError("No free SawnPoints left!");
         return null;
     }
-    public SpawnPoint GetCenteredUnoccupied() {
+    public SpawnPoint GetCenteredUnoccupied()
+    {
         var average = CalcAveragePoint();
         return GetNearestUnoccupied(average);
     }
-    public SpawnPoint GetNearestUnoccupied(Vector3 point) {
+    public SpawnPoint GetNearestUnoccupied(Vector3 point)
+    {
         SpawnPoint nearest = null;
         float minDistance = float.MaxValue;
 
@@ -41,23 +46,13 @@ public class SpawnPointsView : MonoBehaviour
                 }
             }
         }
-
         if (nearest == null) {
             Debug.LogError("No free SpawnPoints left!");
         }
-
         return nearest;
     }
-    public void ReleaseSpawnPoint(int id) {
-        foreach (var point in _spawnPoints) {
-            if (point.Id == id) {
-                point.Release();
-                return;
-            }
-        }
-        Debug.LogError("Couldn`t find SpawnPoint to Release! " + id.ToString());
-    }
-    private void GenerateSpawnPoints() {
+    private void GenerateSpawnPoints()
+    {
         _spawnPoints.Clear();
 
         var vertices = _mesh.vertices;
@@ -73,14 +68,15 @@ public class SpawnPointsView : MonoBehaviour
             for (float z = min.z; z <= max.z; z += _step) {
                 Vector3 pos = new Vector3(x, 0f, z);
                 if (IsPointInsideMesh(pos)) {
-                    _spawnPoints.Add(new(idCounter++, pos));
+                    _spawnPoints.Add(new(_regionId, idCounter++, pos));
                 }
             }
         }
 
         //Debug.Log($"Generated {_spawnPoints.Count} spawn points for {name}");
     }
-    private Vector3 CalcAveragePoint() {
+    private Vector3 CalcAveragePoint()
+    {
         Vector3 averagePoint = Vector3.zero;
         foreach (var spawnPoint in _spawnPoints) {
             averagePoint += spawnPoint.Position;
@@ -88,31 +84,30 @@ public class SpawnPointsView : MonoBehaviour
         averagePoint /= _spawnPoints.Count;
         return averagePoint;
     }
-    private bool IsPointInsideMesh(Vector3 point) {
+    private bool IsPointInsideMesh(Vector3 point)
+    {
         int hits = 0;
         var rayUp = new Ray(point + Vector3.down * 10f, Vector3.up);
         if (Physics.Raycast(rayUp, out RaycastHit hitUp, 50f)) {
-            if (hitUp.transform == transform) { 
+            if (hitUp.transform == transform) {
                 hits++;
             }
         }
-
         var rayDown = new Ray(point + Vector3.up * 10f, Vector3.down);
         if (Physics.Raycast(rayDown, out RaycastHit hitDown, 50f)) {
             if (hitDown.transform == transform) {
                 hits++;
             }
         }
-
         return hits % 2 == 1;
     }
 
-    private void OnDrawGizmosSelected() {
+    private void OnDrawGizmosSelected()
+    {
         Gizmos.color = Color.yellow;
         if (_spawnPoints == null) {
             return;
         }
-
         foreach (var p in _spawnPoints) {
             Gizmos.DrawSphere(p.Position, 0.1f);
         }

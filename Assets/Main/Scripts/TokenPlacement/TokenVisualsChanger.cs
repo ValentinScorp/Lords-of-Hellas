@@ -40,7 +40,7 @@ public class TokenVisualChanger
             Object.Destroy(rb);
             return true;
         } else {
-            Debug.LogError($"No Rigidbody found in: {gameObject.name}");
+            Debug.LogWarning($"No Rigidbody found in: {gameObject.name}");
         }
         return false;
     }

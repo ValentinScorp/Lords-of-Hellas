@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class RegionsView : MonoBehaviour
 {
-    // protected override Type EventType => typeof(RegionOwnerEvent);
-
+    private void Awake()
+    {
+        ServiceLocator.Register(this);
+    }
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
     {
         var region = FindRegionById(regionId);
@@ -15,27 +15,24 @@ public class RegionsView : MonoBehaviour
             hoplite.GetComponent<TokenView>()?.SetCount(count);
         }
     }
-    public void MoveTokenToRegion(RegionId regionId, GameObject gameObject)
-    {
-        gameObject.transform.SetParent(FindRegionById(regionId), worldPositionStays: true);
-    }
-    public SpawnPoint PlaceToken(GameObject token, RegionId regionId, Vector3? position)
-    {
-        var spawnPoint = GetFreeSpawnPoint(regionId, position);
-        if (spawnPoint != null) {
-            spawnPoint.Occupy();
-            MoveTokenToRegion(regionId, token);
 
-            var tokenPrefabVisual = token.GetComponent<TokenView>();
-            if (tokenPrefabVisual != null) {
-                tokenPrefabVisual.SpawnPointId = spawnPoint.Id;
-            }
-            token.transform.position = spawnPoint.Position;
+    public SpawnPoint PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
+    {
+        var spawnPoint = GetFreeSpawnPoint(regionId, pos);
+        if (spawnPoint != null) {
+            PlaceTokenAtSpawn(token, spawnPoint);
             return spawnPoint;
         } else {
             Debug.LogError($"No free spawn points in region {regionId}");
         }
         return spawnPoint;
+    }
+    public void PlaceTokenAtSpawn(TokenView token, SpawnPoint spawnPoint)
+    {
+        spawnPoint.Occupy();
+        token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
+        token.SpawnPoint = spawnPoint;
+        token.transform.position = spawnPoint.Position;
     }
 
     public void RemoveToken(RegionId regionId, TokenType tokenType, PlayerColor color)
@@ -49,8 +46,8 @@ public class RegionsView : MonoBehaviour
                         TokenView hoplitePrefab = hoplite.GetComponent<TokenView>();
                         int hopliteCount = hoplitePrefab.GetHopliteCount();
                         if (hopliteCount <= 1) {
-                            ReleaseSpawnPoint(regionId, hoplitePrefab.SpawnPointId);
-                            Object.Destroy(hoplite);
+                            hoplitePrefab.SpawnPoint.Release();
+                            Destroy(hoplite);
                         }
                     } else {
                         Debug.LogWarning("No hoplite found in RegionManagerVisuals::RemoveToken!");
@@ -60,8 +57,8 @@ public class RegionsView : MonoBehaviour
                     GameObject hero = FindHeroInRegion(region, color);
                     if (hero != null) {
                         TokenView heroPrefab = hero.GetComponent<TokenView>();
-                        ReleaseSpawnPoint(regionId, heroPrefab.SpawnPointId);
-                        Object.Destroy(hero);
+                        heroPrefab.SpawnPoint.Release();
+                        Destroy(hero);
                     }
                     break;
                 default:
@@ -75,11 +72,11 @@ public class RegionsView : MonoBehaviour
         var region = FindRegionById(regionId);
         if (region != null) {
             foreach (Transform child in region) {
-                var generator = child.GetComponent<SpawnPointsView>();
-                if (generator != null) {
-                    return position.HasValue
-                        ? generator.GetNearestUnoccupied(position.Value)
-                        : generator.GetCenteredUnoccupied();
+                var spawnPoints = child.GetComponent<SpawnPointsView>();
+                if (spawnPoints != null) {
+                    return position.HasValue ? 
+                        spawnPoints.GetNearestUnoccupied(position.Value) :
+                        spawnPoints.GetCenteredUnoccupied();
                 }
             }
         }
@@ -98,18 +95,6 @@ public class RegionsView : MonoBehaviour
             }
         }
         return null;
-    }
-    private void ReleaseSpawnPoint(RegionId regionId, int spawnPointId)
-    {
-        var region = FindRegionById(regionId);
-        if (region != null) {
-            foreach (Transform child in region) {
-                var generator = child.GetComponent<SpawnPointsView>();
-                if (generator != null) {
-                    generator.ReleaseSpawnPoint(spawnPointId);
-                }
-            }
-        }
     }
     private Transform FindRegionById(RegionId regionId)
     {

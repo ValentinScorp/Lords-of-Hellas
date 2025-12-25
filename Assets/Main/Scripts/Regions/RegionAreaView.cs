@@ -9,11 +9,11 @@ public class RegionAreaView : MonoBehaviour, ISelectable
     private RegionBorderView _emissionController;
     private bool _isSelected = false;
     private Material _uniqueMaterial;
-    private Vector3 _hitPoint;
-    Vector3 ISelectable.HitPoint {
-        get => _hitPoint;
-        set => _hitPoint = value;
-    }
+    // private Vector3 _hitPoint;
+    // Vector3 ISelectable.HitPoint {
+    //     get => _hitPoint;
+    //     set => _hitPoint = value;
+    // }
 
     public RegionId RegionId => _regionId;
 

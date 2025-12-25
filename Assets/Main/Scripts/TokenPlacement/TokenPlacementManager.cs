@@ -9,9 +9,9 @@ public class TokenPlacementManager
     private readonly TokenModelFactory _tokenModelFactory;
     private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
-    private readonly RegionsView _regionVisuals;
+    private readonly RegionsView _regionsView;
     private TokenVisualChanger _tokenVisualChanger;
-    private RegionDataRegistry _regionStatusRegistry;
+    private RegionDataRegistry _regionDataRegistry;
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
@@ -28,9 +28,10 @@ public class TokenPlacementManager
 
     public TokenPlacementManager(RegionsView regionVisuals) {
         _tokenModelFactory = new TokenModelFactory();
-        _regionStatusRegistry = ServiceLocator.Get<RegionDataRegistry>();
-        _regionVisuals = regionVisuals;
+        _regionDataRegistry = ServiceLocator.Get<RegionDataRegistry>();
+        _regionsView = regionVisuals;
         _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
+        ServiceLocator.Register(_tokenVisualChanger);
         _recorder = new();
     }
     public void InitiatePlacing(Player player) {
@@ -56,7 +57,6 @@ public class TokenPlacementManager
             Debug.LogWarning($"[TokenPlacementManager] No available token for type {tokenType}");
             return;
         }
-
         var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
         TokenView tokenView = tokenPrefabFactory.CreateTokenView(_currentToken);
 
@@ -64,7 +64,7 @@ public class TokenPlacementManager
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
-        ServiceLocator.Get<SelectMgr>().ListenTokenSelection(HandleClickables);
+        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleHits);
     }
     public void UpdatePlacement(RaycastIntersector raycastBoard) {
         if (!_tokenHolder.HasObject()) return;
@@ -89,7 +89,7 @@ public class TokenPlacementManager
             Debug.Log("Can't place: region not found at token position.");
             return false;
         }
-        if (!_rulesValidator.ValidateLogicalPlacement(_regionStatusRegistry, regionId, _currentToken)) {
+        if (!_rulesValidator.ValidateLogicalPlacement(_regionDataRegistry, regionId, _currentToken)) {
             return false;
         }
         return true;
@@ -97,7 +97,7 @@ public class TokenPlacementManager
     private void PlaceToken(RegionId regionId) {
         PlayerColor color = GameState.Instance.CurrentPlayer.Color;
         RecordStep(regionId, color, _tokenHolder.TokenView.TokenType);
-        _regionStatusRegistry.RegisterEntity(regionId, _currentToken);
+        _regionDataRegistry.RegisterToken(regionId, _currentToken);
         HandleVisuals(_tokenHolder.TokenView.TokenType, regionId, color);
         OnTokenPlaced?.Invoke();
         _currentToken = null;
@@ -109,17 +109,16 @@ public class TokenPlacementManager
     }
     private void HandleVisuals(TokenType tokenType, RegionId regionId, PlayerColor color) {
         if (tokenType == TokenType.HopliteStack) {
-            var existingHoplite = _regionVisuals.GetHopliteFromRegion(regionId, color);
+            var existingHoplite = _regionsView.GetHopliteFromRegion(regionId, color);
             if (existingHoplite != null) {
-                int hopliteCount = _regionStatusRegistry.GetHopliteNum(regionId, color);
+                int hopliteCount = _regionDataRegistry.GetHopliteNum(regionId, color);
                 existingHoplite.GetComponent<TokenView>()?.SetCount(hopliteCount);
                 _tokenHolder.DestroyTokenView();
                 _tokenHolder.UnattachToken();
                 return;
-            }
+            } 
         }
-
-        SpawnPoint spawn = _regionVisuals.PlaceToken(_tokenHolder.TokenView.gameObject, regionId, _tokenHolder.GetGameObjectPosition());
+        SpawnPoint spawn = _regionsView.PlaceToken(_tokenHolder.TokenView, regionId, _tokenHolder.GetGameObjectPosition());
         if (spawn != null) {
             _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView, color);
             _tokenHolder.SetGameObjectPosition(spawn.Position);
@@ -134,8 +133,8 @@ public class TokenPlacementManager
     }
     public void Cancel() {
         for (int i=0; i < _startupPlacementCounter; i++) {
-            _regionStatusRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
-            _regionVisuals.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _regionDataRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _regionsView.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
             _recorder.RemoveLastStep();
         }
         _startupPlacementCounter = 0;
@@ -144,12 +143,12 @@ public class TokenPlacementManager
         _tokenPlacementPool.Reset();
         InitiatePlacing(_currentPlayer);
     } 
-    private void HandleClickables(List<ISelectable> clickables)
+    private void HandleHits(List<SelectMgr.Target> targets)
     {
-        if (_currentToken == null || clickables == null) return;
+        if (_currentToken == null || targets == null) return;
 
-        foreach (var clickable in clickables) {
-            if (clickable is RegionAreaView regionArea) {
+        foreach (var t in targets) {
+            if (t.Selectable is RegionAreaView regionArea) {
                 if (CanPlaceToken(out RegionId regionId)) {
                     PlaceToken(regionId);
                     ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();

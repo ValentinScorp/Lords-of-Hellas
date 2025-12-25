@@ -1,16 +1,14 @@
 
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.UIElements;
 
 public class SpawnPoint
 {
-    public int Id { get; private set; }
+    public RegionId RegionId { get; private set; }
     public Vector3 Position { get; private set; } 
     public bool IsOccupied { get; private set; }
 
-    public SpawnPoint(int id, Vector3 position) {
-        Id = id;
+    public SpawnPoint(RegionId regionId, int id, Vector3 position) {
+        RegionId = regionId;
         Position = position;
     }
     public void Occupy() {

@@ -25,7 +25,7 @@ public class RegionData
         RegionStaticData = regionCfg;
         OwnedBy = PlayerColor.Gray;
     }
-    public void RegisterEntity<T>(T token) where T : TokenModel
+    public void RegisterToken<T>(T token) where T : TokenModel
     {
         if (token is HopliteStack hopliteStack) {
             int hopliteCount = 0;

@@ -1,13 +1,13 @@
 using System;
 
-public class RegularActionController
+public class RegularActionCtlr
 {
     private readonly RegularActionPanel _panel;
     private HeroMoveAction _heroMoveAction;    
     
     private RegularAction _currentAction;
     private Action _complete;
-    public RegularActionController(RegularActionPanel panel)
+    public RegularActionCtlr(RegularActionPanel panel)
     {
         _panel = panel;        
         _panel.HidePanel();
@@ -19,7 +19,6 @@ public class RegularActionController
         _heroMoveAction = new();
         _heroMoveAction.Start(_currentAction.Player);        
     }
-
     public void StartRegularAction(RegularAction regularAction, Action onCompleted)
     {
         _currentAction = regularAction;

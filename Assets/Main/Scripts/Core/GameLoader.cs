@@ -5,7 +5,7 @@ public class GameLoader : MonoBehaviour
 {    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private UserInputController _userInputController;
-    [SerializeField] private RegionsView _regionViewManager;
+    [SerializeField] private RegionsView _regionsView;
     [SerializeField] private TokenPlacementView _tokenPlacementView;
     [SerializeField] private GameObject _templePoolUIPanel;
     [SerializeField] private GameObject _boardSurface;
@@ -14,8 +14,7 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private PlayerInfoUi _playerInfoPanelView;
     [SerializeField] private RegularActionPanel _regularActionPanel;
     [SerializeField] private RegionInfoUi _regionInfoUiPanel;
-    
-    private RouteLink _routeLink;
+
     private GameManager _gameManager;
     private TokenPlacementManager _tokenPlacementManager;
     private TokenPlacementViewModel _tokenPlacementViewModel;
@@ -32,7 +31,7 @@ public class GameLoader : MonoBehaviour
     private void Awake() 
     {
         CheckIfExist(_userInputController, "_userInputController");
-        CheckIfExist(_regionViewManager, "_regionViewManager");
+        CheckIfExist(_regionsView, "_regionViewManager");
         CheckIfExist(_tokenPlacementView, "_tokenPlacementView");
         CheckIfExist(_templePoolUIPanel, "_templePoolUIPanel");
         CheckIfExist(_boardSurface, "_boardSurface");
@@ -55,7 +54,7 @@ public class GameLoader : MonoBehaviour
                                                 _boardSurface, 
                                                 1 << LayerMask.NameToLayer("BoardSurface"));
 
-        _tokenPlacementManager = new TokenPlacementManager(_regionViewManager);
+        _tokenPlacementManager = new TokenPlacementManager(_regionsView);
         _tokenPlacementViewModel = new TokenPlacementViewModel();
         _tokenPlacementView.Subscribe(_tokenPlacementViewModel);
 
@@ -86,12 +85,10 @@ public class GameLoader : MonoBehaviour
         var tokenPrefabFactory = new TokenPrefabFactory();
         ServiceLocator.Register(tokenPrefabFactory);
 
-        var regularActionController = new RegularActionController(_regularActionPanel);
+        var regularActionController = new RegularActionCtlr(_regularActionPanel);
         var regularActionService = new RegularActionService(regularActionController);
         ServiceLocator.Register(regularActionService);
 
-        _routeLink = new RouteLink();
-        _routeLink.Create(new Vector3(0f, 0f, 0f), new Vector3(10f, 0f, 0f), PlayerColor.Red);
     }
     private void Start() 
     {

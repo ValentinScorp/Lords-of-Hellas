@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +10,21 @@ public class TokenMover
     private LineRenderer _line;
     private static Material _lineMaterial;
     private TokenView _originToken;
-    private System.Action<RegionId, int> _onComplete;
+    private RegionId _prevReionId;
+    private Action<SpawnPoint> _onComplete;
+    private RouteLink _routeLink = new RouteLink();
+
     public TokenMover()
     {
         _raycastBoard = ServiceLocator.Get<RaycastIntersector>();
     }
-    public void StartMove(TokenView token, RegionId fromRegion, System.Action<RegionId, int> onComplete, System.Action onCancel = null)    
+    public void ProceedStep(TokenView token, RegionId fromRegion, Action<SpawnPoint> onComplete, Action onCancel = null)    
     {
         _originToken = token;
+        _prevReionId = fromRegion;
         _onComplete = onComplete;
-        CreateGhostToken(token);
 
-        ServiceLocator.Get<SelectMgr>().ListenTokenSelection(HandleClickables);
+        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleSelections);
 
         var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
         RegionId regionId = token.Model.RegionId;
@@ -30,28 +34,28 @@ public class TokenMover
             // Debug.Log($"Neighbor region: {regId}");  
         }        
     }
-    private void HandleClickables(List<ISelectable> selectables)
+    private void HandleSelections(List<SelectMgr.Target> targets)
     {
-        if (_originToken == null || selectables == null) return;
+        if (_originToken == null || targets == null) return;
 
-        foreach (var selectable in selectables){
-            if (selectable is RegionAreaView regionArea) {
-                RegionClicked(regionArea.RegionId);
+        foreach (var target in targets){
+            if (target.Selectable is RegionAreaView regionArea) {
+                RegionHited(regionArea, target.HitPoint);
                 break;
             }
         }
     }
-    private void RegionClicked(RegionId regionId)
+    private void RegionHited(RegionAreaView region, Vector3 hitPoint)
     {
         var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
-        RegionId originRegionId = _originToken.Model.RegionId;
 
-        var neibRegions = regRegistry.GetNeighborRegionIds(originRegionId);
+        var neibRegions = regRegistry.GetNeighborRegionIds(_prevReionId);
         foreach (var regId in neibRegions) {
-            if (regionId == regId) {
+            if (region.RegionId == regId) {
                 ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
-                // TODO: add spawn point selection
-                _onComplete?.Invoke(regionId, 0);
+                var regionsView = ServiceLocator.Get<RegionsView>();
+                var spawnPoint = regionsView.GetFreeSpawnPoint(region.RegionId, hitPoint);
+                _onComplete?.Invoke(spawnPoint);
                 break;
             }
         }        
@@ -64,26 +68,24 @@ public class TokenMover
                 _tokenHolder.SetGameObjectPosition(newPosition);
                 var state = _terrainValidator.ValidatePlacement(newPosition);
                 _tokenHolder.TokenView.SetGhostColor(state);
-                _line?.SetPosition(1, newPosition);
+                _routeLink?.SetSecondNode(newPosition);
+                _routeLink?.BuildArc();
+            //     _line?.SetPosition(1, newPosition);
             }
         }
     }
-    private void CreateGhostToken(TokenView token)
+    public void CreateGhostToken(TokenView token)
     { 
         var tokenFactory = ServiceLocator.Get<TokenPrefabFactory>();
         var ghostToken = tokenFactory.CreateToken(token);
         _tokenHolder.AttachToken(ghostToken);
         float radius = tokenFactory.GetRadius(token.TokenType);
         _terrainValidator.SetTokenRadius(radius);
-
-        Color lineColor = GameData.Instance.GetPlayerColor(token.PlayerColor);
-        _line = new GameObject("MoveLine").AddComponent<LineRenderer>();
-        // _line.material = new Material(Shader.Find("Sprites/Default"));
-        _line.positionCount = 2;
-        _line.startColor = _line.endColor = lineColor;
-        _line.useWorldSpace = true;
-        _line.startWidth = _line.endWidth = 0.05f; // підбери під себе
-        _line.SetPosition(0, token.transform.position);
-        _line.SetPosition(1, ghostToken.transform.position);    
+        _routeLink.Create(token.transform.position, ghostToken.transform.position, token.PlayerColor);  
+    }
+    public void DestroyVisuals()
+    {
+        _routeLink.Destroy();
+        _tokenHolder.DestroyTokenView();
     }
 }

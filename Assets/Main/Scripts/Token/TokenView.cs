@@ -20,18 +20,11 @@ public class TokenView : MonoBehaviour, ISelectable
     private Renderer _renderer = null;
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
-
-    private Vector3 _hitPoint;
-    Vector3 ISelectable.HitPoint  {
-        get => _hitPoint;
-        set => _hitPoint = value;
-    }
-
     public TokenType TokenType => _tokenType;
     public TokenModel Model => _model;
     public PlayerColor PlayerColor { get; set; }
     public RegionId RegionId { get; set; }
-    public int SpawnPointId { get; set; }
+    public SpawnPoint SpawnPoint { get; set; }
 
     private void Awake()
     {

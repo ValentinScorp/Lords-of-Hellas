@@ -9,5 +9,6 @@ public class AchillesStartingBonus : PlayerAbitilyAsset
     }
     public override void Apply(Player player, Action onCompleted) {
         player.Hero.ChangeSpeed(+1);
+        onCompleted?.Invoke();
     }
 }

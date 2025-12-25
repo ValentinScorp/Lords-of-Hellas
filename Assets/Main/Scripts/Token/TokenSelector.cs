@@ -10,20 +10,20 @@ public class TokenSelector
     private Action<TokenView> _handleSelection; 
     public void WaitTokenSelection(PlayerColor playerColor, TokenType type, Action<TokenView> handleToken)
     {
-        Debug.Log($"[TokenSelector] WaitTokenSelection playerColor={playerColor}, tokenType={type}");
+        // Debug.Log($"[TokenSelector] WaitTokenSelection playerColor={playerColor}, tokenType={type}");
         _waitingToken = true;
         _playerColor = playerColor;
         _tokenType = type;
         _handleSelection = handleToken;
-        ServiceLocator.Get<SelectMgr>().ListenTokenSelection(HandleSelectables);
+        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleHits);
     }
 
-    private void HandleSelectables(List<ISelectable> selectables)
+    private void HandleHits(List<SelectMgr.Target> targets)
     {
-        if (!_waitingToken || selectables == null) return;
+        if (!_waitingToken || targets == null) return;
 
-        foreach (var selectable in selectables) {
-            if (selectable is TokenView token) {
+        foreach (var t in targets) {
+            if (t.Selectable is TokenView token) {
                 if (token.PlayerColor == _playerColor &&  token.TokenType == _tokenType)  {
                     ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
                     _waitingToken = false;
