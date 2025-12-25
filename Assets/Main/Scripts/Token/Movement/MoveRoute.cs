@@ -4,6 +4,7 @@ public class MoveRoute
 {
     private int _stepsLeft;
     public bool Complete => _stepsLeft <= 0;
+    private List<RouteLink> _routeLinks = new();
     private class Node
     {
         public RegionId RegionId { get; private set; }
@@ -21,7 +22,13 @@ public class MoveRoute
         _stepsLeft--;
         if (_stepsLeft >= 0) {
             _nodes.Add(new Node(regionId, spawnPoint));
-
+            if (_nodes.Count > 1) {
+                var routeLink = new RouteLink();
+                routeLink.Create(_nodes[_nodes.Count - 2].SpawnPoint.Position,
+                                _nodes[_nodes.Count - 1].SpawnPoint.Position,
+                                PlayerColor.Red);
+                _routeLinks.Add(routeLink);
+            }
         }
     }
     public void SetSteps(int steps)
@@ -31,5 +38,9 @@ public class MoveRoute
     public void Clear()
     {
         _nodes.Clear();
+        foreach (var link in _routeLinks) {
+            link.Destroy();
+        }
+        _routeLinks.Clear();
     }
 }

@@ -30,6 +30,11 @@ public class RouteLink
 
         BuildArc();        
     }
+    public void SetFirstNode(Vector3 fromPosition)
+    {
+        if (_lineRenderer == null) return;
+        _fromPosition = fromPosition;
+    }
     public void SetSecondNode(Vector3 toPosition)
     {
         if (_lineRenderer == null) return;

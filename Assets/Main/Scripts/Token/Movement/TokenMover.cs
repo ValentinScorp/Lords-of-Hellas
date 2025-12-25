@@ -7,12 +7,11 @@ public class TokenMover
     private TokenHolder _tokenHolder = new();
     private readonly RaycastIntersector _raycastBoard;
     private readonly TerrainValidator _terrainValidator = new();
-    private LineRenderer _line;
-    private static Material _lineMaterial;
     private TokenView _originToken;
     private RegionId _prevReionId;
     private Action<SpawnPoint> _onComplete;
-    private RouteLink _routeLink = new RouteLink();
+    private readonly List<RouteLink> _routeLinks = new();
+    private RouteLink _currentRouteLink;
 
     public TokenMover()
     {
@@ -55,6 +54,7 @@ public class TokenMover
                 ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
                 var regionsView = ServiceLocator.Get<RegionsView>();
                 var spawnPoint = regionsView.GetFreeSpawnPoint(region.RegionId, hitPoint);
+                _currentRouteLink?.SetFirstNode(spawnPoint.Position);
                 _onComplete?.Invoke(spawnPoint);
                 break;
             }
@@ -68,8 +68,8 @@ public class TokenMover
                 _tokenHolder.SetGameObjectPosition(newPosition);
                 var state = _terrainValidator.ValidatePlacement(newPosition);
                 _tokenHolder.TokenView.SetGhostColor(state);
-                _routeLink?.SetSecondNode(newPosition);
-                _routeLink?.BuildArc();
+                _currentRouteLink?.SetSecondNode(newPosition);
+                _currentRouteLink?.BuildArc();
             //     _line?.SetPosition(1, newPosition);
             }
         }
@@ -81,11 +81,18 @@ public class TokenMover
         _tokenHolder.AttachToken(ghostToken);
         float radius = tokenFactory.GetRadius(token.TokenType);
         _terrainValidator.SetTokenRadius(radius);
-        _routeLink.Create(token.transform.position, ghostToken.transform.position, token.PlayerColor);  
+        var routeLink = new RouteLink();
+        routeLink.Create(token.transform.position, ghostToken.transform.position, token.PlayerColor);
+        _currentRouteLink = routeLink;
+        _routeLinks.Add(routeLink);
     }
     public void DestroyVisuals()
     {
-        _routeLink.Destroy();
+        foreach (var routeLink in _routeLinks) {
+            routeLink.Destroy();
+        }
+        _routeLinks.Clear();
+        _currentRouteLink = null;
         _tokenHolder.DestroyTokenView();
     }
 }
