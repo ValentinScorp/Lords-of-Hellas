@@ -1,29 +1,31 @@
+using System;
 using UnityEngine;
 
 public class HeroMoveAction
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
-    private int _maxSteps;
+    private RegularAction _regularAction;
     private TokenView _heroToken;
     private MoveRoute _moveRoute;
+    private Action _onComplete;
     public HeroMoveAction()
     {
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         _moveRoute = new MoveRoute();
     }
-    public void Start(Player player)
+    public void Start(RegularAction regularAction, Action onComplete = null)
     {
-        _maxSteps = player.Hero.Speed;   
-            
-        _tokenSelector.WaitTokenSelection(player.Color, TokenType.Hero, HandleSelection);
+        _regularAction = regularAction;
+        _onComplete = onComplete;
+        _tokenSelector.WaitTokenSelection(regularAction.Player.Color, TokenType.Hero, HandleSelection);
     }
     private void HandleSelection(TokenView token)
     {
         _heroToken = token;
         
-        _moveRoute.SetSteps(_maxSteps); 
+        _moveRoute.SetSteps(_regularAction.HeroSteps); 
         _moveRoute.AddRouteNode(token.RegionId, token.SpawnPoint);
 
         _tokenMover.CreateGhostToken(token);
@@ -31,6 +33,7 @@ public class HeroMoveAction
     }
     private void HandleStep(SpawnPoint spawnPoint)
     {
+        _regularAction.HeroSteps--;
         _moveRoute.AddRouteNode(spawnPoint.RegionId, spawnPoint);
 
         if (_moveRoute.Complete) {
@@ -49,6 +52,6 @@ public class HeroMoveAction
         _tokenMover.DestroyVisuals();
         _moveRoute.Clear();
 
-        Debug.Log("Hero move complete!");
+        _onComplete?.Invoke();
     }
 }

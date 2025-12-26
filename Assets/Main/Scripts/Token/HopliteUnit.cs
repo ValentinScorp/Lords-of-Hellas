@@ -3,24 +3,18 @@ using UnityEngine;
 [System.Serializable]
 public class HopliteUnit : IPlayerOwned
 {
-    private bool _moved;
+    public bool Moved { get; private set; }
     private RegionId _regionId;
 
-    public int Id { get; private set; }
     public bool OnBoard { get; set; }
     public RegionId RegionId => _regionId;
     public PlayerColor PlayerColor { get; private set; }
 
-    public HopliteUnit(PlayerColor color, int id)
+    public HopliteUnit(PlayerColor color)
     {
         PlayerColor = color;
-        Id = id;
     }
 
-    public HopliteUnit(int id)
-    {
-        Id = id;
-    }
     public void SetOwner(PlayerColor color)
     {
         PlayerColor = color;
@@ -29,6 +23,10 @@ public class HopliteUnit : IPlayerOwned
     {
         _regionId = regionId;
         OnBoard = true;
-        _moved = false;
+        Moved = true;
+    }
+    public void ResetMove()
+    {
+        Moved = false;
     }
 }

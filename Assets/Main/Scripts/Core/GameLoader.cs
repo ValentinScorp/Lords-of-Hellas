@@ -12,7 +12,6 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private Button _startPlacementButton;
     [SerializeField] private CardSelectPanelView _cardSelectPanelView;
     [SerializeField] private PlayerInfoUi _playerInfoPanelView;
-    [SerializeField] private RegularActionPanel _regularActionPanel;
     [SerializeField] private RegionInfoUi _regionInfoUiPanel;
 
     private GameManager _gameManager;
@@ -37,7 +36,6 @@ public class GameLoader : MonoBehaviour
         CheckIfExist(_boardSurface, "_boardSurface");
         CheckIfExist(_startPlacementButton, "_startPlacementButton");
         CheckIfExist(_cardSelectPanelView, "_cardSelectPanelView");
-        CheckIfExist(_regularActionPanel, "_regularActionPanel");
 
         ServiceLocator.Register(_canvas);
         ServiceLocator.Register(_userInputController);
@@ -83,11 +81,7 @@ public class GameLoader : MonoBehaviour
         _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;        
 
         var tokenPrefabFactory = new TokenPrefabFactory();
-        ServiceLocator.Register(tokenPrefabFactory);
-
-        var regularActionController = new RegularActionCtlr(_regularActionPanel);
-        var regularActionService = new RegularActionService(regularActionController);
-        ServiceLocator.Register(regularActionService);
+        ServiceLocator.Register(tokenPrefabFactory);       
 
     }
     private void Start() 

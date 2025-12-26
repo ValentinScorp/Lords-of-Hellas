@@ -44,4 +44,8 @@ public class HopliteStack : TokenModel, IPlayerOwned
             h.ChangeRegion(regionId);
         }
     }
+    public IReadOnlyList<HopliteUnit> GetHoplites()
+    {
+        return _hoplites;
+    }
 }

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MoveRoute
 {
     private int _stepsLeft;
     public bool Complete => _stepsLeft <= 0;
+    public int StepsLeft => Mathf.Max(0, _stepsLeft - 1);
     private List<RouteLink> _routeLinks = new();
     private class Node
     {
