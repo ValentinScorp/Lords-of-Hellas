@@ -9,7 +9,6 @@ public class TokenView : MonoBehaviour, ISelectable
     public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TokenType _tokenType;
     [SerializeField] private TokenModel _model;
-
     [SerializeField] private TMP_Text _leadershipText;
     [SerializeField] private TMP_Text _speedText;
     [SerializeField] private TMP_Text _strengthText;
@@ -21,10 +20,12 @@ public class TokenView : MonoBehaviour, ISelectable
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
     public TokenType TokenType => _tokenType;
-    public TokenModel Model => _model;
+    // public TokenModel Model => _model;
     public PlayerColor PlayerColor { get; set; }
-    public RegionId RegionId { get; set; }
+    public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
     public SpawnPoint SpawnPoint { get; set; }
+    private TokenViewModel _viewModel;
+    public TokenViewModel ViewModel => _viewModel;
 
     private void Awake()
     {
@@ -44,19 +45,36 @@ public class TokenView : MonoBehaviour, ISelectable
             return;
         }
         _model = model;
+        _viewModel = new (model, this);
         
-        if (model is HopliteStack hoplite) {
-            hoplite.OnCountChanged += count => SetLabel(count.ToString());
-        }
-        if (model is Hero hero) {
-            SetLabel(hero.DisplayName);
-            hero.OnLeadershpChanged += value => _leadershipText.text = value.ToString();
-            hero.OnSpeedChanged += value => _speedText.text = value.ToString();
-            hero.OnStrengthChanged += value => _strengthText.text = value.ToString();
-            hero.ChangeStrength(0);
-            hero.ChangeSpeed(0);
-            hero.ChangeLeadership(0);
-        }
+        // if (model is HopliteStack hoplite) {
+        //     hoplite.OnCountChanged += count => SetLabel(count.ToString());
+        // }
+        // if (model is HeroModel hero) {
+        //     SetLabel(hero.DisplayName);
+        //     hero.OnLeadershpChanged += value => HandleLeadershipChanged(value);
+        //     hero.OnSpeedChanged += value => HandleSpeedChanged(value);
+        //     hero.OnStrengthChanged += value => HandleStrengthChanged(value);
+        //     hero.ChangeStrength(0);
+        //     hero.ChangeSpeed(0);
+        //     hero.ChangeLeadership(0);
+        // }
+    }
+    public void HandleLeadershipChanged(int value)
+    {
+        _leadershipText.text = value.ToString();
+    }
+    public void HandleSpeedChanged(int value)
+    {
+        _speedText.text = value.ToString();
+    }
+    public void HandleStrengthChanged(int value)
+    {
+        _strengthText.text = value.ToString();
+    }
+    private void OnDestroy()
+    {
+        _viewModel.Dispose();
     }
     public void SetLayer(string layerName)
     {

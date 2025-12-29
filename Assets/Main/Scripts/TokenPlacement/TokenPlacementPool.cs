@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TokenPlacementPool
 {
-    private List<Hero> _hero = new List<Hero>();
+    private List<HeroModel> _hero = new List<HeroModel>();
     private List<HopliteStack> _hoplites = new List<HopliteStack>();
     public void SetPlacementTargets(Player player) {
         Reset();

@@ -13,7 +13,7 @@ public class PlayerSetupData
 
     public bool StartGame(List<PlayerSetupPanel> playerPanels) {
         if (playerPanels.Count < MinPlayers) {
-            Debug.LogWarning("Недостатньо гравців!");
+            Debug.LogWarning("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
             return false;
         }
         _playerSetupConfigList = ScriptableObject.CreateInstance<PlayerSetupConfigList>();
@@ -31,7 +31,7 @@ public class PlayerSetupData
 
         var names = new HashSet<string>();
         var colors = new HashSet<PlayerColor>();
-        var heroes = new HashSet<Hero.Id>();
+        var heroes = new HashSet<HeroModel.Id>();
 
         foreach (var panel in playerPanels) {
             var config = panel.GetConfig();

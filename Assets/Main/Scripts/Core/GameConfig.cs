@@ -23,8 +23,8 @@ public class GameConfig
     }
     public List<PlayerSetupConfig> CreateDefaultPlayers() { 
         if (_players.Count == 0) {
-            PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", Hero.Id.Achilles, PlayerColor.Red);
-            PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", Hero.Id.Heracles, PlayerColor.Blue);
+            PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", HeroModel.Id.Achilles, PlayerColor.Red);
+            PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", HeroModel.Id.Heracles, PlayerColor.Blue);
             _players.Add(player1);
             _players.Add(player2);
         }

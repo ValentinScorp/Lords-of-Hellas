@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class HeroSetup
 {
-    public Hero.Id HeroId { get; }
+    public HeroModel.Id HeroId { get; }
     public string DisplayName => HeroId.ToString();
 
-    public HeroSetup(Hero.Id heroId) {
+    public HeroSetup(HeroModel.Id heroId) {
         HeroId = heroId;
     }
 }

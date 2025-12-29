@@ -22,13 +22,13 @@ public class HopliteMoveAction
     }
     private void HandleSelection(TokenView token)
     {
-        if (token.Model is HopliteStack hopliteStack) {
+        if (token.ViewModel.Model is HopliteStack hopliteStack) {
             if (_regularAction.TryTakeUnmovedHoplite(hopliteStack, out var unmovedHoplite)) {
                 _selectedToken = token;
                 _selectedHoplite = unmovedHoplite;
 
                 _tokenMover.CreateGhostToken(token);
-                _tokenMover.CatchNeibRegionPoint(token, token.Model.RegionId, HandleHopliteMove);
+                _tokenMover.CatchNeibRegionPoint(token, token.RegionId, HandleHopliteMove);
                 return;
             }
         }  

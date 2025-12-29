@@ -14,7 +14,7 @@ public class Player
 
     public List<CardArtifact> ArtifactCards => _artifactCards;
     public List<CardCombat> CombatCards => _combatCards;
-    public Hero Hero { get; set; }
+    public HeroModel Hero { get; set; }
     public PlayerColor Color { get; set; }
     public int PriestsInPool => _priestManager.InPool;
     public event Action<Player, int, Action> OnArtifactCardSelect;
@@ -25,12 +25,12 @@ public class Player
     {
         _name = playerConfig.PlayerName;
         Color = playerConfig.PlayerColor;
-        Hero = new Hero(playerConfig.HeroId, this);
+        Hero = new HeroModel(playerConfig.HeroId, this);
         _hopliteManager = new (this);
     }
     public void AddLandToken() 
     {
-        OnAddLandToken?.Invoke(this, Hero.LandId);
+        OnAddLandToken?.Invoke(this, GameContent.Instance.GetLandColor(Hero.RegionId));
     }
     public void SelectOneOfArtifactCards(int cardCount, Action onCompleted) 
     {

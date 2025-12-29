@@ -68,9 +68,8 @@ public class RegionContext
             if (hopliteCount >= RegionConfig.PopulationStrength) {
                 ChangeOwner(hopliteStack.PlayerColor);
             }
-        } else if (token is Hero hero) {
+        } else if (token is HeroModel hero) {
             hero.RegionId = RegionId;
-            hero.LandId = GetLandId(RegionConfig.LandColor);
             AddToken(hero);
         }
     }
@@ -115,7 +114,7 @@ public class RegionContext
     }
     public bool ContainsAnotherHero(PlayerColor color)
     {
-        return _tokens.OfType<Hero>().Any(h => h.PlayerColor != color);
+        return _tokens.OfType<HeroModel>().Any(h => h.PlayerColor != color);
     }
     public bool ContainsAnotherHoplite(PlayerColor color)
     {

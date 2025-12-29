@@ -41,7 +41,7 @@ public class PlayerSetupPanel : MonoBehaviour
         if (index >= 0) _colorDropdown.value = index;
     }
     public PlayerSetupConfig GetConfig() {
-        Hero.Id heroId = _heroes[_heroDropdown.value].HeroId;
+        HeroModel.Id heroId = _heroes[_heroDropdown.value].HeroId;
         PlayerColor color = _colors[_colorDropdown.value];
 
         return new PlayerSetupConfig {

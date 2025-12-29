@@ -8,7 +8,7 @@ public class TokenPrefabFactory
     }
     public TokenView CreateToken(TokenView token)
     {
-        return CreateTokenView(token.Model);
+        return CreateTokenView(token.ViewModel.Model);
     }
     public TokenView CreateTokenView(TokenModel model) {
         if (model == null) {

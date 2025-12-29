@@ -65,7 +65,7 @@ public class GameContent
             RegionsConfig = regCfgs;
         }
     }
-    public Hero.Id GetPlayerHeroId(PlayerColor color) {
+    public HeroModel.Id GetPlayerHeroId(PlayerColor color) {
         var player = GameConfig.Instance.Players.FirstOrDefault(p => p.PlayerColor == color);
         if (player == null) {
             Debug.LogError($"[GameContext] Player with color {color} not found!");

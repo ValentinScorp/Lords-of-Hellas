@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class HeroDatabase
 {
-    private static readonly Dictionary<Hero.Id, HeroConfig> _cache = new();
+    private static readonly Dictionary<HeroModel.Id, HeroConfig> _cache = new();
 
-    public static HeroConfig GetConfig(Hero.Id id) {
+    public static HeroConfig GetConfig(HeroModel.Id id) {
         if (_cache.TryGetValue(id, out var config))
             return config;
 

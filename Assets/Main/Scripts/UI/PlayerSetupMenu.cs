@@ -34,10 +34,10 @@ public class PlayerSetupMenu : MonoBehaviour
 
         var heroes = new List<HeroSetup>
          {
-            new(Hero.Id.Achilles),
-            new(Hero.Id.Heracles),
-            new(Hero.Id.Perseus),
-            new(Hero.Id.Helen)
+            new(HeroModel.Id.Achilles),
+            new(HeroModel.Id.Heracles),
+            new(HeroModel.Id.Perseus),
+            new(HeroModel.Id.Helen)
         };
 
         panel.Init(heroes, availableColors);

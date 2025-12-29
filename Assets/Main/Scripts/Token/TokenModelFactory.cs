@@ -4,7 +4,7 @@ using UnityEngine;
 public class TokenModelFactory
 {
     public HopliteStack CreateHoplite(Player player) => new HopliteStack(player.Color);
-    public Hero CreateHero(Hero.Id heroId, Player player) => new Hero(heroId, player);
+    public HeroModel CreateHero(HeroModel.Id heroId, Player player) => new HeroModel(heroId, player);
     public Monster CreateMonster(Monster.Id monsterId) => new Monster(monsterId);
     //public TokenModel CreatePlayerToken(TokenType type, Player player) {
     //    return Create(type, player, player.Hero.HeroId);
