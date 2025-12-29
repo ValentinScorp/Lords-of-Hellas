@@ -25,7 +25,6 @@ public class TempleCardSelectionPanel : MonoBehaviour
         }
     }
     private void OnCardSelected(CardTemple card) {
-        Debug.Log($"Вибрано: {card.Title}");
         if (_selectedCard) {
             Destroy(_selectedCard.gameObject);
         }

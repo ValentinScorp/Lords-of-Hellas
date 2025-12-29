@@ -14,13 +14,13 @@ public class GameManager
     private readonly TokenModelFactory _tokenModelFactory = new();
     public event Action OnGameStarted;
 
-    public GameManager( GameData gameData, 
+    public GameManager( GameContent gameData, 
                         TokenPlacementManager placementManager, 
                         CardSelectPanel cardSelectPanel) {
-        _playerTurnManager = new TurnManager(GameState.Instance.Players);
+        _playerTurnManager = new TurnManager(GameContext.Instance.Players);
         _cardSelectPanel = cardSelectPanel;
 
-        foreach (var player in GameState.Instance.Players) {
+        foreach (var player in GameContext.Instance.Players) {
             _landTokenManager.Subscribe(player);
         }
         _cardSelectPanel.SubscribeToPlayers(_playerTurnManager.Players);

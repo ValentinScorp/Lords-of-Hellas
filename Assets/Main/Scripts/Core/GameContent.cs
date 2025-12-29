@@ -1,39 +1,31 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Board;
 
-public class GameData
+public class GameContent
 {
-    private static GameData _instance;
-    public static GameData Instance => _instance ??= new GameData();
-    private GameData() { }
-
-    private List<PlayerSetupConfig> _playerConfigs = new();
-
+    private static GameContent _instance;
+    public static GameContent Instance => _instance ??= new GameContent();
+    private GameContent() { }
     private List<CardMonsterAttack> _monsterAttackCards;
     private List<CardCombat> _combatCards;
     private List<CardArtifact> _artifactCards;
     private List<CardBlessing> _blessingCards;
     private List<CardMonster> _monsterCards;
     private List<CardQuest> _questCards;
-    
-    public IReadOnlyList<PlayerSetupConfig> PlayerConfigs => _playerConfigs.AsReadOnly();
-   
+      
     public static PlayerColorPalette PlayerColorPalette { get; private set; }
     public static TokenMaterialPalette TokenMaterialPalette { get; private set; }
     public static GlobalMaterials GlobalMaterials { get; private set; }
+    public IReadOnlyList<CardTemple> TempleCards { get; private set; }
     public List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards;
     public List<CardCombat> CombatCards => _combatCards;
     public List<CardArtifact> ArtifactCards => _artifactCards;
     public List<CardBlessing> BlessingCards => _blessingCards;
     public List<CardMonster> MonsterCards => _monsterCards;
     public List<CardQuest> QuestCards => _questCards;
-
-    private List<RegionConfig> _regionStaticData = new();
-    public List<RegionConfig> RegionStaticData => _regionStaticData;
-
+    public List<RegionConfig> RegionsConfig { get; private set; }
+    
     private bool _initialized = false;
 
     public void Initialize() {
@@ -42,16 +34,21 @@ public class GameData
 
         PlayerColorPalette = Resources.Load<PlayerColorPalette>("ScriptableObjects/GameSetup/PlayerColorPalette");
         if (PlayerColorPalette == null) {
-            Debug.Log("ColorPalette not loaded!");
+            Debug.LogWarning("ColorPalette not loaded!");
         }
         TokenMaterialPalette = Resources.Load<TokenMaterialPalette>("ScriptableObjects/GameSetup/TokenMaterialPalette");
         if (TokenMaterialPalette == null) {
-            Debug.Log("ColorPalette not loaded!");
+            Debug.LogWarning("ColorPalette not loaded!");
         }
         GlobalMaterials = Resources.Load<GlobalMaterials>("ScriptableObjects/GameSetup/GlobalMaterials");
         if (GlobalMaterials == null) {
-            Debug.Log("GlobalMaterials not loaded!");
+            Debug.LogWarning("GlobalMaterials not loaded!");
         }
+        TempleCards = Resources.LoadAll<CardTemple>("ScriptableObjects/Cards/Temple");
+        if (TempleCards == null) {
+            Debug.LogWarning("Temple Cards not loaded!");
+        }
+
         CardLoader.Instance.LoadAllCards();
 
         _monsterAttackCards = new List<CardMonsterAttack>(CardLoader.Instance.MonsterAttackCards);
@@ -61,10 +58,15 @@ public class GameData
         _monsterCards = new List<CardMonster>(CardLoader.Instance.MonsterCards);
         _questCards = new List<CardQuest>(CardLoader.Instance.QuestCards);
 
-        _playerConfigs = GameConfig.Instance.GetPlayers();        
+        var regConfLoader = new RegionConfigLoader();
+        RegionsConfig = new List<RegionConfig>();
+
+        if (regConfLoader.TryLoadRegions(out var regCfgs)) {
+            RegionsConfig = regCfgs;
+        }
     }
     public Hero.Id GetPlayerHeroId(PlayerColor color) {
-        var player = _playerConfigs.FirstOrDefault(p => p.PlayerColor == color);
+        var player = GameConfig.Instance.Players.FirstOrDefault(p => p.PlayerColor == color);
         if (player == null) {
             Debug.LogError($"[GameContext] Player with color {color} not found!");
             return default;
@@ -72,7 +74,7 @@ public class GameData
         return player.HeroId;
     }
     public LandId GetLandColor(RegionId regionId) {
-        var regionData = _regionStaticData.FirstOrDefault(r => RegionIdParser.Parse(r.RegionName) == regionId);
+        var regionData = RegionsConfig.FirstOrDefault(r => RegionIdParser.Parse(r.RegionName) == regionId);
         if (regionData == null) {
             Debug.LogError($"[GameData] Region data not found for id {regionId}");
             return LandId.Red;
@@ -110,6 +112,15 @@ public class GameData
             case PlayerColor.Gray:
             default:                 return PlayerColorPalette.Grey;
         }
+    }
+    public bool TryGetTempleCard(int index, out CardTemple card)
+    {
+        card = null;
+        if (TempleCards == null || index < 0 || index >= TempleCards.Count) {
+            return false;
+        }
+        card = TempleCards[index];
+        return card != null;
     }
 }
 

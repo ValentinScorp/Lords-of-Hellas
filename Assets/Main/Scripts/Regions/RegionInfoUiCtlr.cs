@@ -4,7 +4,7 @@ public class RegionInfoUiCtlr
 {
     private RegionAreaView _selectedRegion;
     private RegionInfoUi _regionInfoUi;
-    public event Action<RegionData> OnRegionSelected;
+    public event Action<RegionContext> OnRegionSelected;
 
     public void RegisterUi(RegionInfoUi infoUi)
     {
@@ -18,7 +18,7 @@ public class RegionInfoUiCtlr
 
         _selectedRegion = newRegion;
         _selectedRegion.Activate();
-        var regionStatus = ServiceLocator.Get<RegionDataRegistry>().GetRegionData(_selectedRegion.RegionId);
+        var regionStatus = GameContext.Instance.RegionDataRegistry.GetRegionContext(_selectedRegion.RegionId);
 
         _regionInfoUi?.ShowRegionInfo(regionStatus);
     }

@@ -16,10 +16,10 @@ public class PlayerInfoUi : MonoBehaviour
         
     }
     private void OnEnable() {
-        GameState.Instance.OnPlayerChanged += HandlePlayerChanged;
+        GameContext.Instance.OnPlayerChanged += HandlePlayerChanged;
     }
     private void OnDisable() {
-        GameState.Instance.OnPlayerChanged -= HandlePlayerChanged;
+        GameContext.Instance.OnPlayerChanged -= HandlePlayerChanged;
     }
     public void Subscribe(GamePhaseManager phaseManager) {
         phaseManager.OnPhaseChanged += HandleGamePhaseChanged;
@@ -48,7 +48,7 @@ public class PlayerInfoUi : MonoBehaviour
         }
     }
     private void SetBackgroundColor(PlayerColor color) {
-        var palette = GameData.PlayerColorPalette;
+        var palette = GameContent.PlayerColorPalette;
         switch (color) {
             case PlayerColor.Red: SetBackgroundColor(palette.Red); break;
             case PlayerColor.Green: SetBackgroundColor(palette.Green); break;

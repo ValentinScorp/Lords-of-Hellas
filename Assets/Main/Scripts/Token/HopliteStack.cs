@@ -7,6 +7,7 @@ public class HopliteStack : TokenModel, IPlayerOwned
 {
     private PlayerColor _playerColor;
     private List<HopliteUnit> _hoplites = new List<HopliteUnit>();
+    public IReadOnlyList<HopliteUnit> Hoplites => _hoplites;
     public int Count => _hoplites.Count;
     public PlayerColor PlayerColor => _playerColor;
     public event Action<int> OnCountChanged;
@@ -15,6 +16,11 @@ public class HopliteStack : TokenModel, IPlayerOwned
     {
         _playerColor = color;
     }
+    public HopliteStack(HopliteUnit hopliteUnit) : base(TokenType.HopliteStack)
+    {
+        _playerColor = hopliteUnit.PlayerColor;
+        AddHoplite(hopliteUnit);
+    }
     public HopliteStack(Player player) : base(TokenType.HopliteStack)
     {
         _playerColor = player.Color;
@@ -22,7 +28,17 @@ public class HopliteStack : TokenModel, IPlayerOwned
     public void AddHoplite(HopliteUnit hoplite)
     {
         _hoplites.Add(hoplite);
-        EventBus.SendEvent(new HopliteCountEvent(RegionId, _playerColor, _hoplites.Count));
+        OnCountChanged?.Invoke(_hoplites.Count);
+    }
+    public bool RemoveHoplite(HopliteUnit hopliteUnit)
+    {
+        if(!_hoplites.Remove(hopliteUnit)) {
+            Debug.LogWarning("Hoplite not found in stack.");
+            return false;
+        } else {
+            OnCountChanged?.Invoke(_hoplites.Count);
+        }
+        return true;
     }
     public HopliteUnit RemoveHoplite()
     {
@@ -33,7 +49,6 @@ public class HopliteStack : TokenModel, IPlayerOwned
         var index = _hoplites.Count - 1;
         var hoplite = _hoplites[index];
         _hoplites.RemoveAt(index);
-        EventBus.SendEvent(new HopliteCountEvent(RegionId, _playerColor, _hoplites.Count));
         OnCountChanged?.Invoke(_hoplites.Count);
         return hoplite;
     }
@@ -43,9 +58,5 @@ public class HopliteStack : TokenModel, IPlayerOwned
         {
             h.ChangeRegion(regionId);
         }
-    }
-    public IReadOnlyList<HopliteUnit> GetHoplites()
-    {
-        return _hoplites;
     }
 }

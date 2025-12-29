@@ -54,7 +54,7 @@ public class Player
     }
     public void TakeCombatCards(int count) 
     {
-        List<CardData> drawnCards = GameState.Instance.CombatCardsDeck.DrawMultiple(count);
+        List<CardData> drawnCards = GameContext.Instance.CombatCardsDeck.DrawMultiple(count);
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
         OnPlayerInfoChange?.Invoke(this);
     }

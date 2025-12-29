@@ -10,16 +10,16 @@ public class CardSelectPanel
     private Action OnSelectionCompleted;
 
     public void SetCardSelected(CardArtifact chosenCard) {
-        if (GameState.Instance.CurrentPlayer == null) {
+        if (GameContext.Instance.CurrentPlayer == null) {
             Debug.LogWarning("No current player when selecting artifact card!");
             return;
         }
 
-        GameState.Instance.CurrentPlayer.TakeArtifactCard(chosenCard);
+        GameContext.Instance.CurrentPlayer.TakeArtifactCard(chosenCard);
 
-        if (GameState.Instance.ArtifactDeck.RemoveCard(chosenCard)) {
-            GameState.Instance.ArtifactDeck.UniteDiscardWithDeck();
-            GameState.Instance.ArtifactDeck.Shuffle();
+        if (GameContext.Instance.ArtifactDeck.RemoveCard(chosenCard)) {
+            GameContext.Instance.ArtifactDeck.UniteDiscardWithDeck();
+            GameContext.Instance.ArtifactDeck.Shuffle();
         } else {
             Debug.LogWarning($"Unable to remove card from deck in {this.GetType().Name}!");
         }  
@@ -34,10 +34,10 @@ public class CardSelectPanel
         OnSelectionCompleted?.Invoke();
     }
     private void SelectArtifactCard(Player player, int cardCount, Action onCompleted) {
-        GameState.Instance.CurrentPlayer = player;
+        GameContext.Instance.CurrentPlayer = player;
         OnSelectionCompleted = onCompleted;
 
-        List<CardArtifact> artifactCards = GameState.Instance.ArtifactDeck
+        List<CardArtifact> artifactCards = GameContext.Instance.ArtifactDeck
             .DrawMultiple(cardCount)
             .Cast<CardArtifact>()
             .ToList();

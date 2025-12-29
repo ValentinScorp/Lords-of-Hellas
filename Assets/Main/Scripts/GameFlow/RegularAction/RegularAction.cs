@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class RegularAction : IGameEvent
+public class RegularAction
 {
     public int HeroSteps;
     public int HoplitesSteps;
@@ -43,21 +43,33 @@ public class RegularAction : IGameEvent
     }
     private void MakeHoplitesMoveList()
     {
-        var registry = ServiceLocator.Get<RegionDataRegistry>();
-        foreach (var region in GameState.Instance.RegionStatuses) {
-            var data = registry.GetRegionData(region.RegionId);
-            if (data == null) continue;
+        var hopliteStacks = GameContext.Instance.RegionDataRegistry.GetHopliteStacks(Player.Color);
 
-            foreach (var token in data.Tokens) {
-                if (token is HopliteStack stack && stack.PlayerColor == Player.Color) {
-                    foreach (var hoplite in stack.GetHoplites()) {
-                        HoplitesMoveList.Add(new HopliteMoveInfo {
-                            Hoplite = hoplite,
-                            Moved = false
-                        });
-                    }
-                }
+        foreach(var stack in hopliteStacks) {
+            foreach (var hoplite in stack.Hoplites) {
+                HoplitesMoveList.Add(new HopliteMoveInfo {
+                    Hoplite = hoplite,
+                    Moved = false
+                });
             }
         }
+       
+    }
+    public bool TryTakeUnmovedHoplite(HopliteStack hopliteStack, out HopliteUnit unmovedHoplite)
+    {
+        unmovedHoplite = null;
+        if (hopliteStack == null) {
+            return false;
+        }
+        foreach (var hoplite in hopliteStack.Hoplites) {
+            var moveInfo = HoplitesMoveList.FirstOrDefault(h => h.Hoplite == hoplite);
+            if (moveInfo != null && !moveInfo.Moved) {
+                // moveInfo.Moved = true;
+                unmovedHoplite = hoplite;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

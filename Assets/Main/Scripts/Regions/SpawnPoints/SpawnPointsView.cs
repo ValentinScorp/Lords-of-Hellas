@@ -63,12 +63,11 @@ public class SpawnPointsView : MonoBehaviour
         Vector3 min = transform.TransformPoint(bounds.min);
         Vector3 max = transform.TransformPoint(bounds.max);
 
-        int idCounter = 0;
         for (float x = min.x; x <= max.x; x += _step) {
             for (float z = min.z; z <= max.z; z += _step) {
                 Vector3 pos = new Vector3(x, 0f, z);
                 if (IsPointInsideMesh(pos)) {
-                    _spawnPoints.Add(new(_regionId, idCounter++, pos));
+                    _spawnPoints.Add(new(_regionId, pos));
                 }
             }
         }

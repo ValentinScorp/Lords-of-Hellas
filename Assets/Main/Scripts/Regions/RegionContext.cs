@@ -5,25 +5,51 @@ using System.Threading;
 using UnityEngine;
 
 [System.Serializable]
-public class RegionData
+public class RegionContext
 {
     public RegionId RegionId { get; private set; }
-    public RegionConfig RegionStaticData { get; private set; }
+    public RegionConfig RegionConfig { get; private set; }
     public bool HasTemple { get; set; }
     public PlayerColor OwnedBy { get; set; }
     public List<Quest> ActiveQuests { get; private set; } = new();
     public bool IsFortified { get; private set; }
 
     public event Action<PlayerColor> OnOwnerChanged;
+    public event Action<TokenModel> OnTokenAdded;
+    public event Action<TokenModel> OnTokenRemoved;
 
     [SerializeField] private List<TokenModel> _tokens = new();
     public IReadOnlyList<TokenModel> Tokens => _tokens;
 
-    public RegionData(RegionConfig regionCfg)
+    public RegionContext(RegionConfig regionCfg)
     {
         RegionId = RegionIdParser.Parse(regionCfg.RegionName);
-        RegionStaticData = regionCfg;
+        RegionConfig = regionCfg;
         OwnedBy = PlayerColor.Gray;
+    }
+    public void RegisterHopliteUnit(HopliteUnit hopliteUnit)
+    {
+        if (ContainsAnotherHopliteOfColor(hopliteUnit.PlayerColor, out var foundHopliteStack)) {
+            foundHopliteStack.AddHoplite(hopliteUnit);
+        } else {
+            var hopliteStack = new HopliteStack(hopliteUnit);
+            AddToken(hopliteStack);
+        }        
+    }
+    public bool UnregisterHopliteUnit(HopliteUnit hopliteUnit)
+    {
+        if (!ContainsAnotherHopliteOfColor(hopliteUnit.PlayerColor, out var hopliteStack)) {
+            Debug.Log($"Can't unregister hopliteUnit from region {RegionId}");
+            return false;
+        }
+
+        if (hopliteStack.RemoveHoplite(hopliteUnit)) {
+            if (hopliteStack.Count == 0) {
+                RemoveToken(hopliteStack);
+            }
+            return true;
+        }
+        return false;        
     }
     public void RegisterToken<T>(T token) where T : TokenModel
     {
@@ -37,31 +63,27 @@ public class RegionData
             } else {
                 hopliteCount = hopliteStack.Count;
                 hopliteStack.ChangeHoplitesRegion(RegionId);
-                _tokens.Add(hopliteStack);
+                AddToken(hopliteStack);                
             }
-            if (hopliteCount >= RegionStaticData.PopulationStrength) {
+            if (hopliteCount >= RegionConfig.PopulationStrength) {
                 ChangeOwner(hopliteStack.PlayerColor);
             }
         } else if (token is Hero hero) {
             hero.RegionId = RegionId;
-            hero.LandId = GetLandId(RegionStaticData.LandColor);
-            _tokens.Add(hero);
+            hero.LandId = GetLandId(RegionConfig.LandColor);
+            AddToken(hero);
         }
     }
     public void RemoveToken<T>(T token) where T : TokenModel
     {
-        if (token is HopliteStack hoplite) {
-            if (hoplite.Count <= 1) {
-                _tokens.Remove(token);
-                ChangeOwner(PlayerColor.Gray);
+        if (token is HopliteStack hopliteStack) {
+            if (hopliteStack.Count <= 1) {
+                RemoveToken(token);
             } else {
-                hoplite.RemoveHoplite();
+                hopliteStack.RemoveHoplite();
             }
         } else {
-            _tokens.Remove(token);
-            if (token is Hero hero) {
-                hero.RegionId = RegionId.Unknown;
-            }
+            RemoveToken(token);
         }
     }
     public bool FindToken(TokenType tokenType, PlayerColor color, out TokenModel token)
@@ -131,5 +153,28 @@ public class RegionData
                 Debug.LogError($"Unknown land color: {landColor}");
                 return LandId.Red;
         }
+    }
+    public bool TryGetToken(TokenType tokenType, PlayerColor color, out TokenModel token)
+    {
+        foreach (var t in _tokens) {
+            if (t.Type == tokenType && t is IPlayerOwned owned && owned.PlayerColor == color) {
+                token = t;
+                return true;
+            }
+        }
+        token = null;
+        return false;
+    }
+    private void AddToken(TokenModel token)
+    {
+        token.RegionId = RegionId;
+        _tokens.Add(token);         
+        OnTokenAdded?.Invoke(token);
+    }
+    private void RemoveToken(TokenModel token)
+    {
+        token.RegionId = RegionId.Unknown;
+        _tokens.Remove(token);        
+        OnTokenRemoved?.Invoke(token);
     }
 }

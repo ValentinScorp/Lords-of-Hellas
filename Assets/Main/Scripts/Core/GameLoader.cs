@@ -17,10 +17,10 @@ public class GameLoader : MonoBehaviour
     private GameManager _gameManager;
     private TokenPlacementManager _tokenPlacementManager;
     private TokenPlacementViewModel _tokenPlacementViewModel;
-    private RegionDataRegistry _regionDataRegistry = new();
     private CardSelectPanel _cardSelectPanel;
     private TokenSelector _tokenSelector;
     private TokenMover _tokenMover;
+    private TokenPlacer _tokenPlacer;
     private RaycastIntersector _raycastBoard;
     private UiRegistry _uiRegistry = new();
 
@@ -40,13 +40,12 @@ public class GameLoader : MonoBehaviour
         ServiceLocator.Register(_canvas);
         ServiceLocator.Register(_userInputController);
 
-        GameData.Instance.Initialize();
-        GameState.Instance.Initialize();
+        GameContent.Instance.Initialize();
+        GameConfig.Instance.Initialize();
+        GameContext.Instance.Initialize();
 
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
-
-        ServiceLocator.Register(_regionDataRegistry);
 
        _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
@@ -68,14 +67,19 @@ public class GameLoader : MonoBehaviour
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
 
-        _gameManager = new GameManager(GameData.Instance, _tokenPlacementManager, _cardSelectPanel);
+        _gameManager = new GameManager(GameContent.Instance, _tokenPlacementManager, _cardSelectPanel);
         _playerInfoPanelView.Subscribe(_gameManager.GamePhaseManager);
+
+        ServiceLocator.Register(new TokenVisualChanger(GameContent.TokenMaterialPalette));
 
         _tokenSelector = new TokenSelector();
         ServiceLocator.Register(_tokenSelector);
 
         _tokenMover = new TokenMover();
         ServiceLocator.Register(_tokenMover);
+
+        _tokenPlacer = new TokenPlacer();
+        ServiceLocator.Register(_tokenPlacer);
 
         _startPlacementButton.onClick.AddListener(_gameManager.StartGame);
         _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;        

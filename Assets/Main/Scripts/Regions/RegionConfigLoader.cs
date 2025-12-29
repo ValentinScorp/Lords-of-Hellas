@@ -1,16 +1,23 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class RegionStaticDataLoader
+public class RegionConfigLoader
 {
     private RegionJsonWrapper RegionJsonWrapper { get; set; } = new();
 
-    public bool LoadMapData() {
-        return LoadFromFile("MapStructure.json");
+    public bool TryLoadRegions(out List<RegionConfig> regions) {
+        return TryLoadFromFile("MapStructure.json", out regions);
     }
-    private bool LoadFromFile(string filePath) {
+    private bool TryLoadFromFile(string filePath, out List<RegionConfig> regions) {
+        regions = new List<RegionConfig>();
+
         string fullPath = Application.dataPath + "/Main/Resources/" + filePath;
+        if (!File.Exists(fullPath)) {
+            Debug.LogError($"File does not exist: {fullPath}");
+            return false;
+        }
         if (string.IsNullOrEmpty(fullPath) || !File.Exists(fullPath)) {
             Debug.LogError($"File path is invalid or file does not exist: {fullPath}");
             return false;
@@ -26,10 +33,8 @@ public class RegionStaticDataLoader
         foreach (var jsonRegion in RegionJsonWrapper.regions) {
             RegionConfig regionData = new();
             CopyRegionData(jsonRegion, regionData);
-           
-            GameData.Instance.RegionStaticData.Add(regionData);            
-        }
-        
+            regions.Add(regionData);
+        }        
         return true;
     }
     private void CopyRegionData(RegionJson source, RegionConfig dest) {

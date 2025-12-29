@@ -3,7 +3,8 @@ using UnityEngine;
 public class RegionView : MonoBehaviour
 {
     private RegionId _regionId = RegionId.Unknown;
-    private RegionData _regionData;
+    private RegionViewController _regionViewController;
+    private RegionContext _regionContext;
     private RegionAreaView _areaView;
     private RegionBorderView _borderView;
     private SpawnPointsView _spawnPoint;
@@ -11,6 +12,8 @@ public class RegionView : MonoBehaviour
     private void Awake()
     {
         _regionId = RegionIdParser.Parse(gameObject.name);
+
+        _regionViewController = new(_regionId);
 
         if (_regionId == RegionId.Unknown) {
             Debug.LogWarning($"RegionView '{name}' has unknown RegionId");
@@ -33,17 +36,33 @@ public class RegionView : MonoBehaviour
     }
     private void Start()
     {
-        _regionData = ServiceLocator.Get<RegionDataRegistry>().GetRegionData(_regionId);
-        if (_regionData == null) {
+        _regionContext = GameContext.Instance.RegionDataRegistry.GetRegionContext(_regionId);
+        if (_regionContext == null) {
             Debug.LogError($"RegionView '{name}' could not get RegionData for RegionId {_regionId}");
             return;
         }
-        _regionData.OnOwnerChanged += _areaView.OnOwnerChanged;
+        _regionContext.OnOwnerChanged += _areaView.OnOwnerChanged;
+        _regionContext.OnTokenAdded += OnTokenPlaced;
+        _regionContext.OnTokenRemoved += OnTokenRemoved;
     }
     private void OnDestroy()
     {
-        if (_regionData != null) {
-            _regionData.OnOwnerChanged -= _areaView.OnOwnerChanged;
+        if (_regionContext != null) {
+            _regionContext.OnOwnerChanged -= _areaView.OnOwnerChanged;
+             _regionContext.OnTokenAdded -= OnTokenPlaced;
+            _regionContext.OnTokenRemoved -= OnTokenRemoved;
         }
+    }
+    private void OnTokenPlaced(TokenModel token)
+    {
+        var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
+        TokenView tokenView = tokenPrefabFactory.CreateTokenView(token);
+
+        tokenView.AdjustPositionToSpawnPoint();
+        tokenView.ChangeToPlayerMaterial();
+    }
+    private void OnTokenRemoved(TokenModel token)
+    {
+        // TODO
     }
 }

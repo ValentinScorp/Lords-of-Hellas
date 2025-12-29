@@ -10,8 +10,8 @@ public class TokenPlacementManager
     private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
     private readonly RegionsView _regionsView;
-    private TokenVisualChanger _tokenVisualChanger;
-    private RegionDataRegistry _regionDataRegistry;
+    
+    private RegionsContext _regionDataRegistry;
     private TokenPlacementRecorder _recorder;
     private int _startupPlacementCounter = 0;
     private const int StartupPlacementCounterMax = 3;
@@ -28,10 +28,9 @@ public class TokenPlacementManager
 
     public TokenPlacementManager(RegionsView regionVisuals) {
         _tokenModelFactory = new TokenModelFactory();
-        _regionDataRegistry = ServiceLocator.Get<RegionDataRegistry>();
+        _regionDataRegistry = GameContext.Instance.RegionDataRegistry;
         _regionsView = regionVisuals;
-        _tokenVisualChanger = new TokenVisualChanger(GameData.TokenMaterialPalette);
-        ServiceLocator.Register(_tokenVisualChanger);
+        
         _recorder = new();
     }
     public void InitiatePlacing(Player player) {
@@ -95,10 +94,10 @@ public class TokenPlacementManager
         return true;
     }
     private void PlaceToken(RegionId regionId) {
-        PlayerColor color = GameState.Instance.CurrentPlayer.Color;
+        PlayerColor color = GameContext.Instance.CurrentPlayer.Color;
         RecordStep(regionId, color, _tokenHolder.TokenView.TokenType);
-        _regionDataRegistry.RegisterToken(regionId, _currentToken);
         HandleVisuals(_tokenHolder.TokenView.TokenType, regionId, color);
+        _regionDataRegistry.RegisterToken(regionId, _currentToken);
         OnTokenPlaced?.Invoke();
         _currentToken = null;
     }
@@ -120,7 +119,7 @@ public class TokenPlacementManager
         }
         SpawnPoint spawn = _regionsView.PlaceToken(_tokenHolder.TokenView, regionId, _tokenHolder.GetGameObjectPosition());
         if (spawn != null) {
-            _tokenVisualChanger.PrepareTokenPlacement(_tokenHolder.TokenView, color);
+            ServiceLocator.Get<TokenVisualChanger>().PrepareTokenPlacement(_tokenHolder.TokenView, color);
             _tokenHolder.SetGameObjectPosition(spawn.Position);
             _tokenHolder.UnattachToken();
         }
@@ -129,7 +128,7 @@ public class TokenPlacementManager
         _tokenHolder.DestroyTokenView();
         _currentToken = null;
         _startupPlacementCounter = 0;
-        GameState.Instance.CurrentPlayer.ApplyHeroStartingBonus(OnHeroBonusCompleted);        
+        GameContext.Instance.CurrentPlayer.ApplyHeroStartingBonus(OnHeroBonusCompleted);        
     }
     public void Cancel() {
         for (int i=0; i < _startupPlacementCounter; i++) {

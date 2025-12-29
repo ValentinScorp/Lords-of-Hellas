@@ -29,7 +29,7 @@ public class HeroMoveAction
         _moveRoute.AddRouteNode(token.RegionId, token.SpawnPoint);
 
         _tokenMover.CreateGhostToken(token);
-        _tokenMover.ProceedStep(token, token.Model.RegionId, HandleStep);
+        _tokenMover.CatchNeibRegionPoint(token, token.Model.RegionId, HandleStep);
     }
     private void HandleStep(SpawnPoint spawnPoint)
     {
@@ -39,7 +39,7 @@ public class HeroMoveAction
         if (_moveRoute.Complete) {
             HandleMoveComplete(spawnPoint);
         } else {
-            _tokenMover.ProceedStep(_heroToken, spawnPoint.RegionId, HandleStep);
+            _tokenMover.CatchNeibRegionPoint(_heroToken, spawnPoint.RegionId, HandleStep);
         }
     }
     private void HandleMoveComplete(SpawnPoint spawnPoint)
@@ -47,7 +47,7 @@ public class HeroMoveAction
         ServiceLocator.Get<RegionsView>().PlaceTokenAtSpawn(_heroToken, spawnPoint);      
         ServiceLocator.Get<TokenVisualChanger>().PrepareTokenPlacement(_heroToken, _heroToken.PlayerColor);
 
-        ServiceLocator.Get<RegionDataRegistry>().RegisterToken(spawnPoint.RegionId, _heroToken.Model);
+        GameContext.Instance.RegionDataRegistry.RegisterToken(spawnPoint.RegionId, _heroToken.Model);
 
         _tokenMover.DestroyVisuals();
         _moveRoute.Clear();

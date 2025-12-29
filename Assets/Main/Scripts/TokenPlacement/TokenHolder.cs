@@ -3,6 +3,7 @@ public class TokenHolder
 {
     private TokenView _tokenView = null;
     public TokenView TokenView => _tokenView;
+    public TokenModel TokenModel => _tokenView.Model;
     public TokenHolder() {
     }
     public bool HasObject() {

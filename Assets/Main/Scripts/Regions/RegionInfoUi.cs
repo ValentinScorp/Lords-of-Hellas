@@ -18,10 +18,10 @@ public class RegionInfoUi : MonoBehaviour
         ServiceLocator.Register(_regionInfoUiController);
     }
 
-    public void ShowRegionInfo(RegionData regionData)
+    public void ShowRegionInfo(RegionContext regionData)
     {
-        _regionNameText.text = $"Region Name: {regionData.RegionStaticData.RegionName}";
-        _populationStrengthText.text = $"Population Strength: {regionData.RegionStaticData.PopulationStrength}";
+        _regionNameText.text = $"Region Name: {regionData.RegionConfig.RegionName}";
+        _populationStrengthText.text = $"Population Strength: {regionData.RegionConfig.PopulationStrength}";
         _ownerColorText.text = $"Owned By: {regionData.OwnedBy.ToString()}";
         _hoplitesCount.text = $"Hoplites count: {regionData.GetHopliteCount(regionData.OwnedBy)}";
         //_hoplitesCount.text = $"Hoplites Count: {regionRuntimeData.Hoplites.Count}";

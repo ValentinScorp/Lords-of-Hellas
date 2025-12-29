@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RegionDataRegistry
+public class RegionsContext
 {
-    private readonly Dictionary<RegionId, RegionData> _regionMap = new();
-    private RegionStaticDataLoader _mapLoader = new();
+    private List<RegionContext> _regionsContextList;
+    public List<RegionContext> RegionsContextList => _regionsContextList;
+    private readonly Dictionary<RegionId, RegionContext> _regionMap = new();
 
-    public RegionDataRegistry()
+    public RegionsContext(List<RegionConfig> regionConfigs)
     {
-        _mapLoader.LoadMapData();
-
-        foreach (var regionData in GameData.Instance.RegionStaticData) {
-            RegionData regionStatus = new(regionData);
-            GameState.Instance.RegionStatuses.Add(regionStatus);
+        _regionsContextList = new();
+        foreach (var regConf in regionConfigs) {
+            var regionData = new RegionContext(regConf);            
+            _regionsContextList.Add(regionData);
         }
-        foreach (var region in GameState.Instance.RegionStatuses) {
+        foreach (var region in _regionsContextList) {
             _regionMap[region.RegionId] = region;
         }
 
@@ -23,35 +23,62 @@ public class RegionDataRegistry
 
     private void BuildGraph()
     {
-        foreach (RegionData region in GameState.Instance.RegionStatuses) {
-            region.RegionStaticData.RegionConnections = new List<RegionConnection>();
+        foreach (RegionContext region in _regionsContextList) {
+            region.RegionConfig.RegionConnections = new List<RegionConnection>();
 
-            foreach (string neighborName in region.RegionStaticData.SourceData.neighbors_land) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionData neighbor)) {
-                    region.RegionStaticData.RegionConnections.Add(new RegionConnection {
+            foreach (string neighborName in region.RegionConfig.SourceData.neighbors_land) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionContext neighbor)) {
+                    region.RegionConfig.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Land
                     });
                 } else {
-                    Debug.LogWarning($"Land neighbor '{neighborName}' not found for region '{region.RegionStaticData.RegionName}'");
+                    Debug.LogWarning($"Land neighbor '{neighborName}' not found for region '{region.RegionConfig.RegionName}'");
                 }
             }
-            foreach (string seaNeighborName in region.RegionStaticData.SourceData.neighbors_sea) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionData neighbor)) {
-                    region.RegionStaticData.RegionConnections.Add(new RegionConnection {
+            foreach (string seaNeighborName in region.RegionConfig.SourceData.neighbors_sea) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionContext neighbor)) {
+                    region.RegionConfig.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Sea
                     });
                 } else {
-                    Debug.LogWarning($"Sea neighbor '{seaNeighborName}' not found for region '{region.RegionStaticData.RegionName}'");
+                    Debug.LogWarning($"Sea neighbor '{seaNeighborName}' not found for region '{region.RegionConfig.RegionName}'");
                 }
             }
         }
     }
-
-    public RegionData GetRegionData(RegionId regionId)
+    public bool TryGetToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
-        if (_regionMap.TryGetValue(regionId, out RegionData regionData)) {
+        if (_regionMap.TryGetValue(regionId, out var region)) {
+            return region.TryGetToken(tokenType, playerColor, out token);
+        }
+        token = null;
+        Debug.LogWarning($"Region {regionId} not found in map.");
+        return false;
+    }
+    public bool MoveHopliteUnit(HopliteUnit hopliteUnit, RegionId regionId)
+    {
+        if (hopliteUnit == null) {
+            return false;
+        }
+        RegionContext fromRegion = GetRegionContext(hopliteUnit.RegionId);
+        RegionContext toRegion = GetRegionContext(regionId);
+
+        if (fromRegion == null || toRegion == null) {
+            return false;
+        }
+        if (fromRegion.UnregisterHopliteUnit(hopliteUnit)) {            
+            toRegion.RegisterHopliteUnit(hopliteUnit);
+            hopliteUnit.ChangeRegion(regionId);
+            return true;            
+        }        
+        return false;    
+    }
+
+    public RegionContext GetRegionContext(RegionId regionId)
+    {
+        if (_regionMap.TryGetValue(regionId, out RegionContext regionData)) {
             return regionData;
         }
         Debug.LogWarning($"Region with ID {regionId} not found in _regionMap");
@@ -100,6 +127,18 @@ public class RegionDataRegistry
         regionId = RegionId.Unknown;
         return false;
     }
+    public List<HopliteStack> GetHopliteStacks(PlayerColor playerColor)
+    {
+        List<HopliteStack> hopliteStacks = new();
+        foreach (var region in _regionsContextList) {
+            foreach (var token in region.Tokens) {
+                if (token is HopliteStack stack && stack.PlayerColor == playerColor) {
+                    hopliteStacks.Add(stack);
+                }
+            }
+        }
+        return hopliteStacks;
+    }
     public int GetHopliteNum(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
@@ -108,9 +147,10 @@ public class RegionDataRegistry
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
+    
     public bool RegisterToken(RegionId regionId, TokenModel token)
     {
-        var region = GetRegionData(regionId);
+        var region = GetRegionContext(regionId);
         if (region == null) {
             Debug.LogWarning($"Region {regionId} not found for registering token.");
             return false;
@@ -123,7 +163,7 @@ public class RegionDataRegistry
     public bool UnregisterToken(RegionId regionId, TokenType tokenType, PlayerColor color)
     {
         Debug.Log("Unregistering token " + tokenType.ToString());
-        var region = GetRegionData(regionId);
+        var region = GetRegionContext(regionId);
         if (region == null) {
             Debug.LogWarning($"Region {regionId} not found for unregistering token.");
             return false;
@@ -146,18 +186,18 @@ public class RegionDataRegistry
         }
         return regionIds;
     }
-    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionData> neighbors)
+    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionContext> neighbors)
     {
-        neighbors = new List<RegionData>();
+        neighbors = new List<RegionContext>();
         if (!_regionMap.TryGetValue(regionId, out var region)) {
             Debug.LogWarning($"Region {regionId} not found in map.");
             return false;
         }
-        if (region.RegionStaticData.RegionConnections == null) {
+        if (region.RegionConfig.RegionConnections == null) {
             Debug.LogWarning($"Region {regionId} neighbors are not initialized.");
             return false;
         }
-        foreach (var rc in region.RegionStaticData.RegionConnections) {
+        foreach (var rc in region.RegionConfig.RegionConnections) {
             if (_regionMap.TryGetValue(rc.TargetRegionId, out var neighborRegion)) {
                 neighbors.Add(neighborRegion);
             } else {

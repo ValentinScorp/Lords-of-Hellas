@@ -75,23 +75,23 @@ public class TokenView : MonoBehaviour, ISelectable
     public void SetGhostMaterial()
     {
         if (_renderer != null) {
-            _renderer.material = GameData.TokenMaterialPalette.ghostMaterial;
+            _renderer.material = GameContent.TokenMaterialPalette.ghostMaterial;
         }
     }
     public void SetGhostColor(TerrainValidator.GhostState ghostState)
     {
         switch (ghostState) {
             case TerrainValidator.GhostState.Neutral:
-                SetGhostColor(GameData.TokenMaterialPalette.ghostColorInit);
+                SetGhostColor(GameContent.TokenMaterialPalette.ghostColorInit);
                 break;
             case TerrainValidator.GhostState.Allowed:
-                SetGhostColor(GameData.TokenMaterialPalette.ghostColorOk);
+                SetGhostColor(GameContent.TokenMaterialPalette.ghostColorOk);
                 break;
             case TerrainValidator.GhostState.Forbidden:
-                SetGhostColor(GameData.TokenMaterialPalette.ghostColorError);
+                SetGhostColor(GameContent.TokenMaterialPalette.ghostColorError);
                 break;
             default:
-                SetGhostColor(GameData.TokenMaterialPalette.ghostColorInit);
+                SetGhostColor(GameContent.TokenMaterialPalette.ghostColorInit);
                 break;
         }
     }
@@ -102,7 +102,31 @@ public class TokenView : MonoBehaviour, ISelectable
             return;
         }
         _renderer.material.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
-
+    }
+    public void SetParent(Transform parent)
+    {
+        transform.SetParent(parent);
+    }
+    public void AdjustPositionToSpawnPoint()
+    {
+        if (SpawnPoint != null) {
+            SetPosition(SpawnPoint.Position);
+        } else {
+            Debug.LogWarning("SpawnPoint doesn't set in TokenView!");
+        }
+    }
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+    public void ChangeToPlayerMaterial()
+    {
+        var renderer = gameObject.GetComponentInChildren<Renderer>();
+        if (renderer == null) {
+            Debug.LogWarning("No renderer found!");
+            return;
+        }
+        renderer.material = GameContent.TokenMaterialPalette.GetPlayerMaterial(PlayerColor);
     }
     public void SetLabel(string text)
     {

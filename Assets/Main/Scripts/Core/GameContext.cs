@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static Board;
 
-public class GameState
+public class GameContext
 {
-    private static GameState _instance;
-    public static GameState Instance => _instance ??= new GameState();
-    private GameState() { }
+    private static GameContext _instance;
+    public static GameContext Instance => _instance ??= new GameContext();
+    private GameContext() { }
 
     private CardDeck _eventDeck;
     private CardDeck _monsterAttackDeck;
@@ -24,9 +22,7 @@ public class GameState
     public CardDeck ArtifactDeck => _artifactDeck;
     public CardDeck BlessingDeck => _blessingDeck;
     public TemplePool TemplePool => _templePool;
-
-    private List<RegionData> _regionStatuses = new();
-    public List<RegionData> RegionStatuses => _regionStatuses;
+    public RegionsContext RegionDataRegistry { get; private set; }
 
     public event Action<Player> OnPlayerChanged;
     public Player CurrentPlayer {
@@ -39,15 +35,13 @@ public class GameState
     }
     public IReadOnlyList<Player> Players => _players;
     public void Initialize() {
-
         List<CardData> eventCards = new List<CardData>();
-        eventCards.AddRange(GameData.Instance.MonsterCards);
-        eventCards.AddRange(GameData.Instance.QuestCards);
+        eventCards.AddRange(GameContent.Instance.MonsterCards);
+        eventCards.AddRange(GameContent.Instance.QuestCards);
         _eventDeck = new CardDeck(eventCards);
-        var selectedCards = GameConfig.Instance.CardsEvent;
 
-        if (selectedCards != null) {
-            foreach (var card in selectedCards) {
+        if (GameConfig.Instance.CardsEvent != null) {
+            foreach (var card in GameConfig.Instance.CardsEvent) {
                 if (card is CardQuest quest) {
                     if (_eventDeck.RemoveCard(quest)) {
                         Debug.Log("Removing cards!" + quest.Title);
@@ -56,13 +50,15 @@ public class GameState
             }
         }
 
-        _monsterAttackDeck = new CardDeck(GameData.Instance.MonsterAttackCards);
+        _monsterAttackDeck = new CardDeck(GameContent.Instance.MonsterAttackCards);
         _combatCardsDeck = new CardDeck(CardLoader.Instance.CombatCards);
         _artifactDeck = new CardDeck(CardLoader.Instance.ArtifactCards);
         _blessingDeck = new CardDeck(CardLoader.Instance.BlessingCards);
 
-        foreach (var pConfig in GameData.Instance.PlayerConfigs) {
-            var player = new Player(pConfig);
+        RegionDataRegistry = new(GameContent.Instance.RegionsConfig);
+
+        foreach (var playerCfg in GameConfig.Instance.Players) {
+            var player = new Player(playerCfg);
             _players.Add(player);
         }
     }  

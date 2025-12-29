@@ -31,7 +31,7 @@ public class GamePhasePlayerTurn : GamePhaseBase
         PhaseManager.NextPhase(this);
     }
     private void HandleNextPlayer(Player player) {
-        GameState.Instance.CurrentPlayer = player;
+        GameContext.Instance.CurrentPlayer = player;
         InitPlayerTurn(player);
     }
     private void InitPlayerTurn(Player player) {

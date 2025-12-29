@@ -31,7 +31,7 @@ public class GamePhaseHeroPlacement : GamePhaseBase
         PhaseManager.NextPhase(this);
     }
     private void HandleNextPlayer(Player player) {
-        GameState.Instance.CurrentPlayer = player;
+        GameContext.Instance.CurrentPlayer = player;
         InitPlacement(player);
     } 
     private void  InitPlacement(Player player) {

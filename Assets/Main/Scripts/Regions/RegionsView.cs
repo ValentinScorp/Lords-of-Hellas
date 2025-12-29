@@ -1,12 +1,14 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RegionsView : MonoBehaviour
 {
+    private RegionsViewController _regionsViewController;
     private void Awake()
     {
-        ServiceLocator.Register(this);
+        _regionsViewController = new();
+        ServiceLocator.Register(_regionsViewController);
     }
+
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
     {
         var region = FindRegionById(regionId);
@@ -32,9 +34,8 @@ public class RegionsView : MonoBehaviour
         spawnPoint.Occupy();
         token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
         token.SpawnPoint = spawnPoint;
-        token.transform.position = spawnPoint.Position;
+        token.SetPosition(spawnPoint.Position);
     }
-
     public void RemoveToken(RegionId regionId, TokenType tokenType, PlayerColor color)
     {
         var region = FindRegionById(regionId);

@@ -16,8 +16,8 @@ public class RouteLink
         lineObject.transform.position += new Vector3(0f, 0.1f, 0f);
         _lineRenderer = lineObject.AddComponent<LineRenderer>();
         _lineRenderer.alignment = LineAlignment.TransformZ;
-        _lineRenderer.material = GameData.GlobalMaterials.routeLine;
-        _lineRenderer.material.color = GameData.PlayerColorPalette.GetColor(playerColor);
+        _lineRenderer.material = GameContent.GlobalMaterials.routeLine;
+        _lineRenderer.material.color = GameContent.PlayerColorPalette.GetColor(playerColor);
         _lineRenderer.startWidth = 0.1f;
         _lineRenderer.endWidth = 0.1f;
 

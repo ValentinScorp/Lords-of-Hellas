@@ -46,7 +46,7 @@ public class RegionAreaView : MonoBehaviour, ISelectable
         HandleOwnerChanged(newOwner);
     }
     private void HandleOwnerChanged(PlayerColor newOwner) {
-        var palette = GameData.PlayerColorPalette;
+        var palette = GameContent.PlayerColorPalette;
         Color color = palette.Grey;
 
         switch (newOwner) {

@@ -17,21 +17,13 @@ public class TokenMover
     {
         _raycastBoard = ServiceLocator.Get<RaycastIntersector>();
     }
-    public void ProceedStep(TokenView token, RegionId fromRegion, Action<SpawnPoint> onComplete, Action onCancel = null)    
+    public void CatchNeibRegionPoint(TokenView token, RegionId fromRegion, Action<SpawnPoint> onComplete, Action onCancel = null)    
     {
         _originToken = token;
         _prevReionId = fromRegion;
         _onComplete = onComplete;
 
         ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleSelections);
-
-        var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
-        RegionId regionId = token.Model.RegionId;
-
-        var neibRegions = regRegistry.GetNeighborRegionIds(regionId);
-        foreach (var regId in neibRegions) {
-            // Debug.Log($"Neighbor region: {regId}");  
-        }        
     }
     private void HandleSelections(List<SelectMgr.Target> targets)
     {
@@ -46,7 +38,7 @@ public class TokenMover
     }
     private void RegionHited(RegionAreaView region, Vector3 hitPoint)
     {
-        var regRegistry = ServiceLocator.Get<RegionDataRegistry>();
+        var regRegistry = GameContext.Instance.RegionDataRegistry;
 
         var neibRegions = regRegistry.GetNeighborRegionIds(_prevReionId);
         foreach (var regId in neibRegions) {
@@ -70,7 +62,6 @@ public class TokenMover
                 _tokenHolder.TokenView.SetGhostColor(state);
                 _currentRouteLink?.SetSecondNode(newPosition);
                 _currentRouteLink?.BuildArc();
-            //     _line?.SetPosition(1, newPosition);
             }
         }
     }
@@ -94,5 +85,20 @@ public class TokenMover
         _routeLinks.Clear();
         _currentRouteLink = null;
         _tokenHolder.DestroyTokenView();
+    }
+    public bool CanPlaceToken(out RegionId regionId) {
+        regionId = RegionId.Unknown;
+        if (!_tokenHolder.HasObject() || !_terrainValidator.IsCurrentStateAllowed) {
+            return false;
+        }
+        var position = _tokenHolder.GetGameObjectPosition();
+        if (!position.HasValue) 
+            return false;
+
+        if (!_terrainValidator.TryGetRegionIdAtPosition(position.Value, out regionId)) {
+            Debug.Log("Can't place: region not found at token position.");
+            return false;
+        }        
+        return true;
     }
 }
