@@ -43,6 +43,60 @@ public class TokenPlacementManager
     private void OnHeroBonusCompleted() {
         OnPlacementCompleted?.Invoke();        
     }
+    
+    public void UpdatePlacement(RaycastIntersector raycastBoard) {
+        if (!_tokenHolder.HasObject()) return;
+        if (raycastBoard.TryGetBoardPosition(out Vector3 newPosition)) {
+            if (_tokenHolder.GetGameObjectPosition() != newPosition) {
+                _tokenHolder.SetGameObjectPosition(newPosition);
+                var state = _terrainValidator.ValidatePlacement(newPosition);
+                _tokenHolder.TokenView.SetGhostColor(state);
+            }
+        }
+    }
+    private bool CanPlaceToken(out RegionId regionId) {
+        regionId = RegionId.Unknown;
+        if (!_tokenHolder.HasObject() || !_terrainValidator.IsCurrentStateAllowed) {
+            return false;
+        }
+        var position = _tokenHolder.GetGameObjectPosition();
+        if (!position.HasValue) 
+            return false;
+
+        if (!_terrainValidator.TryGetRegionIdAtPosition(position.Value, out regionId)) {
+            Debug.Log("Can't place: region not found at token position.");
+            return false;
+        }
+        if (!_rulesValidator.ValidateLogicalPlacement(_regionDataRegistry, regionId, _currentToken)) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void RecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
+        var position = _tokenHolder.GetGameObjectPosition();
+        if (position.HasValue) _recorder.AddStep(color, tokenType, regionId, position.Value);
+        _startupPlacementCounter++;
+    }
+    
+    public void FinalizePlacement() {
+        _tokenHolder.DestroyTokenView();
+        _currentToken = null;
+        _startupPlacementCounter = 0;
+        GameContext.Instance.CurrentPlayer.ApplyHeroStartingBonus(OnHeroBonusCompleted);        
+    }
+    public void Cancel() {
+        for (int i=0; i < _startupPlacementCounter; i++) {
+            _regionDataRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _regionsView.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _recorder.RemoveLastStep();
+        }
+        _startupPlacementCounter = 0;
+        _currentToken = null;
+        _tokenHolder.DestroyTokenView();        
+        _tokenPlacementPool.Reset();
+        InitiatePlacing(_currentPlayer);
+    } 
     public void StartPlacingToken(TokenType tokenType) {
         if (_tokenHolder.HasObject()) {
             return;
@@ -63,48 +117,30 @@ public class TokenPlacementManager
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
-        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleHits);
+        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleHits);
     }
-    public void UpdatePlacement(RaycastIntersector raycastBoard) {
-        if (!_tokenHolder.HasObject()) return;
-        if (raycastBoard.TryGetBoardPosition(out Vector3 newPosition)) {
-            if (_tokenHolder.GetGameObjectPosition() != newPosition) {
-                _tokenHolder.SetGameObjectPosition(newPosition);
-                var state = _terrainValidator.ValidatePlacement(newPosition);
-                _tokenHolder.TokenView.SetGhostColor(state);
+    private void HandleHits(List<SelectMgr.Target> targets)
+    {
+        if (_currentToken == null || targets == null) return;
+
+        foreach (var t in targets) {
+            if (t.Selectable is RegionAreaView regionArea) {
+                if (CanPlaceToken(out RegionId regionId)) {
+                    PlaceToken(regionId);
+                    ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
+                }                
+                break;
             }
         }
-    }
-    public bool CanPlaceToken(out RegionId regionId) {
-        regionId = RegionId.Unknown;
-        if (!_tokenHolder.HasObject() || !_terrainValidator.IsCurrentStateAllowed) {
-            return false;
-        }
-        var position = _tokenHolder.GetGameObjectPosition();
-        if (!position.HasValue) 
-            return false;
-
-        if (!_terrainValidator.TryGetRegionIdAtPosition(position.Value, out regionId)) {
-            Debug.Log("Can't place: region not found at token position.");
-            return false;
-        }
-        if (!_rulesValidator.ValidateLogicalPlacement(_regionDataRegistry, regionId, _currentToken)) {
-            return false;
-        }
-        return true;
     }
     private void PlaceToken(RegionId regionId) {
         PlayerColor color = GameContext.Instance.CurrentPlayer.Color;
         RecordStep(regionId, color, _tokenHolder.TokenView.TokenType);
         HandleVisuals(_tokenHolder.TokenView.TokenType, regionId, color);
+        
         _regionDataRegistry.RegisterToken(regionId, _currentToken);
         OnTokenPlaced?.Invoke();
         _currentToken = null;
-    }
-    private void RecordStep(RegionId regionId, PlayerColor color, TokenType tokenType) {
-        var position = _tokenHolder.GetGameObjectPosition();
-        if (position.HasValue) _recorder.AddStep(color, tokenType, regionId, position.Value);
-        _startupPlacementCounter++;
     }
     private void HandleVisuals(TokenType tokenType, RegionId regionId, PlayerColor color) {
         if (tokenType == TokenType.HopliteStack) {
@@ -124,36 +160,4 @@ public class TokenPlacementManager
             _tokenHolder.UnattachToken();
         }
     }    
-    public void FinalizePlacement() {
-        _tokenHolder.DestroyTokenView();
-        _currentToken = null;
-        _startupPlacementCounter = 0;
-        GameContext.Instance.CurrentPlayer.ApplyHeroStartingBonus(OnHeroBonusCompleted);        
-    }
-    public void Cancel() {
-        for (int i=0; i < _startupPlacementCounter; i++) {
-            _regionDataRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
-            _regionsView.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
-            _recorder.RemoveLastStep();
-        }
-        _startupPlacementCounter = 0;
-        _currentToken = null;
-        _tokenHolder.DestroyTokenView();        
-        _tokenPlacementPool.Reset();
-        InitiatePlacing(_currentPlayer);
-    } 
-    private void HandleHits(List<SelectMgr.Target> targets)
-    {
-        if (_currentToken == null || targets == null) return;
-
-        foreach (var t in targets) {
-            if (t.Selectable is RegionAreaView regionArea) {
-                if (CanPlaceToken(out RegionId regionId)) {
-                    PlaceToken(regionId);
-                    ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
-                }                
-                break;
-            }
-        }
-    }
 }

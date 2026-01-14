@@ -47,7 +47,7 @@ public class CameraHolder : MonoBehaviour
     }
     public bool IsPointerOverUI() {
         _pointerEventData = new PointerEventData(eventSystem);
-        _pointerEventData.position = Input.mousePosition;
+        _pointerEventData.position = Pointer.current?.position.ReadValue() ?? Vector2.zero;
 
         List<RaycastResult> results = new List<RaycastResult>();
         raycaster.Raycast(_pointerEventData, results);

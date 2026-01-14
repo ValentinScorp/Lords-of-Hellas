@@ -57,7 +57,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool MoveHopliteUnit(HopliteUnit hopliteUnit, RegionId regionId)
+    public bool MoveHopliteUnit(HopliteModel hopliteUnit, RegionId regionId)
     {
         if (hopliteUnit == null) {
             return false;
@@ -127,12 +127,12 @@ public class RegionsContext
         regionId = RegionId.Unknown;
         return false;
     }
-    public List<HopliteStack> GetHopliteStacks(PlayerColor playerColor)
+    public List<HopliteStackModel> GetHopliteStacks(PlayerColor playerColor)
     {
-        List<HopliteStack> hopliteStacks = new();
+        List<HopliteStackModel> hopliteStacks = new();
         foreach (var region in _regionsContextList) {
             foreach (var token in region.Tokens) {
-                if (token is HopliteStack stack && stack.PlayerColor == playerColor) {
+                if (token is HopliteStackModel stack && stack.PlayerColor == playerColor) {
                     hopliteStacks.Add(stack);
                 }
             }

@@ -4,13 +4,13 @@ using UnityEngine;
 public class TokenPlacementPool
 {
     private List<HeroModel> _hero = new List<HeroModel>();
-    private List<HopliteStack> _hoplites = new List<HopliteStack>();
+    private List<HopliteStackModel> _hoplites = new List<HopliteStackModel>();
     public void SetPlacementTargets(Player player) {
         Reset();
 
         _hero.Add(player.Hero);
-        var hs1 = new HopliteStack(player);
-        var hs2 = new HopliteStack(player);
+        var hs1 = new HopliteStackModel(player);
+        var hs2 = new HopliteStackModel(player);
         hs1.AddHoplite(player.TakeHoplite());
         hs2.AddHoplite(player.TakeHoplite());
         _hoplites.Add(hs1);

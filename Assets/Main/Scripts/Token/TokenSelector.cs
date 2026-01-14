@@ -15,7 +15,7 @@ public class TokenSelector
         _playerColor = playerColor;
         _tokenType = type;
         _handleSelection = handleToken;
-        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleHits);
+        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleHits);
     }
 
     private void HandleHits(List<SelectMgr.Target> targets)

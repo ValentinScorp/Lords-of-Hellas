@@ -93,7 +93,7 @@ public class SelectMgr
             }
         }
     }
-    public void ListenTokenHits(Action<List<Target>> onHitTargets)
+    public void ListenObjectsHits(Action<List<Target>> onHitTargets)
     {
         if (_onHitTargets != null) {
             Debug.LogWarning("ClickMgr: Overwriting existing click listener!");

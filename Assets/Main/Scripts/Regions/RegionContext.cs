@@ -27,16 +27,16 @@ public class RegionContext
         RegionConfig = regionCfg;
         OwnedBy = PlayerColor.Gray;
     }
-    public void RegisterHopliteUnit(HopliteUnit hopliteUnit)
+    public void RegisterHopliteUnit(HopliteModel hopliteUnit)
     {
         if (ContainsAnotherHopliteOfColor(hopliteUnit.PlayerColor, out var foundHopliteStack)) {
             foundHopliteStack.AddHoplite(hopliteUnit);
         } else {
-            var hopliteStack = new HopliteStack(hopliteUnit);
+            var hopliteStack = new HopliteStackModel(hopliteUnit);
             AddToken(hopliteStack);
         }        
     }
-    public bool UnregisterHopliteUnit(HopliteUnit hopliteUnit)
+    public bool UnregisterHopliteUnit(HopliteModel hopliteUnit)
     {
         if (!ContainsAnotherHopliteOfColor(hopliteUnit.PlayerColor, out var hopliteStack)) {
             Debug.Log($"Can't unregister hopliteUnit from region {RegionId}");
@@ -53,7 +53,7 @@ public class RegionContext
     }
     public void RegisterToken<T>(T token) where T : TokenModel
     {
-        if (token is HopliteStack hopliteStack) {
+        if (token is HopliteStackModel hopliteStack) {
             int hopliteCount = 0;
             if (ContainsAnotherHopliteOfColor(hopliteStack.PlayerColor, out var foundHopliteStack)) {
                 var hoplite = hopliteStack.RemoveHoplite();
@@ -75,7 +75,7 @@ public class RegionContext
     }
     public void RemoveToken<T>(T token) where T : TokenModel
     {
-        if (token is HopliteStack hopliteStack) {
+        if (token is HopliteStackModel hopliteStack) {
             if (hopliteStack.Count <= 1) {
                 RemoveToken(token);
             } else {
@@ -106,7 +106,7 @@ public class RegionContext
     }
     public int GetHopliteCount(PlayerColor color)
     {
-        var hoplite = _tokens.OfType<HopliteStack>().FirstOrDefault(h => h.PlayerColor == color);
+        var hoplite = _tokens.OfType<HopliteStackModel>().FirstOrDefault(h => h.PlayerColor == color);
         if (hoplite != null) {
             return hoplite.Count;
         }
@@ -118,12 +118,12 @@ public class RegionContext
     }
     public bool ContainsAnotherHoplite(PlayerColor color)
     {
-        return _tokens.OfType<HopliteStack>().Any(h => h.PlayerColor != color);
+        return _tokens.OfType<HopliteStackModel>().Any(h => h.PlayerColor != color);
     }
-    public bool ContainsAnotherHopliteOfColor(PlayerColor color, out HopliteStack hopliteStack)
+    public bool ContainsAnotherHopliteOfColor(PlayerColor color, out HopliteStackModel hopliteStack)
     {
         foreach (var token in _tokens) {
-            if (token is HopliteStack hs) {
+            if (token is HopliteStackModel hs) {
                 if (hs.PlayerColor == color) {
                     hopliteStack = hs;
                     return true;

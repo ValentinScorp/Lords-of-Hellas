@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class CardArtifactIconView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -16,7 +17,8 @@ public class CardArtifactIconView : MonoBehaviour, IPointerEnterHandler, IPointe
     private void Update() {
         if (_currentPreview != null) {
             Vector2 offset = new Vector2(10f, 10f);
-            _currentPreview.transform.position = Input.mousePosition + (Vector3)offset;
+            var pointerPosition = Pointer.current?.position.ReadValue() ?? Vector2.zero;
+            _currentPreview.transform.position = new Vector3(pointerPosition.x, pointerPosition.y, 0) + (Vector3)offset;
         }
     }
     private void ShowPreview() {
@@ -26,12 +28,13 @@ public class CardArtifactIconView : MonoBehaviour, IPointerEnterHandler, IPointe
         }
 
         if (_currentPreview == null) {
-            // Створюємо інстанс прев’ю
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             _currentPreview = Instantiate(_cardPreviewPrefab.gameObject, transform.root);
             var rectTransform = _currentPreview.GetComponent<RectTransform>();
             rectTransform.pivot = new Vector2(0f, 0f);
 
-            _currentPreview.transform.position = Input.mousePosition;
+            var pointerPosition = Pointer.current?.position.ReadValue() ?? Vector2.zero;
+            _currentPreview.transform.position = new Vector3(pointerPosition.x, pointerPosition.y, 0);
 
             rectTransform.anchoredPosition += new Vector2(10f, 10f);
         }

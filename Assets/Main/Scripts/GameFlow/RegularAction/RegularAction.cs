@@ -9,7 +9,7 @@ public class RegularAction
 
     public class HopliteMoveInfo
     {
-        public HopliteUnit Hoplite;
+        public HopliteModel Hoplite;
         public bool Moved;
     }
     public List<HopliteMoveInfo> HoplitesMoveList = new();
@@ -55,7 +55,7 @@ public class RegularAction
         }
        
     }
-    public bool TryTakeUnmovedHoplite(HopliteStack hopliteStack, out HopliteUnit unmovedHoplite)
+    public bool TryTakeUnmovedHoplite(HopliteStackModel hopliteStack, out HopliteModel unmovedHoplite)
     {
         unmovedHoplite = null;
         if (hopliteStack == null) {

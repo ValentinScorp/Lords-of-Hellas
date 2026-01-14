@@ -16,7 +16,8 @@ public class RaycastIntersector
     }
     public bool TryGetBoardPosition(out Vector3 position) {
         position = Vector3.zero;
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        var pointerPosition = Pointer.current?.position.ReadValue() ?? Vector2.zero;
+        Ray ray = _mainCamera.ScreenPointToRay(pointerPosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _boardLayerMask) && hit.collider.gameObject == _boardSurface) {
             position = hit.point;
             return true;
@@ -32,7 +33,7 @@ public class RaycastIntersector
         }
 
         PointerEventData eventData = new PointerEventData(EventSystem.current) {
-            position = Mouse.current.position.ReadValue()
+            position = Pointer.current?.position.ReadValue() ?? Vector2.zero
         };
 
         List<RaycastResult> results = new List<RaycastResult>();
@@ -53,9 +54,9 @@ public class RaycastIntersector
             return false;
         }
 
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        var pointerPosition = Pointer.current?.position.ReadValue() ?? Vector2.zero;
 
-        return (mousePosition.x >= 0 && mousePosition.x <= Screen.width &&
-                mousePosition.y >= 0 && mousePosition.y <= Screen.height);
+        return (pointerPosition.x >= 0 && pointerPosition.x <= Screen.width &&
+                pointerPosition.y >= 0 && pointerPosition.y <= Screen.height);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public abstract class CardIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -34,7 +35,8 @@ public abstract class CardIcon : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (_cardView != null) {
             var rt = _cardView.GetComponent<RectTransform>();
             rt.pivot = Vector2.zero;
-            rt.position = Input.mousePosition + new Vector3(15, 15);
+            var pointerPosition = Pointer.current?.position.ReadValue() ?? Vector2.zero;
+            rt.position = new Vector3(pointerPosition.x, pointerPosition.y, 0) + new Vector3(15, 15);
         }
     }
     protected abstract void OnInit(CardData card);

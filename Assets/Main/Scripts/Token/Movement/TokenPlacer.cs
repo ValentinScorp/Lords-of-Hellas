@@ -44,7 +44,7 @@ public class TokenPlacer
             return false;
         }
         if (token is IPlayerOwned playerToken) {           
-            if (token is HopliteStack hoplite) {
+            if (token is HopliteStackModel hoplite) {
                 var neighbors = regionManager.GetNeighborRegionIds(hoplite.RegionId);
                 if (!neighbors.Contains(regionId)) {
                     Debug.Log("Hoplite can move only to a neighboring region.");

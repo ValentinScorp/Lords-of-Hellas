@@ -23,7 +23,7 @@ public class TokenMover
         _prevReionId = fromRegion;
         _onComplete = onComplete;
 
-        ServiceLocator.Get<SelectMgr>().ListenTokenHits(HandleSelections);
+        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleSelections);
     }
     private void HandleSelections(List<SelectMgr.Target> targets)
     {

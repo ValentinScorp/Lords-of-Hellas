@@ -45,20 +45,27 @@ public class TokenView : MonoBehaviour, ISelectable
             return;
         }
         _model = model;
-        _viewModel = new (model, this);
+        _viewModel = CreateViewModel(model);
         
-        // if (model is HopliteStack hoplite) {
-        //     hoplite.OnCountChanged += count => SetLabel(count.ToString());
-        // }
-        // if (model is HeroModel hero) {
-        //     SetLabel(hero.DisplayName);
-        //     hero.OnLeadershpChanged += value => HandleLeadershipChanged(value);
-        //     hero.OnSpeedChanged += value => HandleSpeedChanged(value);
-        //     hero.OnStrengthChanged += value => HandleStrengthChanged(value);
-        //     hero.ChangeStrength(0);
-        //     hero.ChangeSpeed(0);
-        //     hero.ChangeLeadership(0);
-        // }
+        if (_viewModel is HopliteStackViewModel hopliteStackVm) {
+            hopliteStackVm.CountChanged += count => SetLabel(count.ToString());
+        }
+        if (_viewModel is HeroViewModel heroVm) {
+            SetLabel(heroVm.DisplayName);
+            heroVm.LeadershipChanged += value => HandleLeadershipChanged(value);
+            heroVm.SpeedChanged += value => HandleSpeedChanged(value);
+            heroVm.StrengthChanged += value => HandleStrengthChanged(value);
+            heroVm.RefreshStats();
+        }
+    }
+    private TokenViewModel CreateViewModel(TokenModel model)
+    {
+        return model switch
+        {
+            HeroModel hero => new HeroViewModel(hero),
+            HopliteStackModel hoplite => new HopliteStackViewModel(hoplite),
+            _ => new TokenViewModel(model),
+        };
     }
     public void HandleLeadershipChanged(int value)
     {
@@ -71,10 +78,6 @@ public class TokenView : MonoBehaviour, ISelectable
     public void HandleStrengthChanged(int value)
     {
         _strengthText.text = value.ToString();
-    }
-    private void OnDestroy()
-    {
-        _viewModel.Dispose();
     }
     public void SetLayer(string layerName)
     {
@@ -178,5 +181,34 @@ public class TokenView : MonoBehaviour, ISelectable
             position = Camera.main.WorldToScreenPoint(hitPoint)
         };
         Clicked?.Invoke(this, eventData);
+    }
+    private void SubscribeToViewModel()
+    {
+        if (_viewModel is HeroViewModel heroVm) {
+            heroVm.LeadershipChanged += HandleLeadershipChanged;
+            heroVm.SpeedChanged += HandleSpeedChanged;
+            heroVm.StrengthChanged += HandleStrengthChanged;
+        }
+
+        if (_viewModel is HopliteStackViewModel hopliteVm) {
+            hopliteVm.CountChanged += SetCount;
+        }
+    }
+    private void UnsubscribeFromViewModel()
+    {
+        if (_viewModel is HeroViewModel heroVm) {
+            heroVm.LeadershipChanged -= HandleLeadershipChanged;
+            heroVm.SpeedChanged -= HandleSpeedChanged;
+            heroVm.StrengthChanged -= HandleStrengthChanged;
+        }
+
+        if (_viewModel is HopliteStackViewModel hopliteVm) {
+            hopliteVm.CountChanged -= SetCount;
+        }
+    }
+    private void OnDestroy()
+    {
+        UnsubscribeFromViewModel();
+        _viewModel.Dispose();
     }
 }

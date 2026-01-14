@@ -3,36 +3,40 @@ using System;
 
 public class HeroViewModel : TokenViewModel
 {
-    public int Leadership { get; private set; }
-    public int Speed { get; private set; }
-    public int Strength { get; private set; }
+    public string DisplayName => (Model as HeroModel)?.DisplayName ?? "Unknown Hero";
+    public event Action<int> LeadershipChanged;
+    public event Action<int> SpeedChanged;
+    public event Action<int> StrengthChanged;
 
-    public HeroViewModel(HeroModel hero, TokenView view) : base(hero, view)
+     public HeroViewModel(HeroModel hero) : base(hero)
     {
-        if (hero == null || view == null) return;
+        LeadershipChanged?.Invoke(hero.Leadership);
+        SpeedChanged?.Invoke(hero.Speed);
+        StrengthChanged?.Invoke(hero.Strength);
 
-        Leadership = hero.Leadership;
-        Speed = hero.Speed;
-        Strength = hero.Strength;
-
-        hero.OnLeadershpChanged += view.HandleLeadershipChanged;
-        hero.OnSpeedChanged += view.HandleSpeedChanged;
-        hero.OnStrengthChanged += view.HandleStrengthChanged;
+        hero.OnLeadershpChanged += HandleLeadershipChanged;
+        hero.OnSpeedChanged += HandleSpeedChanged;
+        hero.OnStrengthChanged += HandleStrengthChanged;
     }
-    public void Unbind()
-    {
-        if (Model == null || View == null) return;
 
+    private void HandleLeadershipChanged(int value) => LeadershipChanged?.Invoke(value);
+    private void HandleSpeedChanged(int value) => SpeedChanged?.Invoke(value);
+    private void HandleStrengthChanged(int value) => StrengthChanged?.Invoke(value);
+    public void RefreshStats()
+    {
         if (Model is HeroModel hero) {
-            hero.OnLeadershpChanged -= View.HandleLeadershipChanged;
-            hero.OnSpeedChanged -= View.HandleSpeedChanged;
-            hero.OnStrengthChanged -= View.HandleStrengthChanged;
+            LeadershipChanged?.Invoke(hero.Leadership);
+            SpeedChanged?.Invoke(hero.Speed);
+            StrengthChanged?.Invoke(hero.Strength);
         }
     }
-
     public override void Dispose()
     {
-        Unbind();
+        if (Model is HeroModel hero) {
+            hero.OnLeadershpChanged -= HandleLeadershipChanged;
+            hero.OnSpeedChanged -= HandleSpeedChanged;
+            hero.OnStrengthChanged -= HandleStrengthChanged;
+        }
         base.Dispose();
     }
 }

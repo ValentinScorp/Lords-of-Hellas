@@ -5,16 +5,16 @@ using UnityEngine;
 public class HopliteManager
 {
     public const int TOTAL_HOPLITES = 15;
-    private List<HopliteUnit> _hoplites = new();
+    private List<HopliteModel> _hoplites = new();
     public event System.Action OnChanged;
 
     public HopliteManager(Player player)
     {
         for (var id = 1; id <= TOTAL_HOPLITES; id++) {
-            _hoplites.Add(new HopliteUnit(player.Color));
+            _hoplites.Add(new HopliteModel(player.Color));
         }
     }
-    public bool TryTakeHoplite(out HopliteUnit hoplite)
+    public bool TryTakeHoplite(out HopliteModel hoplite)
     {
 
         foreach (var h in _hoplites) {
@@ -27,16 +27,4 @@ public class HopliteManager
         hoplite = null;
         return false;
     }
-    // public bool TryPlaceHoplite(RegionId regionId, out HopliteUnit hoplite)
-    // {
-    //     hoplite = null;
-    //     foreach (var h in _hoplites) {
-    //         if (h.OnBoard) continue;
-    //         h.ChangeRegion(regionId);
-    //         hoplite = h;
-    //         OnChanged?.Invoke();
-    //         return true;
-    //     }
-    //     return false;
-    // }
 }

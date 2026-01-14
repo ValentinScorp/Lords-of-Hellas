@@ -3,34 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class HopliteStack : TokenModel, IPlayerOwned
+public class HopliteStackModel : TokenModel, IPlayerOwned
 {
     private PlayerColor _playerColor;
-    private List<HopliteUnit> _hoplites = new List<HopliteUnit>();
-    public IReadOnlyList<HopliteUnit> Hoplites => _hoplites;
+    private List<HopliteModel> _hoplites = new List<HopliteModel>();
+    public IReadOnlyList<HopliteModel> Hoplites => _hoplites;
     public int Count => _hoplites.Count;
     public PlayerColor PlayerColor => _playerColor;
     public event Action<int> OnCountChanged;
 
-    public HopliteStack(PlayerColor color) : base(TokenType.HopliteStack)
+    public HopliteStackModel(PlayerColor color) : base(TokenType.HopliteStack)
     {
         _playerColor = color;
     }
-    public HopliteStack(HopliteUnit hopliteUnit) : base(TokenType.HopliteStack)
+    public HopliteStackModel(HopliteModel hopliteUnit) : base(TokenType.HopliteStack)
     {
         _playerColor = hopliteUnit.PlayerColor;
         AddHoplite(hopliteUnit);
     }
-    public HopliteStack(Player player) : base(TokenType.HopliteStack)
+    public HopliteStackModel(Player player) : base(TokenType.HopliteStack)
     {
         _playerColor = player.Color;
     }
-    public void AddHoplite(HopliteUnit hoplite)
+    public void AddHoplite(HopliteModel hoplite)
     {
         _hoplites.Add(hoplite);
         OnCountChanged?.Invoke(_hoplites.Count);
     }
-    public bool RemoveHoplite(HopliteUnit hopliteUnit)
+    public bool RemoveHoplite(HopliteModel hopliteUnit)
     {
         if(!_hoplites.Remove(hopliteUnit)) {
             Debug.LogWarning("Hoplite not found in stack.");
@@ -40,7 +40,7 @@ public class HopliteStack : TokenModel, IPlayerOwned
         }
         return true;
     }
-    public HopliteUnit RemoveHoplite()
+    public HopliteModel RemoveHoplite()
     {
         if (_hoplites.Count == 0) {
             Debug.LogWarning("Trying to remove hoplite from an empty stack.");

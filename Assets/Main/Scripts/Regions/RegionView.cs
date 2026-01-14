@@ -49,17 +49,25 @@ public class RegionView : MonoBehaviour
     {
         if (_regionContext != null) {
             _regionContext.OnOwnerChanged -= _areaView.OnOwnerChanged;
-             _regionContext.OnTokenAdded -= OnTokenPlaced;
+            _regionContext.OnTokenAdded -= OnTokenPlaced;
             _regionContext.OnTokenRemoved -= OnTokenRemoved;
         }
     }
     private void OnTokenPlaced(TokenModel token)
     {
         var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
-        TokenView tokenView = tokenPrefabFactory.CreateTokenView(token);
+        TokenView tokenView = tokenPrefabFactory.CreateTokenView(token, transform);
 
         tokenView.AdjustPositionToSpawnPoint();
         tokenView.ChangeToPlayerMaterial();
+        tokenView.SetLayer("HoplonToken");
+        tokenView.SetTag("PlacedToken");
+
+        if (tokenView.gameObject.TryGetComponent<Rigidbody>(out var rb)) {
+            Destroy(rb);
+        } else {
+            Debug.LogWarning($"No Rigidbody found in: {tokenView.gameObject.name}");
+        }
     }
     private void OnTokenRemoved(TokenModel token)
     {

@@ -7,7 +7,7 @@ public class HopliteMoveAction
     private readonly TokenMover _tokenMover;
     private RegularAction _regularAction;
     private TokenView _selectedToken;
-    private HopliteUnit _selectedHoplite;
+    private HopliteModel _selectedHoplite;
     private Action _onComplete;
     public HopliteMoveAction()
     {
@@ -22,7 +22,7 @@ public class HopliteMoveAction
     }
     private void HandleSelection(TokenView token)
     {
-        if (token.ViewModel.Model is HopliteStack hopliteStack) {
+        if (token.ViewModel.Model is HopliteStackModel hopliteStack) {
             if (_regularAction.TryTakeUnmovedHoplite(hopliteStack, out var unmovedHoplite)) {
                 _selectedToken = token;
                 _selectedHoplite = unmovedHoplite;
@@ -40,7 +40,7 @@ public class HopliteMoveAction
         PlaceHoplite(_selectedHoplite, spawnPoint);
         _regularAction.HoplitesSteps--;
     }
-    private void PlaceHoplite(HopliteUnit hoplite, SpawnPoint spawnPoint)
+    private void PlaceHoplite(HopliteModel hoplite, SpawnPoint spawnPoint)
     {
         var regDataRegistry = GameContext.Instance.RegionDataRegistry;
         if (regDataRegistry.MoveHopliteUnit(hoplite, spawnPoint.RegionId)) {
