@@ -1,16 +1,15 @@
 using UnityEngine;
 
 [System.Serializable]
-public class HopliteModel : IPlayerOwned
+public class HopliteModel : TokenModel, IPlayerOwned
 {
     public bool Moved { get; private set; }
     private RegionId _regionId;
 
     public bool OnBoard { get; set; }
-    public RegionId RegionId => _regionId;
     public PlayerColor PlayerColor { get; private set; }
 
-    public HopliteModel(PlayerColor color)
+    public HopliteModel(PlayerColor color) : base(TokenType.Hoplite)
     {
         PlayerColor = color;
     }

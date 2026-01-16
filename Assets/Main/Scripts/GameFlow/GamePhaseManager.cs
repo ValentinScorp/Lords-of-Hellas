@@ -12,7 +12,7 @@ public class GamePhaseManager
     public GamePhaseManager (   IReadOnlyList<Player> players,
                                 TokenPlacementManager placementManager,
                                 TurnManager turnManager) {
-        _phases[typeof(GamePhaseHeroPlacement)] = new GamePhaseHeroPlacement(this, players, placementManager);
+        _phases[typeof(GamePhaseHeroPlacement)] = new GamePhaseHeroPlacement(this, players);
         _phases[typeof(GamePhasePlayerTurn)] = new GamePhasePlayerTurn(this, players, turnManager);
     }
     public void StartHeroesPlacement() {

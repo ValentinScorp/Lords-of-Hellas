@@ -2,27 +2,25 @@
 
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
-    private TokenPlacementManager TokenPlacementManager;
+    private TokenPlacementViewModel _tokenPlacementViewModel;
     private TurnOrderManager TurnOrderManager;
 
     public override string Name => "Heroes Placement Phase";
 
     public GamePhaseHeroPlacement(GamePhaseManager phaseManager, 
-                                IReadOnlyList<Player> players, 
-                                TokenPlacementManager placementManager)
+                                IReadOnlyList<Player> players)
         : base (phaseManager) {
-        TokenPlacementManager = placementManager;
         TurnOrderManager = new TurnOrderManager(players);
+        _tokenPlacementViewModel = ServiceLocator.Get<TokenPlacementViewModel>();
         TurnOrderManager.OnPlayerChanged += HandleNextPlayer;
         TurnOrderManager.OnNoPlayersLeft += ProceedNextPhase;
     }
     public override void Enter() {
         TurnOrderManager.StartPlacement();
-        TokenPlacementManager.OnPlacementCompleted += HandlePlacementCompleted;
+        _tokenPlacementViewModel.StartPlacement(TurnOrderManager.CurrentPlayer);
     }
        
     public override void Exit() {
-        TokenPlacementManager.OnPlacementCompleted -= HandlePlacementCompleted;
     }
     private void HandlePlacementCompleted() {
         TurnOrderManager.PrevPlayer();
@@ -32,10 +30,6 @@ public class GamePhaseHeroPlacement : GamePhaseBase
     }
     private void HandleNextPlayer(Player player) {
         GameContext.Instance.CurrentPlayer = player;
-        InitPlacement(player);
-    } 
-    private void  InitPlacement(Player player) {
         player.TakeCombatCards(1);
-        TokenPlacementManager.InitiatePlacing(player);
-    }   
+    } 
 }

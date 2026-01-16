@@ -57,6 +57,41 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
+    public bool TryFindHero(HeroModel hero, out RegionId regionId)
+    {
+        if (hero == null) {
+            regionId = RegionId.Unknown;
+            return false;
+        }
+        if (hero.RegionId != RegionId.Unknown &&
+            _regionMap.TryGetValue(hero.RegionId, out var knownRegion)) {
+            foreach (var token in knownRegion.Tokens) {
+                if (ReferenceEquals(token, hero)) {
+                    regionId = knownRegion.RegionId;
+                    return true;
+                }
+            }
+        }
+        foreach (var region in _regionMap.Values) {
+            foreach (var token in region.Tokens) {
+                if (ReferenceEquals(token, hero)) {
+                    regionId = region.RegionId;
+                    return true;
+                }
+            }
+        }
+        regionId = RegionId.Unknown;
+        return false;
+    }
+    public int HoplitesCount(PlayerColor color)
+    {
+        int total = 0;
+        foreach (var region in _regionsContextList) {
+            total += region.GetHopliteCount(color);
+        }
+        return total;
+    }
+
     public bool MoveHopliteUnit(HopliteModel hopliteUnit, RegionId regionId)
     {
         if (hopliteUnit == null) {

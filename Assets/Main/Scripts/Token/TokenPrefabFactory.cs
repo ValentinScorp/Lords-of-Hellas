@@ -6,13 +6,18 @@ public class TokenPrefabFactory
     public TokenPrefabFactory() {
         _tokenLoader = new TokenLoader("Prefabs/Tokens");
     }
+    public TokenView CreateGhostToken(TokenModel model)
+    {
+        return CreateTokenView(model);        
+    }
     public TokenView CreateToken(TokenView token)
     {
         return CreateTokenView(token.ViewModel.Model);
-    }    
+    }
     public TokenView CreateTokenView(TokenModel model, Transform parent = null) {
         if (model == null) {
             Debug.Log("Token type is null");
+            return null;
         }
         TokenView tokenView = CreateTokenPrefab(model.Type, parent);
         tokenView.SubscribeOnModel(model);

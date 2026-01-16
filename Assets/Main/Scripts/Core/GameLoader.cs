@@ -6,7 +6,6 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private Canvas _canvas;
     [SerializeField] private UserInputController _userInputController;
     [SerializeField] private RegionsView _regionsView;
-    [SerializeField] private TokenPlacementView _tokenPlacementView;
     [SerializeField] private GameObject _templePoolUIPanel;
     [SerializeField] private GameObject _boardSurface;
     [SerializeField] private Button _startPlacementButton;
@@ -31,7 +30,6 @@ public class GameLoader : MonoBehaviour
     {
         CheckIfExist(_userInputController, "_userInputController");
         CheckIfExist(_regionsView, "_regionViewManager");
-        CheckIfExist(_tokenPlacementView, "_tokenPlacementView");
         CheckIfExist(_templePoolUIPanel, "_templePoolUIPanel");
         CheckIfExist(_boardSurface, "_boardSurface");
         CheckIfExist(_startPlacementButton, "_startPlacementButton");
@@ -47,18 +45,14 @@ public class GameLoader : MonoBehaviour
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
 
+        ServiceLocator.Register(new TokenPlacementViewModel());
+
        _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
                                                 1 << LayerMask.NameToLayer("BoardSurface"));
 
         _tokenPlacementManager = new TokenPlacementManager(_regionsView);
-        _tokenPlacementViewModel = new TokenPlacementViewModel();
-        _tokenPlacementView.Subscribe(_tokenPlacementViewModel);
-
-        _tokenPlacementViewModel.Initialize(_tokenPlacementManager,
-                                            _userInputController,
-                                            _raycastBoard);
-
+      
         ServiceLocator.Register(_raycastBoard);
 
         _selectMgr = new SelectMgr(Camera.main, _userInputController);
@@ -94,14 +88,12 @@ public class GameLoader : MonoBehaviour
         ServiceLocator.Get<SelectMgr>().RegisterRegionInfoController(regionInfoUiCtlr);
     }
     private void Update() {
-        _tokenPlacementViewModel.UpdatePlacement();
         _tokenMover.Update();
     }
     private void CheckIfExist(object parameter, string message) {
         if (parameter == null) Debug.LogWarning($"No {message} assigned in GameInitializer!");
     }
     private void OnDestroy() {
-        _tokenPlacementView.Unsubscribe();
-        _tokenPlacementViewModel.Unsubscribe();
+
     }
 }
