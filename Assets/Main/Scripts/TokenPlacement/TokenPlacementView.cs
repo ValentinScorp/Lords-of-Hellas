@@ -12,6 +12,7 @@ public class TokenPlacementView : MonoBehaviour
 
     private void Start()
     {
+        ShowPanel(false);
         _tokenPlacementViewModel = ServiceLocator.Get<TokenPlacementViewModel>();        
         _tokenPlacementViewModel.OnStartPlacement += HandleStartPlacement;
         _placeHeroButton.onClick.AddListener(_tokenPlacementViewModel.PlaceHero);

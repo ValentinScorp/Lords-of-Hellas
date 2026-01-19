@@ -13,7 +13,7 @@ public class GameContent
     private List<CardBlessing> _blessingCards;
     private List<CardMonster> _monsterCards;
     private List<CardQuest> _questCards;
-      
+
     public static PlayerColorPalette PlayerColorPalette { get; private set; }
     public static TokenMaterialPalette TokenMaterialPalette { get; private set; }
     public static GlobalMaterials GlobalMaterials { get; private set; }
@@ -25,10 +25,11 @@ public class GameContent
     public List<CardMonster> MonsterCards => _monsterCards;
     public List<CardQuest> QuestCards => _questCards;
     public List<RegionConfig> RegionsConfig { get; private set; }
-    
+
     private bool _initialized = false;
 
-    public void Initialize() {
+    public void Initialize()
+    {
         if (_initialized) return;
         _initialized = true;
 
@@ -65,7 +66,8 @@ public class GameContent
             RegionsConfig = regCfgs;
         }
     }
-    public HeroModel.Id GetPlayerHeroId(PlayerColor color) {
+    public HeroModel.Id GetPlayerHeroId(PlayerColor color)
+    {
         var player = GameConfig.Instance.Players.FirstOrDefault(p => p.PlayerColor == color);
         if (player == null) {
             Debug.LogError($"[GameContext] Player with color {color} not found!");
@@ -73,7 +75,8 @@ public class GameContent
         }
         return player.HeroId;
     }
-    public LandId GetLandColor(RegionId regionId) {
+    public LandId GetLandColor(RegionId regionId)
+    {
         var regionData = RegionsConfig.FirstOrDefault(r => RegionIdParser.Parse(r.RegionName) == regionId);
         if (regionData == null) {
             Debug.LogError($"[GameData] Region data not found for id {regionId}");
@@ -81,7 +84,8 @@ public class GameContent
         }
         return ParseLandColor(regionData.LandColor);
     }
-    private LandId ParseLandColor(string landColor) {
+    private LandId ParseLandColor(string landColor)
+    {
         switch (landColor.ToLowerInvariant()) {
             case "red": return LandId.Red;
             case "yellow": return LandId.Yellow;
@@ -95,23 +99,41 @@ public class GameContent
     }
     public Color GetPlayerColor(PlayerColor playerColor)
     {
-        if (PlayerColorPalette == null)
-        {
+        if (PlayerColorPalette == null) {
             Debug.LogError("PlayerColorPalette is not loaded.");
             return Color.white;
         }
 
-        switch (playerColor)
-        {
-            case PlayerColor.Red:    return PlayerColorPalette.Red;
-            case PlayerColor.Blue:   return PlayerColorPalette.Blue;
-            case PlayerColor.Green:  return PlayerColorPalette.Green;
+        switch (playerColor) {
+            case PlayerColor.Red: return PlayerColorPalette.Red;
+            case PlayerColor.Blue: return PlayerColorPalette.Blue;
+            case PlayerColor.Green: return PlayerColorPalette.Green;
             case PlayerColor.Yellow: return PlayerColorPalette.Yellow;
             case PlayerColor.Purple: return PlayerColorPalette.Purple;
-            case PlayerColor.Brown:  return PlayerColorPalette.Brown;
+            case PlayerColor.Brown: return PlayerColorPalette.Brown;
             case PlayerColor.Gray:
-            default:                 return PlayerColorPalette.Grey;
+            default: return PlayerColorPalette.Grey;
         }
+    }
+    public bool TryGetPlayerMaterial(PlayerColor playerColor, out Material material)
+    {
+        if (PlayerColorPalette == null) {
+            Debug.LogError("PlayerColorPalette is not loaded.");
+            material = TokenMaterialPalette.grayTokenMaterial;
+            return false;
+        }
+
+        switch (playerColor) {
+            case PlayerColor.Red: material = TokenMaterialPalette.redTokenMaterial; break;
+            case PlayerColor.Blue: material = TokenMaterialPalette.blueTokenMaterial; break;
+            case PlayerColor.Green: material = TokenMaterialPalette.greenTokenMaterial; break;
+            case PlayerColor.Yellow: material = TokenMaterialPalette.yellowTokenMaterial; break;
+            case PlayerColor.Purple: material = TokenMaterialPalette.purpleTokenMaterial; break;
+            case PlayerColor.Brown: material = TokenMaterialPalette.brownTokenMaterial; break;
+            case PlayerColor.Gray:
+            default: material = TokenMaterialPalette.grayTokenMaterial; break;
+        }
+        return true;
     }
     public bool TryGetTempleCard(int index, out CardTemple card)
     {

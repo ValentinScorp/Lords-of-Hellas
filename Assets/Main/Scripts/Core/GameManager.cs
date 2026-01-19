@@ -11,7 +11,6 @@ public class GameManager
     public PlayerDataManager PlayerDataManager;
     private LandTokenManager _landTokenManager = new();
     private CardSelectPanel _cardSelectPanel;
-    private readonly TokenModelFactory _tokenModelFactory = new();
     public event Action OnGameStarted;
 
     public GameManager( GameContent gameData, 

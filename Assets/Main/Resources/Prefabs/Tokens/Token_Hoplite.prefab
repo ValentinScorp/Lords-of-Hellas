@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 3857038179226460942}
   - component: {fileID: 252138785977864425}
   m_Layer: 2
-  m_Name: Token_HopliteStack
+  m_Name: Token_Hoplite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -16,6 +16,8 @@ public class TokenView : MonoBehaviour, ISelectable
     private static readonly int FresnelTintId = Shader.PropertyToID("_FresnelTint");
     const float GHOST_COLOR_INTENCITY = 5.0f;
 
+    private MaterialPropertyBlock _mpb;
+
     private Renderer _renderer = null;
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
@@ -29,6 +31,8 @@ public class TokenView : MonoBehaviour, ISelectable
 
     private void Awake()
     {
+        _mpb = new MaterialPropertyBlock();
+
         _renderer = transform.Find("MeshVisual")?.GetComponent<Renderer>();
         _canvas = transform.Find("Canvas");
         _label = _canvas?.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -37,35 +41,6 @@ public class TokenView : MonoBehaviour, ISelectable
             Debug.LogError($"Initialization failed in {nameof(TokenView)}: Missing components.");
             enabled = false;
         }
-    }
-    public void SubscribeOnModel(TokenModel model)
-    {
-        if (model.Type != TokenType) {
-            Debug.LogWarning($"Can't subscribe TokenView type {TokenType} on model type {model.Type}");
-            return;
-        }
-        _model = model;
-        _viewModel = CreateViewModel(model);
-        
-        if (_viewModel is HopliteStackViewModel hopliteStackVm) {
-            hopliteStackVm.CountChanged += count => SetLabel(count.ToString());
-        }
-        if (_viewModel is HeroViewModel heroVm) {
-            SetLabel(heroVm.DisplayName);
-            heroVm.LeadershipChanged += value => HandleLeadershipChanged(value);
-            heroVm.SpeedChanged += value => HandleSpeedChanged(value);
-            heroVm.StrengthChanged += value => HandleStrengthChanged(value);
-            heroVm.RefreshStats();
-        }
-    }
-    private TokenViewModel CreateViewModel(TokenModel model)
-    {
-        return model switch
-        {
-            HeroModel hero => new HeroViewModel(hero),
-            HopliteStackModel hoplite => new HopliteStackViewModel(hoplite),
-            _ => new TokenViewModel(model),
-        };
     }
     public void HandleLeadershipChanged(int value)
     {
@@ -124,6 +99,14 @@ public class TokenView : MonoBehaviour, ISelectable
         }
         _renderer.material.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
     }
+    public void SetGhostColorMPB(Color color)
+    {
+        if (_renderer == null) return;
+
+        _renderer.GetPropertyBlock(_mpb);
+        _mpb.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
+        _renderer.SetPropertyBlock(_mpb);
+    }
     public void SetParent(Transform parent)
     {
         transform.SetParent(parent);
@@ -176,14 +159,15 @@ public class TokenView : MonoBehaviour, ISelectable
     }
     public void OnClick(Vector3 hitPoint)
     {
-        PointerEventData eventData = new PointerEventData(EventSystem.current)
-        {
+        PointerEventData eventData = new PointerEventData(EventSystem.current) {
             position = Camera.main.WorldToScreenPoint(hitPoint)
         };
         Clicked?.Invoke(this, eventData);
     }
-    private void SubscribeToViewModel()
+    public void SubscribeToViewModel(TokenViewModel viewModel)
     {
+        _viewModel = viewModel;
+
         if (_viewModel is HeroViewModel heroVm) {
             heroVm.LeadershipChanged += HandleLeadershipChanged;
             heroVm.SpeedChanged += HandleSpeedChanged;
@@ -193,7 +177,10 @@ public class TokenView : MonoBehaviour, ISelectable
         if (_viewModel is HopliteStackViewModel hopliteVm) {
             hopliteVm.CountChanged += SetCount;
         }
+        _viewModel.WorldPositionChanged += SetPosition;
+        _viewModel.VisualStateChanged += HandleVisualState;
     }
+
     private void UnsubscribeFromViewModel()
     {
         if (_viewModel is HeroViewModel heroVm) {
@@ -204,6 +191,22 @@ public class TokenView : MonoBehaviour, ISelectable
 
         if (_viewModel is HopliteStackViewModel hopliteVm) {
             hopliteVm.CountChanged -= SetCount;
+        }
+        _viewModel.WorldPositionChanged -= SetPosition;
+        _viewModel.VisualStateChanged -= HandleVisualState;
+    }
+    private void HandleVisualState(TokenViewModel.VisualState state, PlayerColor playerColor)
+    {
+        if (state == TokenViewModel.VisualState.Placed) {
+            SetLayer("HoplonToken");
+            SetTag("PlacedToken");
+            ChangeMaterial(playerColor);
+        }
+    }
+    private void ChangeMaterial(PlayerColor playerColor)
+    {
+        if (GameContent.Instance.TryGetPlayerMaterial(playerColor, out var material)) {
+            _renderer.material = material;
         }
     }
     private void OnDestroy()

@@ -47,7 +47,7 @@ public class GameLoader : MonoBehaviour
 
         ServiceLocator.Register(new TokenPlacementViewModel());
 
-       _raycastBoard = new RaycastIntersector(Camera.main, 
+        _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
                                                 1 << LayerMask.NameToLayer("BoardSurface"));
 
@@ -76,11 +76,10 @@ public class GameLoader : MonoBehaviour
         ServiceLocator.Register(_tokenPlacer);
 
         _startPlacementButton.onClick.AddListener(_gameManager.StartGame);
-        _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;        
+        _gameManager.OnGameStarted += () => _startPlacementButton.interactable = false;
 
-        var tokenPrefabFactory = new TokenPrefabFactory();
-        ServiceLocator.Register(tokenPrefabFactory);       
-
+        var tokenPrefabFactory = new TokenFactory();
+        ServiceLocator.Register(tokenPrefabFactory);
     }
     private void Start() 
     {
@@ -94,6 +93,6 @@ public class GameLoader : MonoBehaviour
         if (parameter == null) Debug.LogWarning($"No {message} assigned in GameInitializer!");
     }
     private void OnDestroy() {
-
+        _startPlacementButton.onClick.RemoveListener(_gameManager.StartGame);
     }
 }

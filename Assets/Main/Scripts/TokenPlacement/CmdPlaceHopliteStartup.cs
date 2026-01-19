@@ -1,21 +1,25 @@
-using UnityEngine;
+using System;
 
 public class CmdPlaceHopliteStartup
 {
     private HopliteModel _hoplite;
-    private RegionsContext _regionsContext;
     public void Init(HopliteModel hoplite)
     {
         _hoplite = hoplite;
-        _regionsContext = ServiceLocator.Get<RegionsContext>();
-    }
-    public void Execute()
-    {
-        Debug.Log("Execution place Hoplite command!");
-        ServiceLocator.Get<TokenPrefabFactory>().CreateGhostToken(_hoplite);
     }
     public bool CanExecute()
     {
-        return (_regionsContext.HoplitesCount(_hoplite.PlayerColor) < 2);
+        return GameContext.Instance.RegionDataRegistry.HoplitesCount(_hoplite.PlayerColor) < 2;
+    }
+    public void Execute(Action<CmdResult> CmdComplete)
+    {
+        if (!CanExecute()) {
+            CmdComplete?.Invoke(CmdResult.Fail("Hero already placed."));
+            return;
+        }
+
+        var _ghostToken = ServiceLocator.Get<TokenFactory>().CreateGhostToken(_hoplite);
+
+        CmdComplete?.Invoke(CmdResult.Ok());
     }
 }

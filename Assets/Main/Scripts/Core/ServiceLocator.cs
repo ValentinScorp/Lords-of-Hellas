@@ -12,10 +12,22 @@ public static class ServiceLocator
     public static T Get<T>() where T : class
     {
         T service = _services.TryGetValue(typeof(T), out var s) ? (T)s : null;
-        if (service == null)
-        {
+        if (service == null) {
             Debug.LogWarning($"Unable to get service {typeof(T).Name} from ServiceLocator!");
         }
         return service;
+    }
+    public static void LogRegisteredServices()
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("Registered services:");
+
+        foreach (var kv in _services) {
+            var type = kv.Key;
+            var instance = kv.Value;
+            sb.AppendLine($"- {type.FullName} => {(instance != null ? instance.GetType().FullName : "null")}");
+        }
+
+        Debug.Log(sb.ToString());
     }
 }

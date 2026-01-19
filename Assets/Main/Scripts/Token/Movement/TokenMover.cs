@@ -67,13 +67,13 @@ public class TokenMover
     }
     public void CreateGhostToken(TokenView token)
     { 
-        var tokenFactory = ServiceLocator.Get<TokenPrefabFactory>();
-        var ghostToken = tokenFactory.CreateToken(token);
-        _tokenHolder.AttachToken(ghostToken);
+        var tokenFactory = ServiceLocator.Get<TokenFactory>();
+        var ghostToken = tokenFactory.CreateGhostToken(token.ViewModel.Model);
+        // _tokenHolder.AttachToken(ghostToken);
         float radius = tokenFactory.GetRadius(token.TokenType);
         _terrainValidator.SetTokenRadius(radius);
         var routeLink = new RouteLink();
-        routeLink.Create(token.transform.position, ghostToken.transform.position, token.PlayerColor);
+        routeLink.Create(token.transform.position, ghostToken.WorldPosition, token.PlayerColor);
         _currentRouteLink = routeLink;
         _routeLinks.Add(routeLink);
     }

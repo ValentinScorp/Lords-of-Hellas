@@ -142,13 +142,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ScreenPoint",
-                    "type": "Button",
-                    "id": "1f875e5e-53ea-4235-8d8e-1034722e9f08",
-                    "expectedControlType": "",
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "d600c591-79d1-4aca-837e-a2c27005c83f",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseDelta",
+                    "type": "Value",
+                    "id": "4b31424a-6137-4f55-9ec4-71187b5b89db",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -165,12 +174,23 @@
                 },
                 {
                     "name": "",
-                    "id": "89e9db30-c319-4a56-8263-b7332722df76",
+                    "id": "e791a4ae-e8c6-4e71-84b8-12a333ba5f80",
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ScreenPoint",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a26c3ae-aa6c-4237-b428-36c74a4c871a",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

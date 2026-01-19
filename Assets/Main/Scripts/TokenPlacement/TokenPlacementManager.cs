@@ -6,7 +6,6 @@ public class TokenPlacementManager
 {
     private readonly TokenHolder _tokenHolder = new();
     private readonly TokenPlacementPool _tokenPlacementPool = new TokenPlacementPool();
-    private readonly TokenModelFactory _tokenModelFactory;
     private readonly TerrainValidator _terrainValidator = new();
     private readonly TokenPlacementRulesValidator _rulesValidator = new();
     private readonly RegionsView _regionsView;
@@ -27,7 +26,6 @@ public class TokenPlacementManager
     private const int MaxStartupPlacements = 3;
 
     public TokenPlacementManager(RegionsView regionVisuals) {
-        _tokenModelFactory = new TokenModelFactory();
         _regionDataRegistry = GameContext.Instance.RegionDataRegistry;
         _regionsView = regionVisuals;
         
@@ -110,10 +108,10 @@ public class TokenPlacementManager
             Debug.LogWarning($"[TokenPlacementManager] No available token for type {tokenType}");
             return;
         }
-        var tokenPrefabFactory = ServiceLocator.Get<TokenPrefabFactory>();
-        TokenView tokenView = tokenPrefabFactory.CreateTokenView(_currentToken);
+        var tokenPrefabFactory = ServiceLocator.Get<TokenFactory>();
+        // TokenView tokenView = tokenPrefabFactory.CreateTokenView(_currentToken);
 
-        _tokenHolder.AttachToken(tokenView);
+        // _tokenHolder.AttachToken(tokenView);
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
