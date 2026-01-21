@@ -15,7 +15,6 @@ public class GameLoader : MonoBehaviour
 
     private GameManager _gameManager;
     private TokenPlacementManager _tokenPlacementManager;
-    private TokenPlacementViewModel _tokenPlacementViewModel;
     private CardSelectPanel _cardSelectPanel;
     private TokenSelector _tokenSelector;
     private TokenMover _tokenMover;
@@ -23,7 +22,8 @@ public class GameLoader : MonoBehaviour
     private RaycastIntersector _raycastBoard;
     private UiRegistry _uiRegistry = new();
 
-    public SelectMgr _selectMgr;
+    public ObjectsHitDetector _objectsHitDetector;
+    public RegionsViewModel _regionsViewModel;
 
 
     private void Awake() 
@@ -55,8 +55,8 @@ public class GameLoader : MonoBehaviour
       
         ServiceLocator.Register(_raycastBoard);
 
-        _selectMgr = new SelectMgr(Camera.main, _userInputController);
-        ServiceLocator.Register(_selectMgr);
+        _objectsHitDetector = new ObjectsHitDetector(Camera.main, _userInputController);
+        ServiceLocator.Register(_objectsHitDetector);
 
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
@@ -80,11 +80,14 @@ public class GameLoader : MonoBehaviour
 
         var tokenPrefabFactory = new TokenFactory();
         ServiceLocator.Register(tokenPrefabFactory);
+
+        _regionsViewModel = new RegionsViewModel();
+        ServiceLocator.Register(_regionsViewModel);
     }
     private void Start() 
     {
         var regionInfoUiCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
-        ServiceLocator.Get<SelectMgr>().RegisterRegionInfoController(regionInfoUiCtlr);
+        ServiceLocator.Get<ObjectsHitDetector>().RegisterRegionInfoController(regionInfoUiCtlr);
     }
     private void Update() {
         _tokenMover.Update();

@@ -1,4 +1,5 @@
 using System;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class TokenDragger : IDisposable
@@ -41,11 +42,21 @@ public class TokenDragger : IDisposable
     public void SetTarget(TokenViewModel token)
     {
         if (token is null || _target is not null) {
-            Debug.LogWarning("Unabke to SetTarget to TokenDragger!");
+            Debug.LogWarning("Unable to SetTarget to TokenDragger!");
             return;
         }
         _target = token;
         AdjustTargetPosition();
+    } 
+    public bool TryRemoveTarget(out TokenViewModel target)
+    {
+        if (_target != null) {
+            target = _target;
+            _target = null;
+            return true;
+        }
+        target = null;
+        return false;
     }
     private void AdjustTargetPosition()
     {

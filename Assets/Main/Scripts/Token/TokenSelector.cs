@@ -15,17 +15,17 @@ public class TokenSelector
         _playerColor = playerColor;
         _tokenType = type;
         _handleSelection = handleToken;
-        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleHits);
+        ServiceLocator.Get<ObjectsHitDetector>().Listen(HandleHits);
     }
 
-    private void HandleHits(List<SelectMgr.Target> targets)
+    private void HandleHits(List<ObjectsHitDetector.Target> targets)
     {
         if (!_waitingToken || targets == null) return;
 
         foreach (var t in targets) {
             if (t.Selectable is TokenView token) {
                 if (token.PlayerColor == _playerColor &&  token.TokenType == _tokenType)  {
-                    ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
+                    ServiceLocator.Get<ObjectsHitDetector>().Unlisten();
                     _waitingToken = false;
                     _handleSelection?.Invoke(token);
                     _handleSelection = null;

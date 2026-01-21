@@ -11,15 +11,15 @@ public class CmdPlaceHopliteStartup
     {
         return GameContext.Instance.RegionDataRegistry.HoplitesCount(_hoplite.PlayerColor) < 2;
     }
-    public void Execute(Action<CmdResult> CmdComplete)
+    public void Execute(Action<CommandResult> CmdComplete)
     {
         if (!CanExecute()) {
-            CmdComplete?.Invoke(CmdResult.Fail("Hero already placed."));
+            CmdComplete?.Invoke(CommandResult.Fail("Hero already placed."));
             return;
         }
 
         var _ghostToken = ServiceLocator.Get<TokenFactory>().CreateGhostToken(_hoplite);
 
-        CmdComplete?.Invoke(CmdResult.Ok());
+        CmdComplete?.Invoke(CommandResult.Ok());
     }
 }

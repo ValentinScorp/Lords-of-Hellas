@@ -23,9 +23,9 @@ public class TokenMover
         _prevReionId = fromRegion;
         _onComplete = onComplete;
 
-        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleSelections);
+        ServiceLocator.Get<ObjectsHitDetector>().Listen(HandleSelections);
     }
-    private void HandleSelections(List<SelectMgr.Target> targets)
+    private void HandleSelections(List<ObjectsHitDetector.Target> targets)
     {
         if (_originToken == null || targets == null) return;
 
@@ -42,10 +42,10 @@ public class TokenMover
 
         var neibRegions = regRegistry.GetNeighborRegionIds(_prevReionId);
         foreach (var regId in neibRegions) {
-            if (region.RegionId == regId) {
-                ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
+            if (region.Id == regId) {
+                ServiceLocator.Get<ObjectsHitDetector>().Unlisten();
                 var regionsView = ServiceLocator.Get<RegionsView>();
-                var spawnPoint = regionsView.GetFreeSpawnPoint(region.RegionId, hitPoint);
+                var spawnPoint = regionsView.GetFreeSpawnPoint(region.Id, hitPoint);
                 _currentRouteLink?.SetFirstNode(spawnPoint.Position);
                 _onComplete?.Invoke(spawnPoint);
                 break;

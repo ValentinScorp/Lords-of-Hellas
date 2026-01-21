@@ -18,7 +18,7 @@ public class RegionInfoUiCtlr
 
         _selectedRegion = newRegion;
         _selectedRegion.Activate();
-        var regionStatus = GameContext.Instance.RegionDataRegistry.GetRegionContext(_selectedRegion.RegionId);
+        var regionStatus = GameContext.Instance.RegionDataRegistry.GetRegionContext(_selectedRegion.Id);
 
         _regionInfoUi?.ShowRegionInfo(regionStatus);
     }

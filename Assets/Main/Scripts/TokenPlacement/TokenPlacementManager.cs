@@ -115,9 +115,9 @@ public class TokenPlacementManager
 
         float radius = tokenPrefabFactory.GetRadius(tokenType);
         _terrainValidator.SetTokenRadius(radius);
-        ServiceLocator.Get<SelectMgr>().ListenObjectsHits(HandleHits);
+        ServiceLocator.Get<ObjectsHitDetector>().Listen(HandleHits);
     }
-    private void HandleHits(List<SelectMgr.Target> targets)
+    private void HandleHits(List<ObjectsHitDetector.Target> targets)
     {
         if (_currentToken == null || targets == null) return;
 
@@ -125,7 +125,7 @@ public class TokenPlacementManager
             if (t.Selectable is RegionAreaView regionArea) {
                 if (CanPlaceToken(out RegionId regionId)) {
                     PlaceToken(regionId);
-                    ServiceLocator.Get<SelectMgr>().UnlistenTokneSelection();
+                    ServiceLocator.Get<ObjectsHitDetector>().Unlisten();
                 }                
                 break;
             }

@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class RegionsView : MonoBehaviour
 {
-    private RegionsViewController _regionsViewController;
     private void Awake()
     {
-        _regionsViewController = new();
-        ServiceLocator.Register(_regionsViewController);
     }
 
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
@@ -132,14 +129,4 @@ public class RegionsView : MonoBehaviour
         Debug.LogWarning($"No hero of color {color} found in region {region.name}");
         return null;
     }
-    // protected override void HandleEvent(IGameEvent gameEvent)
-    // {
-    //     if (gameEvent is RegionOwnerEvent regionOwnerEvent) {
-    //         Transform regionTransform = FindRegionById(regionOwnerEvent.regionId);
-    //       regionTransform.GetComponentInChildren<RegionAreaView>().HandleOwnerChanged(regionOwnerEvent.Color);
-    //     }
-    //     if (gameEvent is HopliteCountEvent hopliteCountEvent) {
-    //         SetHopliteCounter(hopliteCountEvent.RegionId, hopliteCountEvent.Color, hopliteCountEvent.Count);
-    //     }
-    // }
 }

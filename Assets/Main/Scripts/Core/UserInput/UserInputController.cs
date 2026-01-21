@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class UserInputController : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
-    private SelectMgr _clickMgr;
+    private ObjectsHitDetector _clickMgr;
     private UserInput _inputActions;
     public event Action<Vector2> MouseClick;
     public event Action<Vector2> MouseMoved;
@@ -34,7 +34,7 @@ public class UserInputController : MonoBehaviour
         Vector2 pos = context.ReadValue<Vector2>();
         MouseMoved?.Invoke(pos);
     }
-    public void SetClickMgr(SelectMgr clickMgr)
+    public void SetClickMgr(ObjectsHitDetector clickMgr)
     {
         _clickMgr = clickMgr;
     }   

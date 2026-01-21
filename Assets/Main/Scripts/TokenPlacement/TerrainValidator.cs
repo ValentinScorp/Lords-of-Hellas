@@ -82,7 +82,7 @@ public class TerrainValidator
             return false;
         }
 
-        regionId = regionEffects.RegionId;
+        regionId = regionEffects.Id;
         return true;
     }    
 

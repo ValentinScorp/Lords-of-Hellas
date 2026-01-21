@@ -6,16 +6,16 @@ public class SpawnPointsView : MonoBehaviour
 {
     [SerializeField] private float _step = 1f;
     private RegionId _regionId;
-    private Mesh _mesh;
     private List<SpawnPoint> _spawnPoints = new();
-
-    public IReadOnlyList<SpawnPoint> Points => _spawnPoints;
 
     private void Start()
     {
-        _regionId = GetComponent<RegionAreaView>().RegionId;
-        _mesh = GetComponent<MeshFilter>().mesh;
+         _regionId = GetComponent<RegionAreaView>().Id;
         GenerateSpawnPoints();
+
+        if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_regionId, out var region)) {
+            region.SetSpawnPoints(_spawnPoints);
+        }
     }
     public SpawnPoint GetFreeSpawnPoint()
     {
@@ -54,12 +54,12 @@ public class SpawnPointsView : MonoBehaviour
     private void GenerateSpawnPoints()
     {
         _spawnPoints.Clear();
-
-        var vertices = _mesh.vertices;
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        var vertices = mesh.vertices;
         for (int i = 0; i < vertices.Length; i++) {
             vertices[i] = transform.TransformPoint(vertices[i]);
         }
-        var bounds = _mesh.bounds;
+        var bounds = mesh.bounds;
         Vector3 min = transform.TransformPoint(bounds.min);
         Vector3 max = transform.TransformPoint(bounds.max);
 
@@ -67,7 +67,7 @@ public class SpawnPointsView : MonoBehaviour
             for (float z = min.z; z <= max.z; z += _step) {
                 Vector3 pos = new Vector3(x, 0f, z);
                 if (IsPointInsideMesh(pos)) {
-                    _spawnPoints.Add(new(_regionId, pos));
+                    _spawnPoints.Add(new(pos, _regionId));
                 }
             }
         }

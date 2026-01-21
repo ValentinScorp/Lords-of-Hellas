@@ -1600,7 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 7
+  _id: 0
   _regionBorder: {fileID: 1034790807}
 --- !u!114 &193114067
 MonoBehaviour:
@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 13
+  _id: 0
   _regionBorder: {fileID: 1005589950}
 --- !u!64 &214789610
 MeshCollider:
@@ -2562,7 +2562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 19
+  _id: 0
   _regionBorder: {fileID: 71631466}
 --- !u!64 &284437575
 MeshCollider:
@@ -4488,7 +4488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 2
+  _id: 0
   _regionBorder: {fileID: 50094196}
 --- !u!64 &537980107
 MeshCollider:
@@ -4767,7 +4767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 3
+  _id: 0
   _regionBorder: {fileID: 240691860}
 --- !u!64 &572710674
 MeshCollider:
@@ -5007,11 +5007,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607348127}
+  - component: {fileID: 607348128}
+  - component: {fileID: 607348132}
   - component: {fileID: 607348131}
   - component: {fileID: 607348130}
   - component: {fileID: 607348129}
-  - component: {fileID: 607348128}
-  - component: {fileID: 607348132}
   m_Layer: 11
   m_Name: Area
   m_TagString: PlaceableRegion
@@ -5046,7 +5046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 16
+  _id: 0
   _regionBorder: {fileID: 875796676}
 --- !u!64 &607348129
 MeshCollider:
@@ -5655,7 +5655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 18
+  _id: 0
   _regionBorder: {fileID: 1296006245}
 --- !u!64 &740470162
 MeshCollider:
@@ -6844,7 +6844,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224725300}
   m_HandleRect: {fileID: 1224725299}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8067,7 +8067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 9
+  _id: 0
   _regionBorder: {fileID: 1194410548}
 --- !u!64 &1076509946
 MeshCollider:
@@ -8209,7 +8209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 6
+  _id: 0
   _regionBorder: {fileID: 454084243}
 --- !u!64 &1083459160
 MeshCollider:
@@ -9192,7 +9192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 8
+  _id: 0
   _regionBorder: {fileID: 1102793719}
 --- !u!64 &1199982725
 MeshCollider:
@@ -10797,7 +10797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 11
+  _id: 0
   _regionBorder: {fileID: 33003403}
 --- !u!114 &1387067756
 MonoBehaviour:
@@ -10991,7 +10991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 15
+  _id: 0
   _regionBorder: {fileID: 1535734583}
 --- !u!64 &1430113618
 MeshCollider:
@@ -11518,7 +11518,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1636596167}
   m_HandleRect: {fileID: 1636596166}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12095,7 +12095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 17
+  _id: 0
   _regionBorder: {fileID: 507649798}
 --- !u!64 &1638303773
 MeshCollider:
@@ -12752,7 +12752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 1
+  _id: 0
   _regionBorder: {fileID: 1948942151}
 --- !u!64 &1682333998
 MeshCollider:
@@ -13248,7 +13248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 12
+  _id: 0
   _regionBorder: {fileID: 1398301829}
 --- !u!64 &1748952728
 MeshCollider:
@@ -13422,7 +13422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 10
+  _id: 0
   _regionBorder: {fileID: 1451893471}
 --- !u!64 &1798442649
 MeshCollider:
@@ -14115,7 +14115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 14
+  _id: 0
   _regionBorder: {fileID: 189698843}
 --- !u!64 &1946094819
 MeshCollider:
@@ -14951,7 +14951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 5
+  _id: 0
   _regionBorder: {fileID: 418107414}
 --- !u!64 &2046155938
 MeshCollider:
@@ -15093,7 +15093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd917a7ce49ef148856ae8242546bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _regionId: 4
+  _id: 0
   _regionBorder: {fileID: 939379478}
 --- !u!64 &2056269602
 MeshCollider:

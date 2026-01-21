@@ -4,13 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectMgr
+public class ObjectsHitDetector
 {
     private Camera _camera;
-    // private EventSystem _eventSystem;
-    // private UserInputController _userInputController;
-    // private Action<TokenView> _onTokenClicked;
-    // private Action<RegionId> _onRegionClicked;
     private RegionInfoUiCtlr _regionInfoController;
     private Action<List<Target>> _onHitTargets;
 
@@ -25,7 +21,7 @@ public class SelectMgr
             HitPoint = hitPoint;
         }
     }
-    public SelectMgr(Camera camera, UserInputController userInputController)
+    public ObjectsHitDetector(Camera camera, UserInputController userInputController)
     {
         if (camera == null) {
             Debug.LogWarning("Error in input parameter Camera!");
@@ -40,28 +36,6 @@ public class SelectMgr
             userInputController.SetClickMgr(this);
         }
     }
-    public bool IsMouseOverCanvas(Canvas canvas, Vector2 screenPosition)
-    {
-        if (canvas == null || EventSystem.current == null) 
-            return false;
-
-        GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
-        
-        if (gr == null) 
-            return false;
-
-        var ped = new PointerEventData(EventSystem.current) {
-            position = screenPosition
-        };
-        var results = new List<RaycastResult>();
-        gr.Raycast(ped, results);
-
-        // foreach (var result in results)
-        //     Debug.Log($"MouseOverCanvas hit: {result.gameObject.name}");
-
-        return results.Count > 0;
-    }
-
     public void HandleHits(Vector2 screenPosition)
     {
         // Debug.Log($"ClickMgr: HandleClick at {screenPosition}");
@@ -93,7 +67,28 @@ public class SelectMgr
             }
         }
     }
-    public void ListenObjectsHits(Action<List<Target>> onHitTargets)
+    private bool IsMouseOverCanvas(Canvas canvas, Vector2 screenPosition)
+    {
+        if (canvas == null || EventSystem.current == null) 
+            return false;
+
+        GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
+        
+        if (gr == null) 
+            return false;
+
+        var ped = new PointerEventData(EventSystem.current) {
+            position = screenPosition
+        };
+        var results = new List<RaycastResult>();
+        gr.Raycast(ped, results);
+
+        // foreach (var result in results)
+        //     Debug.Log($"MouseOverCanvas hit: {result.gameObject.name}");
+
+        return results.Count > 0;
+    }
+    public void Listen(Action<List<Target>> onHitTargets)
     {
         if (_onHitTargets != null) {
             Debug.LogWarning("ClickMgr: Overwriting existing click listener!");
@@ -103,7 +98,7 @@ public class SelectMgr
         var regionInfoCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
         regionInfoCtlr.Deactivate();
     }
-    public void UnlistenTokneSelection()
+    public void Unlisten()
     {
         _onHitTargets = null;
     }

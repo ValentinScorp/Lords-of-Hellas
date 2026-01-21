@@ -45,7 +45,7 @@ public class TokenPlacementViewModel
         }
     }
 
-    private void HandleCmdComplete(CmdResult cmdResult)
+    private void HandleCmdComplete(CommandResult cmdResult)
     {
         _isBusy = false;
     }

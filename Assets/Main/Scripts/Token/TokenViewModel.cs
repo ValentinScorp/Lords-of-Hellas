@@ -28,6 +28,13 @@ public class TokenViewModel : IDisposable
         SpawnPoint = new();
         Model = model;
     }
+    public void Place(SpawnPoint spawnPoint)
+    {
+        SpawnPoint = spawnPoint;
+        spawnPoint.Occupy();
+        SetWorldPosition(spawnPoint.Position);
+        SetPlacedVisual();
+    }
     public void SetWorldPosition(Vector3 position)
     {
         WorldPosition = position;

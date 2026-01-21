@@ -1,21 +1,20 @@
+using Mono.Cecil.Cil;
+using TMPro;
 using UnityEngine;
 
 public class RegionView : MonoBehaviour
 {
-    private RegionId _regionId = RegionId.Unknown;
-    private RegionViewController _regionViewController;
-    private RegionContext _regionContext;
+    private RegionId _id = RegionId.Unknown;
+    private RegionViewModel _viewModel;
     private RegionAreaView _areaView;
     private RegionBorderView _borderView;
     private SpawnPointsView _spawnPoint;
 
     private void Awake()
     {
-        _regionId = RegionIdParser.Parse(gameObject.name);
+        _id = RegionIdParser.Parse(gameObject.name);
 
-        _regionViewController = new(_regionId);
-
-        if (_regionId == RegionId.Unknown) {
+        if (_id == RegionId.Unknown) {
             Debug.LogWarning($"RegionView '{name}' has unknown RegionId");
         }
         Transform areaTransform = transform.Find("Area");
@@ -33,13 +32,15 @@ public class RegionView : MonoBehaviour
         if (borderTransform == null || !borderTransform.TryGetComponent(out _borderView)) {
             Debug.LogError($"RegionView '{name}' could not find RegionBorderView under child 'Border'");
         }
+
+        if (_areaView is not null) {
+            _areaView.Id = _id;
+        }
     }
     private void Start()
     {
-        _regionContext = GameContext.Instance.RegionDataRegistry.GetRegionContext(_regionId);
-        if (_regionContext == null) {
-            Debug.LogError($"RegionView '{name}' could not get RegionData for RegionId {_regionId}");
-            return;
+        if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_id, out var regionVm)) {
+            _viewModel = regionVm;
         }
     }
 }

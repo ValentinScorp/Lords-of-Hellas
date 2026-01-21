@@ -1,18 +1,18 @@
-public class CmdResult
+public class CommandResult
 {
     public bool Success { get; }
     public string Error { get; }
 
-    private CmdResult(bool success, string error)
+    private CommandResult(bool success, string error)
     {
         Success = success;
         Error = error;
     }
 
-    public static CmdResult Ok() {
+    public static CommandResult Ok() {
          return new(true, null);
     }
-    public static CmdResult Fail(string error)
+    public static CommandResult Fail(string error)
     {
         return new(false, error);
     }
