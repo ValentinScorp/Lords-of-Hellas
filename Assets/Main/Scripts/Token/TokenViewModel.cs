@@ -4,7 +4,7 @@ using UnityEngine;
 public class TokenViewModel : IDisposable
 {
     public Vector3 WorldPosition { get; private set; }
-    public SpawnPoint SpawnPoint { get; private set; }
+    public TokenNest TokenNest { get; private set; }
     public TokenModel Model { get; private set; }
 
     public enum VisualState
@@ -25,14 +25,14 @@ public class TokenViewModel : IDisposable
             Debug.LogWarning("Setting Model at TokenViewModel as null!");        
 
         GhostState = VisualState.Ghost;
-        SpawnPoint = new();
+        TokenNest = new();
         Model = model;
     }
-    public void Place(SpawnPoint spawnPoint)
+    public void Place(TokenNest nest)
     {
-        SpawnPoint = spawnPoint;
-        spawnPoint.Occupy();
-        SetWorldPosition(spawnPoint.Position);
+        TokenNest = nest;
+        nest.Occupy();
+        SetWorldPosition(nest.Position);
         SetPlacedVisual();
     }
     public void SetWorldPosition(Vector3 position)

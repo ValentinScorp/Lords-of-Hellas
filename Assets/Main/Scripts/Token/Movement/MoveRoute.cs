@@ -10,16 +10,16 @@ public class MoveRoute
     private class Node
     {
         public RegionId RegionId { get; private set; }
-        public SpawnPoint SpawnPoint { get; private set; }        
+        public TokenNest SpawnPoint { get; private set; }        
 
-        public Node(RegionId regionId, SpawnPoint spawnPoint)
+        public Node(RegionId regionId, TokenNest spawnPoint)
         {
             RegionId = regionId;
             SpawnPoint = spawnPoint;
         }
     }
     private List<Node> _nodes = new List<Node>();
-    public void AddRouteNode(RegionId regionId, SpawnPoint spawnPoint)
+    public void AddRouteNode(RegionId regionId, TokenNest spawnPoint)
     {
         _stepsLeft--;
         if (_stepsLeft >= 0) {

@@ -9,7 +9,7 @@ public class TokenMover
     private readonly TerrainValidator _terrainValidator = new();
     private TokenView _originToken;
     private RegionId _prevReionId;
-    private Action<SpawnPoint> _onComplete;
+    private Action<TokenNest> _onComplete;
     private readonly List<RouteLink> _routeLinks = new();
     private RouteLink _currentRouteLink;
 
@@ -17,7 +17,7 @@ public class TokenMover
     {
         _raycastBoard = ServiceLocator.Get<RaycastIntersector>();
     }
-    public void CatchNeibRegionPoint(TokenView token, RegionId fromRegion, Action<SpawnPoint> onComplete, Action onCancel = null)    
+    public void CatchNeibRegionPoint(TokenView token, RegionId fromRegion, Action<TokenNest> onComplete, Action onCancel = null)    
     {
         _originToken = token;
         _prevReionId = fromRegion;

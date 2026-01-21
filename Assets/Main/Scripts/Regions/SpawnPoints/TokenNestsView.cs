@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class SpawnPointsView : MonoBehaviour
+public class TokenNestsView : MonoBehaviour
 {
     [SerializeField] private float _step = 1f;
     private RegionId _regionId;
-    private List<SpawnPoint> _spawnPoints = new();
+    private List<TokenNest> _spawnPoints = new();
 
     private void Start()
     {
          _regionId = GetComponent<RegionAreaView>().Id;
-        GenerateSpawnPoints();
+        GenerateNests();
 
         if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_regionId, out var region)) {
-            region.SetSpawnPoints(_spawnPoints);
+            region.SetNests(_spawnPoints);
         }
     }
-    public SpawnPoint GetFreeSpawnPoint()
+    public TokenNest GetFreeNest()
     {
         foreach (var point in _spawnPoints) {
             if (!point.IsOccupied) {
@@ -27,14 +27,14 @@ public class SpawnPointsView : MonoBehaviour
         Debug.LogError("No free SawnPoints left!");
         return null;
     }
-    public SpawnPoint GetCenteredUnoccupied()
+    public TokenNest GetCenteredUnoccupied()
     {
-        var average = CalcAveragePoint();
+        var average = CalcAverageNest();
         return GetNearestUnoccupied(average);
     }
-    public SpawnPoint GetNearestUnoccupied(Vector3 point)
+    public TokenNest GetNearestUnoccupied(Vector3 point)
     {
-        SpawnPoint nearest = null;
+        TokenNest nearest = null;
         float minDistance = float.MaxValue;
 
         foreach (var spawnPoint in _spawnPoints) {
@@ -51,7 +51,7 @@ public class SpawnPointsView : MonoBehaviour
         }
         return nearest;
     }
-    private void GenerateSpawnPoints()
+    private void GenerateNests()
     {
         _spawnPoints.Clear();
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -74,7 +74,7 @@ public class SpawnPointsView : MonoBehaviour
 
         //Debug.Log($"Generated {_spawnPoints.Count} spawn points for {name}");
     }
-    private Vector3 CalcAveragePoint()
+    private Vector3 CalcAverageNest()
     {
         Vector3 averagePoint = Vector3.zero;
         foreach (var spawnPoint in _spawnPoints) {

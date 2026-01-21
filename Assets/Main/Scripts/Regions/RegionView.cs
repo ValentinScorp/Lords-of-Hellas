@@ -8,7 +8,6 @@ public class RegionView : MonoBehaviour
     private RegionViewModel _viewModel;
     private RegionAreaView _areaView;
     private RegionBorderView _borderView;
-    private SpawnPointsView _spawnPoint;
 
     private void Awake()
     {
@@ -24,9 +23,9 @@ public class RegionView : MonoBehaviour
             if (!areaTransform.TryGetComponent(out _areaView)) {
                 Debug.LogError($"RegionView '{name}' could not get RegionAreaView component from child Area!");
             }
-            if (!areaTransform.TryGetComponent(out _spawnPoint)) {
-                Debug.LogError($"RegionView '{name}' could not get SpawnPoint component from child Area!");
-            }
+            // if (!areaTransform.TryGetComponent(out _spawnPoint)) {
+            //     Debug.LogError($"RegionView '{name}' could not get SpawnPoint component from child Area!");
+            // }
         }
         Transform borderTransform = transform.Find("Border");
         if (borderTransform == null || !borderTransform.TryGetComponent(out _borderView)) {

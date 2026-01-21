@@ -5,8 +5,8 @@ using UnityEngine;
 public class CmdPlaceHeroStartup
 {
     private HeroModel _hero;
-    private ObjectsHitDetector _objectsHitDetector;
     private TokenDragger _tokenDragger;
+    private TokenNestHitDetector _tokenNestHitDetector = new();
     private Action<CommandResult> _CommandCompleted; 
     public void Init(HeroModel hero)
     {
@@ -14,7 +14,6 @@ public class CmdPlaceHeroStartup
             _tokenDragger = new TokenDragger();
         }
         _hero = hero;
-        _objectsHitDetector = ServiceLocator.Get<ObjectsHitDetector>();
     }
     public bool CanExecute()
     {
@@ -29,27 +28,12 @@ public class CmdPlaceHeroStartup
         _CommandCompleted = CmdComplete;
         var _ghostToken = ServiceLocator.Get<TokenFactory>().CreateGhostToken(_hero);
         _tokenDragger.SetTarget(_ghostToken);
-       _objectsHitDetector.Listen(HandleHits);
+        _tokenNestHitDetector.ListenHits(HandleHitedNest);
     }
-    public void HandleHits(List<ObjectsHitDetector.Target> targets)
+    public void HandleHitedNest(TokenNest nest)
     {
-        if (targets == null) return;
-
-        foreach (var target in targets){
-            if (target.Selectable is RegionAreaView regionArea) {
-                RegionHited(regionArea, target.HitPoint);
-                break;
-            }
-        }
-    }
-    private void RegionHited(RegionAreaView region, Vector3 hitPoint)
-    {
-        var regRegistry = GameContext.Instance.RegionDataRegistry;
-        ServiceLocator.Get<ObjectsHitDetector>().Unlisten();
-        if (ServiceLocator.Get<RegionsViewModel>().TryGetFreeSpawnPoint(region.Id, hitPoint, out var spawnPoint)) {
-            if (_tokenDragger.TryRemoveTarget(out var token)) {
-                token.Place(spawnPoint);
-                _objectsHitDetector.Unlisten();
+         if (_tokenDragger.TryRemoveTarget(out var token)) {
+            if (ServiceLocator.Get<RegionsViewModel>().TryRegisterToken(token, nest)) {
                 _CommandCompleted?.Invoke(CommandResult.Ok());
             }
         }

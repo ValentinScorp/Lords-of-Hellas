@@ -7,6 +7,7 @@ public class TokenPlacementViewModel
     private CmdPlaceHopliteStartup _cmdPlaceHoplite = new();
     private bool _isBusy;
     public event Action OnStartPlacement;
+    public event Action RefreshAction;
 
     public void StartPlacement(Player player)
     {
@@ -36,17 +37,23 @@ public class TokenPlacementViewModel
             _isBusy = true;
             _cmdPlaceHero.Execute(HandleCmdComplete); 
         }
+        RefreshAction?.Invoke();
     }
     public void PlaceHoplite() 
     { 
-         if (CanPlaceHoplite()) {
+        if (CanPlaceHoplite()) {
             _isBusy = true;
             _cmdPlaceHoplite.Execute(HandleCmdComplete);
+            if (_cmdPlaceHoplite.CanExecute()) {
+                _cmdPlaceHoplite.Init(_curPlayer.TakeHoplite());
+            }
         }
+        RefreshAction?.Invoke();
     }
 
     private void HandleCmdComplete(CommandResult cmdResult)
-    {
+    {        
         _isBusy = false;
+        RefreshAction?.Invoke();
     }
 }

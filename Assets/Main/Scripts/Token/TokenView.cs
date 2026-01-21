@@ -25,7 +25,7 @@ public class TokenView : MonoBehaviour, ISelectable
     // public TokenModel Model => _model;
     public PlayerColor PlayerColor { get; set; }
     public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
-    public SpawnPoint SpawnPoint { get; set; }
+    public TokenNest SpawnPoint { get; set; }
     private TokenViewModel _viewModel;
     public TokenViewModel ViewModel => _viewModel;
 

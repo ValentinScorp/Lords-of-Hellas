@@ -15,7 +15,7 @@ public class RegionContext
     public bool IsFortified { get; private set; }
 
     public event Action<PlayerColor> OnOwnerChanged;
-    public event Action<TokenModel> OnTokenAdded;
+    public event Action<TokenModel> TokenAdded;
     public event Action<TokenModel> OnTokenRemoved;
 
     [SerializeField] private List<TokenModel> _tokens = new();
@@ -51,7 +51,12 @@ public class RegionContext
         }
         return false;        
     }
-    public void RegisterToken<T>(T token) where T : TokenModel
+    public bool TryRegisterToken(TokenModel token)
+    {
+        AddToken(token);
+        return true;
+    }
+    public void RegisterToken(TokenModel token)
     {
         if (token is HopliteStackModel hopliteStack) {
             int hopliteCount = 0;
@@ -168,7 +173,7 @@ public class RegionContext
     {
         token.RegionId = RegionId;
         _tokens.Add(token);         
-        OnTokenAdded?.Invoke(token);
+        TokenAdded?.Invoke(token);
     }
     private void RemoveToken(TokenModel token)
     {

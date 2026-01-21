@@ -35,12 +35,12 @@ public class HopliteMoveAction
         _tokenSelector.WaitTokenSelection(_regularAction.Player.Color, TokenType.HopliteStack, HandleSelection);        
     }
 
-    private void HandleHopliteMove(SpawnPoint spawnPoint)
+    private void HandleHopliteMove(TokenNest spawnPoint)
     {
         PlaceHoplite(_selectedHoplite, spawnPoint);
         _regularAction.HoplitesSteps--;
     }
-    private void PlaceHoplite(HopliteModel hoplite, SpawnPoint spawnPoint)
+    private void PlaceHoplite(HopliteModel hoplite, TokenNest spawnPoint)
     {
         var regDataRegistry = GameContext.Instance.RegionDataRegistry;
         if (regDataRegistry.MoveHopliteUnit(hoplite, spawnPoint.RegionId)) {

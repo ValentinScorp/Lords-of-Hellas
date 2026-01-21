@@ -151,7 +151,7 @@ public class TokenPlacementManager
                 return;
             } 
         }
-        SpawnPoint spawn = _regionsView.PlaceToken(_tokenHolder.TokenView, regionId, _tokenHolder.GetGameObjectPosition());
+        TokenNest spawn = _regionsView.PlaceToken(_tokenHolder.TokenView, regionId, _tokenHolder.GetGameObjectPosition());
         if (spawn != null) {
             ServiceLocator.Get<TokenVisualChanger>().PrepareTokenPlacement(_tokenHolder.TokenView, color);
             _tokenHolder.SetGameObjectPosition(spawn.Position);

@@ -110,7 +110,17 @@ public class RegionsContext
         }        
         return false;    
     }
-
+    public bool TryGetRegion(RegionId regionId, out RegionContext region)
+    {
+        var reg = GetRegionContext(regionId);
+        if (reg is not null) {
+            region = reg;
+            return true;
+        }
+        Debug.Log($"Unbale to get region {regionId} from RegionsContext!");
+        region = null;
+        return false;
+    }
     public RegionContext GetRegionContext(RegionId regionId)
     {
         if (_regionMap.TryGetValue(regionId, out RegionContext regionData)) {
@@ -182,7 +192,6 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    
     public bool RegisterToken(RegionId regionId, TokenModel token)
     {
         var region = GetRegionContext(regionId);

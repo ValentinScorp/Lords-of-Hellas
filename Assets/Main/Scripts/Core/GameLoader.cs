@@ -97,5 +97,7 @@ public class GameLoader : MonoBehaviour
     }
     private void OnDestroy() {
         _startPlacementButton.onClick.RemoveListener(_gameManager.StartGame);
+        _regionsViewModel.Dispose();
+
     }
 }

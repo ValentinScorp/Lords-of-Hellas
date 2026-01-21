@@ -16,7 +16,6 @@ public class HopliteManager
     }
     public bool TryTakeHoplite(out HopliteModel hoplite)
     {
-
         foreach (var h in _hoplites) {
             if (!h.OnBoard) {
                 h.OnBoard = true;

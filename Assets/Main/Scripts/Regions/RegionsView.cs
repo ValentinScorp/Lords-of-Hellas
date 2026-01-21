@@ -15,7 +15,7 @@ public class RegionsView : MonoBehaviour
         }
     }
 
-    public SpawnPoint PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
+    public TokenNest PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
     {
         var spawnPoint = GetFreeSpawnPoint(regionId, pos);
         if (spawnPoint != null) {
@@ -26,7 +26,7 @@ public class RegionsView : MonoBehaviour
         }
         return spawnPoint;
     }
-    public void PlaceTokenAtSpawn(TokenView token, SpawnPoint spawnPoint)
+    public void PlaceTokenAtSpawn(TokenView token, TokenNest spawnPoint)
     {
         spawnPoint.Occupy();
         token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
@@ -65,12 +65,12 @@ public class RegionsView : MonoBehaviour
             }
         }
     }
-    public SpawnPoint GetFreeSpawnPoint(RegionId regionId, Vector3? position = null)
+    public TokenNest GetFreeSpawnPoint(RegionId regionId, Vector3? position = null)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
             foreach (Transform child in region) {
-                var spawnPoints = child.GetComponent<SpawnPointsView>();
+                var spawnPoints = child.GetComponent<TokenNestsView>();
                 if (spawnPoints != null) {
                     return position.HasValue ? 
                         spawnPoints.GetNearestUnoccupied(position.Value) :
