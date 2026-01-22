@@ -43,17 +43,16 @@ public class RegularAction
     }
     private void MakeHoplitesMoveList()
     {
-        var hopliteStacks = GameContext.Instance.RegionDataRegistry.GetHopliteStacks(Player.Color);
+        // var hopliteStacks = GameContext.Instance.RegionDataRegistry.GetHoplites(Player.Color);
 
-        foreach(var stack in hopliteStacks) {
-            foreach (var hoplite in stack.Hoplites) {
-                HoplitesMoveList.Add(new HopliteMoveInfo {
-                    Hoplite = hoplite,
-                    Moved = false
-                });
-            }
-        }
-       
+        // foreach(var stack in hopliteStacks) {
+        //     foreach (var hoplite in stack.Hoplites) {
+        //         HoplitesMoveList.Add(new HopliteMoveInfo {
+        //             Hoplite = hoplite,
+        //             Moved = false
+        //         });
+        //     }
+        // }       
     }
     public bool TryTakeUnmovedHoplite(HopliteStackModel hopliteStack, out HopliteModel unmovedHoplite)
     {

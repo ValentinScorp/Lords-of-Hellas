@@ -14,15 +14,6 @@ public class RegionsViewModel : IDisposable
             _regions.Add(new RegionViewModel(id));
         }
     }
-    public bool TryRegisterToken(TokenViewModel token, TokenNest tokenNest)
-    {
-        if (TryGetRegion(tokenNest.RegionId, out var region)) {
-            if (region.TryRegisterToken(token, tokenNest)) {
-                return true;
-            }
-        }
-        return false;
-    }
     public bool TryGetRegion(RegionId regionId, out RegionViewModel region)
     {
         foreach(var reg in _regions) {

@@ -52,11 +52,4 @@ public class HopliteStackModel : TokenModel, IPlayerOwned
         OnCountChanged?.Invoke(_hoplites.Count);
         return hoplite;
     }
-    public void ChangeHoplitesRegion(RegionId regionId)
-    {
-        foreach(var h in _hoplites)
-        {
-            h.ChangeRegion(regionId);
-        }
-    }
 }

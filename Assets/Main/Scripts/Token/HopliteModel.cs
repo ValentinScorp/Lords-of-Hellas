@@ -1,11 +1,7 @@
-using UnityEngine;
-
 [System.Serializable]
 public class HopliteModel : TokenModel, IPlayerOwned
 {
-    public bool Moved { get; private set; }
-    private RegionId _regionId;
-
+    public bool _isMoved { get; private set; }
     public bool OnBoard { get; set; }
     public PlayerColor PlayerColor { get; private set; }
 
@@ -13,19 +9,17 @@ public class HopliteModel : TokenModel, IPlayerOwned
     {
         PlayerColor = color;
     }
-
     public void SetOwner(PlayerColor color)
     {
         PlayerColor = color;
     }
-    public void ChangeRegion(RegionId regionId)
+    public void MarkModved()
     {
-        _regionId = regionId;
         OnBoard = true;
-        Moved = true;
+        _isMoved = true;
     }
     public void ResetMove()
     {
-        Moved = false;
+        _isMoved = false;
     }
 }

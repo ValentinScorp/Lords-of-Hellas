@@ -19,61 +19,13 @@ public class RegionViewModel : IDisposable
         Id = id;
         if (GameContext.Instance.RegionDataRegistry.TryGetRegion(id, out var region)) {
             _regionModel = region;
-            _regionModel.TokenAdded += HandleTokenAdded;
         }
     }
     public void Dispose()
     {
-        if (_regionModel is not null) {
-            _regionModel.TokenAdded -= HandleTokenAdded;
-        }
+
     }
-    public bool TryRegisterToken(TokenViewModel token, TokenNest nest)
-    {
-        if (nest.RegionId != Id) {
-            Debug.LogWarning($"Unable register {token.Model.Type} in region {Id}. RegionId not equal!");
-            return false;
-        }
-        _cashedNest = nest;
-        _cashedViewModel = token;
-        if (_regionModel.TryRegisterToken(token.Model)) {            
-            return true;
-        }
-        return false;
-    }
-    private void HandleTokenAdded(TokenModel token)
-    {
-        Debug.Log("HandelTokenAdded!");
-        TokenViewModel viewModel = null;
-        if (token is HopliteModel hoplite) {
-            foreach(var tokenVm in _tokens) {
-                if (tokenVm is HopliteStackViewModel hopliteStackVm) {
-                    if (hopliteStackVm.Model is HopliteStackModel hopliteStackModel) {
-                        if (hopliteStackModel.PlayerColor == hoplite.PlayerColor) {
-                            hopliteStackModel.AddHoplite(hoplite);
-                            viewModel = hopliteStackVm;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if (viewModel is null) {
-            if (_cashedNest is null) {
-                Debug.Log("_cashedNest is null!");
-            }
-            
-            if (_cashedViewModel is null) {
-                Debug.Log("_cashedViewModel is null!");
-            }
-            viewModel = _cashedViewModel;
-            viewModel.Place(_cashedNest);
-            _tokens.Add(viewModel);
-        } 
-        _cashedViewModel = null;
-        _cashedNest = null;
-        TokenRegistered?.Invoke(viewModel);
-    }
+    
     public void SetNests(List<TokenNest> nests)
     {
         _nests = nests;

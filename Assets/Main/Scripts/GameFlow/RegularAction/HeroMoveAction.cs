@@ -47,7 +47,7 @@ public class HeroMoveAction
         ServiceLocator.Get<RegionsView>().PlaceTokenAtSpawn(_heroToken, spawnPoint);      
         ServiceLocator.Get<TokenVisualChanger>().PrepareTokenPlacement(_heroToken, _heroToken.PlayerColor);
 
-        GameContext.Instance.RegionDataRegistry.RegisterToken(spawnPoint.RegionId, _heroToken.ViewModel.Model);
+        GameContext.Instance.RegionDataRegistry.TryPlace(spawnPoint.RegionId, _heroToken.ViewModel.Model);
 
         _tokenMover.DestroyVisuals();
         _moveRoute.Clear();

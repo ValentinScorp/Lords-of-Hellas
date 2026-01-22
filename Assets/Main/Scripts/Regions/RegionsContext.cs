@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class RegionsContext
@@ -48,7 +49,7 @@ public class RegionsContext
             }
         }
     }
-    public bool TryGetToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
+    public bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.TryGetToken(tokenType, playerColor, out token);
@@ -92,23 +93,21 @@ public class RegionsContext
         return total;
     }
 
-    public bool MoveHopliteUnit(HopliteModel hopliteUnit, RegionId regionId)
+    public bool TryMoveHoplite(HopliteModel hoplite, RegionId regionId)
     {
-        if (hopliteUnit == null) {
+        if (hoplite == null) {
             return false;
         }
-        RegionContext fromRegion = GetRegionContext(hopliteUnit.RegionId);
+        RegionContext fromRegion = GetRegionContext(hoplite.RegionId);
         RegionContext toRegion = GetRegionContext(regionId);
 
         if (fromRegion == null || toRegion == null) {
             return false;
         }
-        if (fromRegion.UnregisterHopliteUnit(hopliteUnit)) {            
-            toRegion.RegisterHopliteUnit(hopliteUnit);
-            hopliteUnit.ChangeRegion(regionId);
-            return true;            
-        }        
-        return false;    
+        fromRegion.Take(hoplite);
+        toRegion.Place(hoplite);
+        hoplite.MarkModved();
+        return true;    
     }
     public bool TryGetRegion(RegionId regionId, out RegionContext region)
     {
@@ -172,18 +171,6 @@ public class RegionsContext
         regionId = RegionId.Unknown;
         return false;
     }
-    public List<HopliteStackModel> GetHopliteStacks(PlayerColor playerColor)
-    {
-        List<HopliteStackModel> hopliteStacks = new();
-        foreach (var region in _regionsContextList) {
-            foreach (var token in region.Tokens) {
-                if (token is HopliteStackModel stack && stack.PlayerColor == playerColor) {
-                    hopliteStacks.Add(stack);
-                }
-            }
-        }
-        return hopliteStacks;
-    }
     public int GetHopliteNum(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
@@ -192,29 +179,31 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
     }
-    public bool RegisterToken(RegionId regionId, TokenModel token)
+    public bool TryPlace(RegionId regionId, TokenModel token)
     {
         var region = GetRegionContext(regionId);
         if (region == null) {
             Debug.LogWarning($"Region {regionId} not found for registering token.");
             return false;
         }
-        region.RegisterToken(token);
+        region.Place(token);
         GameLogger.Instance.Event($"Adding {token.Type} to {regionId}");
         return true;
     }
 
-    public bool UnregisterToken(RegionId regionId, TokenType tokenType, PlayerColor color)
+    public bool TryTake(RegionId regionId, TokenType tokenType, PlayerColor color, out TokenModel token)
     {
+        token = null;
         Debug.Log("Unregistering token " + tokenType.ToString());
         var region = GetRegionContext(regionId);
         if (region == null) {
-            Debug.LogWarning($"Region {regionId} not found for unregistering token.");
+            Debug.LogWarning($"Region {regionId} not found for unregistering token.");            
             return false;
         }
-        if (region.FindToken(tokenType, color, out TokenModel token)) {
-            region.RemoveToken(token);
+        if (region.TryFindToken(tokenType, color, out TokenModel t)) {
+            region.Take(t);
             GameLogger.Instance.Event($"Removing {tokenType} ({color}) from {regionId}");
+            token = t;
             return true;
         }
         Debug.LogWarning("Unable to unregister token in RegionManager!");

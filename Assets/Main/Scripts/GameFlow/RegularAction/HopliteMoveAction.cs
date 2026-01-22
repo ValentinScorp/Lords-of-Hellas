@@ -43,8 +43,8 @@ public class HopliteMoveAction
     private void PlaceHoplite(HopliteModel hoplite, TokenNest spawnPoint)
     {
         var regDataRegistry = GameContext.Instance.RegionDataRegistry;
-        if (regDataRegistry.MoveHopliteUnit(hoplite, spawnPoint.RegionId)) {
-            if (regDataRegistry.TryGetToken(spawnPoint.RegionId, TokenType.HopliteStack, hoplite.PlayerColor, out var hopliteStack)) {
+        if (regDataRegistry.TryMoveHoplite(hoplite, spawnPoint.RegionId)) {
+            if (regDataRegistry.TryFindToken(spawnPoint.RegionId, TokenType.HopliteStack, hoplite.PlayerColor, out var hopliteStack)) {
                 
             }
         }

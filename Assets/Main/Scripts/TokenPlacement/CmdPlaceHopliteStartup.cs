@@ -32,7 +32,8 @@ public class CmdPlaceHopliteStartup
     public void HandleHitedNest(TokenNest nest)
     {
          if (_tokenDragger.TryRemoveTarget(out var token)) {
-            GameContext.Instance.RegionDataRegistry.RegisterToken(nest.RegionId, token.Model);
+            
+            GameContext.Instance.RegionDataRegistry.TryPlace(nest.RegionId, token.Model);
             token.Place(nest);
             _CommandCompleted?.Invoke(CommandResult.Ok());
         }

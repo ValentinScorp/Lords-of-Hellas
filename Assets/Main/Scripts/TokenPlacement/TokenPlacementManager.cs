@@ -85,7 +85,7 @@ public class TokenPlacementManager
     }
     public void Cancel() {
         for (int i=0; i < _startupPlacementCounter; i++) {
-            _regionDataRegistry.UnregisterToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
+            _regionDataRegistry.TryTake(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor, out var token);
             _regionsView.RemoveToken(_recorder.LastStepRegionId, _recorder.LastStepTokenType, _recorder.LastStepPlayerColor);
             _recorder.RemoveLastStep();
         }
@@ -136,7 +136,7 @@ public class TokenPlacementManager
         RecordStep(regionId, color, _tokenHolder.TokenView.TokenType);
         HandleVisuals(_tokenHolder.TokenView.TokenType, regionId, color);
         
-        _regionDataRegistry.RegisterToken(regionId, _currentToken);
+        _regionDataRegistry.TryPlace(regionId, _currentToken);
         OnTokenPlaced?.Invoke();
         _currentToken = null;
     }

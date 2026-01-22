@@ -39,10 +39,5 @@ public class PriestManager
         return InPool >= count;
     }
     public event System.Action OnChanged;
-    public event System.Action OnMonumentPlaced;
-    public event System.Action OnPoolChanged;
 
-    public bool CanMoveToPool => InHand > 0;
-    public bool CanPlaceOnMonument => InPool > 0;
-    public bool CanReturnToHand => OnMonuments > 0;
 }

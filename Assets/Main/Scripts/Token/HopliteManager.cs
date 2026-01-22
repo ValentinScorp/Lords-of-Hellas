@@ -6,7 +6,6 @@ public class HopliteManager
 {
     public const int TOTAL_HOPLITES = 15;
     private List<HopliteModel> _hoplites = new();
-    public event System.Action OnChanged;
 
     public HopliteManager(Player player)
     {

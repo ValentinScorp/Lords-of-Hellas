@@ -33,9 +33,10 @@ public class CmdPlaceHeroStartup
     public void HandleHitedNest(TokenNest nest)
     {
          if (_tokenDragger.TryRemoveTarget(out var token)) {
-            if (ServiceLocator.Get<RegionsViewModel>().TryRegisterToken(token, nest)) {
-                _CommandCompleted?.Invoke(CommandResult.Ok());
-            }
+            // TODO: Implement token on board registration
+            // if (ServiceLocator.Get<RegionsViewModel>().TryRegisterToken(token, nest)) {
+            //     _CommandCompleted?.Invoke(CommandResult.Ok());
+            // }
         }
     }
 }
