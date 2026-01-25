@@ -44,8 +44,9 @@ public class GameLoader : MonoBehaviour
 
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
+        ServiceLocator.Register(new TokenViewRegistry());
 
-        ServiceLocator.Register(new TokenPlacementViewModel());
+        ServiceLocator.Register(new TokenPlacementPresenter());
 
         _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 

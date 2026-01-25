@@ -211,6 +211,7 @@ public class TokenView : MonoBehaviour, ISelectable
     }
     private void OnDestroy()
     {
+        ServiceLocator.Get<TokenViewRegistry>()?.Unregister(_viewModel, this);
         UnsubscribeFromViewModel();
         _viewModel.Dispose();
     }

@@ -61,5 +61,5 @@ public class GameContext
             var player = new Player(playerCfg);
             _players.Add(player);
         }
-    }  
+    }
 }

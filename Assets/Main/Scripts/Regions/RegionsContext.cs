@@ -49,6 +49,15 @@ public class RegionsContext
             }
         }
     }
+    public bool TryPlace(TokenModel token, TokenNest nest)
+    {
+        if (TryFindRegion(nest.RegionId, out var region)) {
+            region.Place(token, nest);
+            return true;
+        }
+        return false;
+    }
+
     public bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
@@ -109,15 +118,12 @@ public class RegionsContext
         hoplite.MarkModved();
         return true;    
     }
-    public bool TryGetRegion(RegionId regionId, out RegionContext region)
+    public bool TryFindRegion(RegionId regionId, out RegionContext region)
     {
-        var reg = GetRegionContext(regionId);
-        if (reg is not null) {
-            region = reg;
+        region = GetRegionContext(regionId);
+        if (region is not null) {
             return true;
         }
-        Debug.Log($"Unbale to get region {regionId} from RegionsContext!");
-        region = null;
         return false;
     }
     public RegionContext GetRegionContext(RegionId regionId)
@@ -136,26 +142,34 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsHopliteInRegion(PlayerColor color, RegionId regionId)
+    public bool IsHopliteSameColor(PlayerColor color, RegionId regionId)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
-            return region.ContainsAnotherHopliteOfColor(color, out var hoplite);
+            return region.ContainsHopliteSameColor(color, out var hoplite);
         }
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsAnotherHeroInRegion(RegionId regionId, PlayerColor color)
+    public bool IsHeroAnotherColor(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
-            return region.ContainsAnotherHero(color);
+            return region.ContainsHeroAnotherColor(color);
         }
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsAnotherHopliteInRegion(RegionId regionId, PlayerColor color)
+    public bool IsHeroSameColor(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
-            return region.ContainsAnotherHoplite(color);
+            return region.ContainsHeroSameColor(color);
+        }
+        Debug.LogWarning($"Region {regionId} not found in map.");
+        return false;
+    }
+    public bool IsHopliteAnotherColor(RegionId regionId, PlayerColor color)
+    {
+        if (_regionMap.TryGetValue(regionId, out var region)) {
+            return region.ContainsHopliteAnotherColor(color);
         }
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;

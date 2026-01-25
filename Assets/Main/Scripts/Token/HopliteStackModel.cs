@@ -16,10 +16,10 @@ public class HopliteStackModel : TokenModel, IPlayerOwned
     {
         _playerColor = color;
     }
-    public HopliteStackModel(HopliteModel hopliteUnit) : base(TokenType.HopliteStack)
+    public HopliteStackModel(HopliteModel hoplite) : base(TokenType.HopliteStack)
     {
-        _playerColor = hopliteUnit.PlayerColor;
-        AddHoplite(hopliteUnit);
+        _playerColor = hoplite.PlayerColor;
+        AddHoplite(hoplite);
     }
     public HopliteStackModel(Player player) : base(TokenType.HopliteStack)
     {
@@ -28,6 +28,7 @@ public class HopliteStackModel : TokenModel, IPlayerOwned
     public void AddHoplite(HopliteModel hoplite)
     {
         _hoplites.Add(hoplite);
+        hoplite.RegionId = RegionId;
         OnCountChanged?.Invoke(_hoplites.Count);
     }
     public bool RemoveHoplite(HopliteModel hopliteUnit)

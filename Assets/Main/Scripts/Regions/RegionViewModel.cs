@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RegionViewModel : IDisposable
@@ -17,15 +18,30 @@ public class RegionViewModel : IDisposable
     public RegionViewModel(RegionId id)
     {
         Id = id;
-        if (GameContext.Instance.RegionDataRegistry.TryGetRegion(id, out var region)) {
+        if (GameContext.Instance.RegionDataRegistry.TryFindRegion(id, out var region)) {
             _regionModel = region;
+            _regionModel.TokenPlaced += HandleTokenPlaced;
         }
     }
     public void Dispose()
     {
-
+        if (_regionModel is not null) {
+            _regionModel.TokenPlaced -= HandleTokenPlaced;
+        }
     }
-    
+    private void HandleTokenPlaced(TokenModel token, TokenNest nest)
+    {
+        var tokenVm = ServiceLocator.Get<TokenFactory>().CreateGhostToken(token);
+        Place(tokenVm, nest);
+    }
+    private void Place(TokenViewModel token, TokenNest nest)
+    {
+        if (nest is null) {
+            nest = GetCenteredUnoccupied();
+        } 
+        token.Place(nest);
+        _tokens.Add(token);
+    }
     public void SetNests(List<TokenNest> nests)
     {
         _nests = nests;
@@ -36,6 +52,20 @@ public class RegionViewModel : IDisposable
         if (nest != null) {
             return true;
         }
+        return false;
+    }
+    private bool TryFindHopliteStack(PlayerColor playerColor, out HopliteStackViewModel hopliteStack)
+    {
+        foreach (var token in _tokens) {
+            if (token is HopliteStackViewModel stackVm && stackVm.Model is HopliteStackModel stackModel ) {
+                if (stackModel.PlayerColor == playerColor) {
+                    hopliteStack = stackVm;
+                    return true;
+                }
+            }
+        }
+
+        hopliteStack = null;
         return false;
     }
     public TokenNest GetCenteredUnoccupied()
@@ -71,6 +101,4 @@ public class RegionViewModel : IDisposable
         averageNest /= _nests.Count;
         return averageNest;
     }
-
-
 }

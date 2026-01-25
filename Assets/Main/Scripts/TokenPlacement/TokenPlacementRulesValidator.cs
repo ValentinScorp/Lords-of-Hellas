@@ -9,11 +9,11 @@ public class TokenPlacementRulesValidator
             return false;
         }
         if (token is IPlayerOwned playerToken) {
-            if (regionManager.IsAnotherHeroInRegion(regionId, playerToken.PlayerColor)) {
+            if (regionManager.IsHeroAnotherColor(regionId, playerToken.PlayerColor)) {
                 Debug.Log("There is Hero of another player in this region.");
                 return false;
             }
-            if (regionManager.IsAnotherHopliteInRegion(regionId, playerToken.PlayerColor)) {
+            if (regionManager.IsHopliteSameColor(playerToken.PlayerColor, regionId)) {
                 Debug.Log("There is hoplite of another player in this region.");
                 return false;
             }

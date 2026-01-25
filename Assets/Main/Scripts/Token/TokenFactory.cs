@@ -10,6 +10,7 @@ public class TokenFactory
     {
         return CreateTokenViewModel(model);        
     }
+
     public TokenViewModel CreateTokenViewModel(TokenModel model, Transform parent = null) {
         if (model == null) {
             Debug.Log("Can't create toke prefab! Token model is null!");
@@ -18,6 +19,7 @@ public class TokenFactory
         var view = CreateTokenPrefab(model, parent);
         var viewModel = CreateViewModel(model);
         view.SubscribeToViewModel(viewModel);
+        ServiceLocator.Get<TokenViewRegistry>().Register(viewModel, view);
         return viewModel;
     }
     public float GetRadius(TokenType type) {
