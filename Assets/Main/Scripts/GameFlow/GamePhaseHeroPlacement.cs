@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
@@ -12,8 +13,8 @@ public class GamePhaseHeroPlacement : GamePhaseBase
         : base (phaseManager) {
         TurnOrderManager = new TurnOrderManager(players);
         _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementPresenter>();
-        TurnOrderManager.OnPlayerChanged += HandleNextPlayer;
-        TurnOrderManager.OnNoPlayersLeft += ProceedNextPhase;
+        TurnOrderManager.PlayerChanged += HandlePlayerChanged;
+        TurnOrderManager.NoPlayersLeft += ProceedNextPhase;
     }
     public override void Enter() {
         TurnOrderManager.StartPlacement();
@@ -28,9 +29,14 @@ public class GamePhaseHeroPlacement : GamePhaseBase
     private void ProceedNextPhase() {
         PhaseManager.NextPhase(this);
     }
-    private void HandleNextPlayer(Player player) {
+    private void HandlePlayerChanged(Player player) {
         GameContext.Instance.CurrentPlayer = player;
         player.TakeCombatCards(1);
+        player.ApplyHeroStartingBonus(StartingBonusApplied);
+        
+    }
+    private void StartingBonusApplied()
+    {
         _tokenPlacementPresenter.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
-    } 
+    }
 }

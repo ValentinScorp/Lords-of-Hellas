@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 [System.Serializable]
@@ -52,5 +53,16 @@ public class HopliteStackModel : TokenModel, IPlayerOwned
         _hoplites.RemoveAt(index);
         OnCountChanged?.Invoke(_hoplites.Count);
         return hoplite;
+    }
+    public bool TryTakeUnmovedHoplite(out HopliteModel hoplite)
+    {
+        foreach(var h in _hoplites) {
+            if (!h.IsMoved()) {
+                hoplite = h;
+                return true;
+            }
+        }
+        hoplite = null;
+        return false;
     }
 }

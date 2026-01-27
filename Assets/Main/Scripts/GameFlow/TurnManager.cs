@@ -13,8 +13,11 @@ public class TurnManager
         _players = players ?? throw new ArgumentNullException(nameof(players));
     }
     public void StartRegularAction(Player player) {
-        var regularActionService = ServiceLocator.Get<RegularActionService>();
-        regularActionService.Launch(new RegularAction(player), RegularActionComplete);
+        var regularActionManager = ServiceLocator.Get<RegularActionManager>();
+        regularActionManager.Launch(player, RegularActionComplete);
+
+        // var regularActionService = ServiceLocator.Get<RegularActionService>();
+        // regularActionService.Launch(new RegularAction(player), RegularActionComplete);
     }
     public void StartSpecialAction(Player player) {
         

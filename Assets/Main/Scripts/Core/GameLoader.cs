@@ -14,7 +14,6 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private RegionInfoUi _regionInfoUiPanel;
 
     private GameManager _gameManager;
-    private TokenPlacementManager _tokenPlacementManager;
     private CardSelectPanel _cardSelectPanel;
     private TokenSelector _tokenSelector;
     private TokenMover _tokenMover;
@@ -24,7 +23,6 @@ public class GameLoader : MonoBehaviour
 
     public ObjectsHitDetector _objectsHitDetector;
     public RegionsViewModel _regionsViewModel;
-
 
     private void Awake() 
     {
@@ -44,15 +42,14 @@ public class GameLoader : MonoBehaviour
 
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
-        ServiceLocator.Register(new TokenViewRegistry());
 
+        ServiceLocator.Register(new TokenViewRegistry());
         ServiceLocator.Register(new TokenPlacementPresenter());
+        ServiceLocator.Register(new RegularActionManager());
 
         _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 
                                                 1 << LayerMask.NameToLayer("BoardSurface"));
-
-        _tokenPlacementManager = new TokenPlacementManager(_regionsView);
       
         ServiceLocator.Register(_raycastBoard);
 
@@ -62,10 +59,8 @@ public class GameLoader : MonoBehaviour
         _cardSelectPanel = new CardSelectPanel();
         _cardSelectPanelView.Initialize(_cardSelectPanel);
 
-        _gameManager = new GameManager(GameContent.Instance, _tokenPlacementManager, _cardSelectPanel);
+        _gameManager = new GameManager(_cardSelectPanel);
         _playerInfoPanelView.Subscribe(_gameManager.GamePhaseManager);
-
-        ServiceLocator.Register(new TokenVisualChanger(GameContent.TokenMaterialPalette));
 
         _tokenSelector = new TokenSelector();
         ServiceLocator.Register(_tokenSelector);

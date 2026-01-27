@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -29,18 +30,44 @@ public class RegionContext
     public void Place(TokenModel token, TokenNest nest = null)
     {
         if (token is HopliteModel hoplite) {
-            if (TryFindHopliteStack(hoplite.PlayerColor, out var hopliteStack)) {
-                hopliteStack.AddHoplite(hoplite);
-                return;
-            } else {
-                var newHopliteStack = new HopliteStackModel(hoplite.PlayerColor);
-                newHopliteStack.AddHoplite(hoplite);
-                token = newHopliteStack;                
-            }
-        }   
+            PlaceHoplite(hoplite, nest);
+        } else {
+            PlaceToken(token, nest);
+        }
+    }
+    private void PlaceHoplite(HopliteModel hoplite, TokenNest nest)
+    {
+        if (TryFindHopliteStack(hoplite.PlayerColor, out var hopliteStack)) {
+            hopliteStack.AddHoplite(hoplite);
+            RecalcOwner();
+        } else {
+            var newHopliteStack = new HopliteStackModel(hoplite.PlayerColor);
+            newHopliteStack.AddHoplite(hoplite);
+            PlaceToken(newHopliteStack, nest);
+            RecalcOwner();            
+        }
+    }
+    private void PlaceToken(TokenModel token, TokenNest nest)
+    {
         token.RegionId = RegionId;
-        _tokens.Add(token);         
+        _tokens.Add(token);
         TokenPlaced?.Invoke(token, nest);
+    }
+    private void RecalcOwner()
+    {
+        HopliteStackModel hopliteStack = null;
+        int hopliteStackCounter = 0;
+        foreach (TokenModel t in _tokens) {
+            if (t is HopliteStackModel hopliteStackModel) {
+                hopliteStack = hopliteStackModel;
+                hopliteStackCounter++;
+            }
+        }
+        if (hopliteStackCounter == 1) {
+            if (hopliteStack.Count >= RegionConfig.PopulationStrength) {
+                ChangeOwner(hopliteStack.PlayerColor);
+            }
+        }
     }
     public void Take(TokenModel token)
     {
@@ -89,10 +116,8 @@ public class RegionContext
     public bool ContainsHopliteAnotherColor(PlayerColor color)
     {
         if (_tokens.OfType<HopliteStackModel>().Any(h => h.PlayerColor != color)) {
-            Debug.Log("Finding HopliteStack succeed!");
             return true;
         }
-        Debug.Log("Finding HopliteStack fail!");
         return false;
     }
     public bool ContainsHopliteSameColor(PlayerColor color, out HopliteStackModel hoplite)

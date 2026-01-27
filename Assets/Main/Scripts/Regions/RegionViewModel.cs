@@ -10,10 +10,8 @@ public class RegionViewModel : IDisposable
 
     private List<TokenViewModel> _tokens = new();
     private RegionContext _regionModel;
-    private TokenNest _cashedNest;
-    private TokenViewModel _cashedViewModel;
-
     public Action <TokenViewModel> TokenRegistered;
+    public Action <PlayerColor> OwnerChanged;
 
     public RegionViewModel(RegionId id)
     {
@@ -21,18 +19,24 @@ public class RegionViewModel : IDisposable
         if (GameContext.Instance.RegionDataRegistry.TryFindRegion(id, out var region)) {
             _regionModel = region;
             _regionModel.TokenPlaced += HandleTokenPlaced;
+            _regionModel.OwnerChanged += HandleOwnerChanged;
         }
     }
     public void Dispose()
     {
         if (_regionModel is not null) {
             _regionModel.TokenPlaced -= HandleTokenPlaced;
+            _regionModel.OwnerChanged -= HandleOwnerChanged;
         }
     }
     private void HandleTokenPlaced(TokenModel token, TokenNest nest)
     {
         var tokenVm = ServiceLocator.Get<TokenFactory>().CreateGhostToken(token);
         Place(tokenVm, nest);
+    }
+    private void HandleOwnerChanged(PlayerColor color)
+    {
+        OwnerChanged?.Invoke(color);
     }
     private void Place(TokenViewModel token, TokenNest nest)
     {

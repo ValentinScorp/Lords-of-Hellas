@@ -21,38 +21,36 @@ public class Player
     public event Action<Player, LandId> OnAddLandToken;
     public event Action<Player> OnPlayerInfoChange;
 
-    public Player(PlayerSetupConfig playerConfig) 
+    public Player(PlayerSetupConfig playerConfig)
     {
         _name = playerConfig.PlayerName;
         Color = playerConfig.PlayerColor;
         Hero = new HeroModel(playerConfig.HeroId, this);
-        _hopliteManager = new (this);
+        _hopliteManager = new(this);
     }
-    public void AddLandToken() 
+    public void AddLandToken()
     {
         OnAddLandToken?.Invoke(this, GameContent.Instance.GetLandColor(Hero.RegionId));
     }
-    public void SelectOneOfArtifactCards(int cardCount, Action onCompleted) 
+    public void SelectOneOfArtifactCards(int cardCount, Action onCompleted)
     {
         OnArtifactCardSelect?.Invoke(this, cardCount, onCompleted);
     }
-    public void TakeArtifactCard(CardArtifact card) 
+    public void TakeArtifactCard(CardArtifact card)
     {
         _artifactCards.Add(card);
         OnPlayerInfoChange?.Invoke(this);
     }
-    public void ApplyHeroStartingBonus(Action onCompleted) 
+    public void ApplyHeroStartingBonus(Action onCompleted)
     {
-        if (Hero != null) 
-        {
+        if (Hero != null) {
             Hero.ApplyStartinBonus(this, onCompleted);
-        } else 
-        {
+        } else {
             Debug.Log("Can`t apply starting bonus!");
             onCompleted?.Invoke();
         }
     }
-    public void TakeCombatCards(int count) 
+    public void TakeCombatCards(int count)
     {
         List<CardData> drawnCards = GameContext.Instance.CombatCardsDeck.DrawMultiple(count);
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
@@ -60,8 +58,7 @@ public class Player
     }
     public HopliteModel TakeHoplite()
     {
-        if (_hopliteManager.TryTakeHoplite(out var hoplite) && hoplite != null)
-        {
+        if (_hopliteManager.TryTakeHoplite(out var hoplite) && hoplite != null) {
             hoplite.SetOwner(Color);
             return hoplite;
         }

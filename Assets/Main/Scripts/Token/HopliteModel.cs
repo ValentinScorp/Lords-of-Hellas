@@ -1,7 +1,7 @@
 [System.Serializable]
 public class HopliteModel : TokenModel, IPlayerOwned
 {
-    public bool _isMoved { get; private set; }
+    private bool _isMoved;
     public bool OnBoard { get; set; }
     public PlayerColor PlayerColor { get; private set; }
 
@@ -21,5 +21,9 @@ public class HopliteModel : TokenModel, IPlayerOwned
     public void ResetMove()
     {
         _isMoved = false;
+    }
+    public bool IsMoved()
+    {
+        return _isMoved;
     }
 }

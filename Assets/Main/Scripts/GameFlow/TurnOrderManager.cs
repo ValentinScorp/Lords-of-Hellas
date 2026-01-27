@@ -10,8 +10,8 @@ public class TurnOrderManager
     public bool HasCurrentPlayer => _currentIndex >= 0 && _currentIndex < _players.Count;
     public int RemainingPlayers => _players.Count - (_currentIndex + 1);
 
-    public event Action<Player> OnPlayerChanged;
-    public event Action OnNoPlayersLeft;
+    public event Action<Player> PlayerChanged;
+    public event Action NoPlayersLeft;
     public TurnOrderManager(IReadOnlyList<Player> players) {
         if (players == null || players.Count == 0) {
             throw new System.ArgumentException("Players list cannot be null or empty.", nameof(players));
@@ -21,7 +21,7 @@ public class TurnOrderManager
     public void StartPlacement() {
         _currentIndex = _players.Count - 1;
         if (HasCurrentPlayer) {
-            OnPlayerChanged?.Invoke(CurrentPlayer);
+            PlayerChanged?.Invoke(CurrentPlayer);
         }
     }
     public bool PrevPlayer() {
@@ -29,9 +29,9 @@ public class TurnOrderManager
 
         _currentIndex--;
         if (HasCurrentPlayer) {
-            OnPlayerChanged?.Invoke(CurrentPlayer);
+            PlayerChanged?.Invoke(CurrentPlayer);
         } else {
-            OnNoPlayersLeft?.Invoke();
+            NoPlayersLeft?.Invoke();
         }
         return HasCurrentPlayer;
     }
@@ -40,9 +40,9 @@ public class TurnOrderManager
 
         _currentIndex++;
         if (HasCurrentPlayer) {
-            OnPlayerChanged?.Invoke(CurrentPlayer);
+            PlayerChanged?.Invoke(CurrentPlayer);
         } else {
-            OnNoPlayersLeft?.Invoke();
+            NoPlayersLeft?.Invoke();
         }
         return HasCurrentPlayer;
     }

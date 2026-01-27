@@ -6,7 +6,8 @@ public class TokenPlacementPresenter
     private TokenPlacementModel _model = new();
 
     private bool _isBusy;
-    public event Action OnStartPlacement;
+    public event Action PlacementStarted;
+    public event Action PlacementCompleted;
     public event Action RefreshAction;
     public Action _placementCompleted;
 
@@ -17,9 +18,9 @@ public class TokenPlacementPresenter
             _placementController = new();            
         }
         _placementCompleted = placementCompleted;
-        _model.StartPlacement(player);
+        _model.SetPlayer(player);
 
-        OnStartPlacement?.Invoke();
+        PlacementStarted?.Invoke();
     }
     public bool CanPlaceHero() 
     {
@@ -64,6 +65,7 @@ public class TokenPlacementPresenter
     }
     public void OkPlacement()
     {
+        PlacementCompleted?.Invoke();
         _placementCompleted?.Invoke();
     }
     private void HandlePlacementComplete(TokenModel token)

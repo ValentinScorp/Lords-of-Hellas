@@ -1,31 +1,32 @@
 using System;
 using UnityEngine;
 
-public class HeroMoveAction
+public class HeroMoveActionController
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
-    private RegularAction _regularAction;
+    private HeroMoveActionModel _moveModel;
     private TokenView _heroToken;
     private MoveRoute _moveRoute;
     private Action _onComplete;
-    public HeroMoveAction()
+    public HeroMoveActionController()
     {
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         _moveRoute = new MoveRoute();
     }
-    public void Start(RegularAction regularAction, Action onComplete = null)
+    public void Start(HeroMoveActionModel moveModel, Action onComplete = null)
     {
-        _regularAction = regularAction;
+        Debug.Log("Starting Hero Move Controller!");
         _onComplete = onComplete;
-        _tokenSelector.WaitTokenSelection(regularAction.Player.Color, TokenType.Hero, HandleSelection);
+        _moveModel = moveModel;
+        _tokenSelector.WaitTokenSelection(_moveModel.PlayerColor, TokenType.Hero, HandleSelection);
     }
     private void HandleSelection(TokenView token)
     {
         _heroToken = token;
         
-        _moveRoute.SetSteps(_regularAction.HeroSteps); 
+        _moveRoute.SetSteps(_moveModel.StepsMax); 
         _moveRoute.AddRouteNode(token.RegionId, token.SpawnPoint);
 
         _tokenMover.CreateGhostToken(token);
@@ -33,7 +34,7 @@ public class HeroMoveAction
     }
     private void HandleStep(TokenNest spawnPoint)
     {
-        _regularAction.HeroSteps--;
+        _moveModel.MakeStep();
         _moveRoute.AddRouteNode(spawnPoint.RegionId, spawnPoint);
 
         if (_moveRoute.Complete) {
@@ -45,7 +46,6 @@ public class HeroMoveAction
     private void HandleMoveComplete(TokenNest spawnPoint)
     {
         ServiceLocator.Get<RegionsView>().PlaceTokenAtSpawn(_heroToken, spawnPoint);      
-        ServiceLocator.Get<TokenVisualChanger>().PrepareTokenPlacement(_heroToken, _heroToken.PlayerColor);
 
         GameContext.Instance.RegionDataRegistry.TryPlace(spawnPoint.RegionId, _heroToken.ViewModel.Model);
 

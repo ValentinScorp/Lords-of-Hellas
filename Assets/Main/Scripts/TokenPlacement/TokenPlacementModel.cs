@@ -4,7 +4,7 @@ public sealed class TokenPlacementModel
 {
     private Player _player;
 
-    public void StartPlacement(Player player)
+    public void SetPlayer(Player player)
     {
         _player = player;
     }

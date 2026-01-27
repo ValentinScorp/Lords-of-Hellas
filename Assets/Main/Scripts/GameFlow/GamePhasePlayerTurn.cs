@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GamePhasePlayerTurn : GamePhaseBase
 {
@@ -13,8 +14,8 @@ public class GamePhasePlayerTurn : GamePhaseBase
         : base (phaseManager) {
         TurnManager = turnManager;
         TurnOrder = new TurnOrderManager(players);
-        TurnOrder.OnPlayerChanged += HandleNextPlayer;
-        TurnOrder.OnNoPlayersLeft += ProceedNextPhase;
+        TurnOrder.PlayerChanged += HandleNextPlayer;
+        TurnOrder.NoPlayersLeft += ProceedNextPhase;
     }
     public override void Enter() {
         TurnOrder.ResetToFirstPlayer();

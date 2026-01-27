@@ -27,7 +27,6 @@ public class PlacementController
                         _token = null;
                         _placementCompleted = null;
                         _tokenNestHitDetector.Unlisten();
-                        Debug.Log("Token placed!");
                         return;
                     }
                 }

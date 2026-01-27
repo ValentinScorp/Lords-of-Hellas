@@ -40,6 +40,15 @@ public class RegionView : MonoBehaviour
     {
         if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_id, out var regionVm)) {
             _viewModel = regionVm;
+            if (_viewModel is not null && _areaView is not null) {
+                _viewModel.OwnerChanged += _areaView.OnOwnerChanged;
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        if (_viewModel is not null && _areaView is not null) {
+            _viewModel.OwnerChanged -= _areaView.OnOwnerChanged;
         }
     }
 }

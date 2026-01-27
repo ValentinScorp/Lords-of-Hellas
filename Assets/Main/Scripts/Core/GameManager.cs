@@ -13,9 +13,7 @@ public class GameManager
     private CardSelectPanel _cardSelectPanel;
     public event Action OnGameStarted;
 
-    public GameManager( GameContent gameData, 
-                        TokenPlacementManager placementManager, 
-                        CardSelectPanel cardSelectPanel) {
+    public GameManager(CardSelectPanel cardSelectPanel) {
         _playerTurnManager = new TurnManager(GameContext.Instance.Players);
         _cardSelectPanel = cardSelectPanel;
 
@@ -23,7 +21,7 @@ public class GameManager
             _landTokenManager.Subscribe(player);
         }
         _cardSelectPanel.SubscribeToPlayers(_playerTurnManager.Players);
-        GamePhaseManager = new GamePhaseManager(_playerTurnManager.Players, placementManager, _playerTurnManager);
+        GamePhaseManager = new GamePhaseManager(_playerTurnManager.Players, _playerTurnManager);
         PlayerDataManager = new PlayerDataManager(_playerTurnManager.Players);
     }
     public void StartGame() {
