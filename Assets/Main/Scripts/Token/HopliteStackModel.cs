@@ -1,28 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 [System.Serializable]
-public class HopliteStackModel : TokenModel, IPlayerOwned
+public class HopliteStackModel : TokenModel
 {
     private PlayerColor _playerColor;
     private List<HopliteModel> _hoplites = new List<HopliteModel>();
     public IReadOnlyList<HopliteModel> Hoplites => _hoplites;
     public int Count => _hoplites.Count;
-    public PlayerColor PlayerColor => _playerColor;
     public event Action<int> OnCountChanged;
 
-    public HopliteStackModel(PlayerColor color) : base(TokenType.HopliteStack)
+    public HopliteStackModel(PlayerColor color) : base(TokenType.HopliteStack, color)
     {
         _playerColor = color;
     }
-    public HopliteStackModel(HopliteModel hoplite) : base(TokenType.HopliteStack)
-    {
-        _playerColor = hoplite.PlayerColor;
-        AddHoplite(hoplite);
-    }
-    public HopliteStackModel(Player player) : base(TokenType.HopliteStack)
+    public HopliteStackModel(Player player) : base(TokenType.HopliteStack, player)
     {
         _playerColor = player.Color;
     }
@@ -32,9 +25,9 @@ public class HopliteStackModel : TokenModel, IPlayerOwned
         hoplite.RegionId = RegionId;
         OnCountChanged?.Invoke(_hoplites.Count);
     }
-    public bool RemoveHoplite(HopliteModel hopliteUnit)
+    public bool RemoveHoplite(HopliteModel hoplite)
     {
-        if(!_hoplites.Remove(hopliteUnit)) {
+        if(!_hoplites.Remove(hoplite)) {
             Debug.LogWarning("Hoplite not found in stack.");
             return false;
         } else {

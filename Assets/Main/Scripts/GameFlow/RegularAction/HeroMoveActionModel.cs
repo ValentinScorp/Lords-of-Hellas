@@ -5,6 +5,7 @@ public class HeroMoveActionModel
     public int StepsLeft {get; private set; }
     public HeroMoveActionModel(Player player)
     {
+        PlayerColor = player.Color;
         StepsMax = StepsLeft = player.Hero.Speed;
     }
     public bool CanMove()

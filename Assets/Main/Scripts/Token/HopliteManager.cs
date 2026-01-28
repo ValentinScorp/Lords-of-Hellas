@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 [System.Serializable]
 public class HopliteManager
@@ -10,7 +9,7 @@ public class HopliteManager
     public HopliteManager(Player player)
     {
         for (var id = 1; id <= TOTAL_HOPLITES; id++) {
-            _hoplites.Add(new HopliteModel(player.Color));
+            _hoplites.Add(new HopliteModel(player));
         }
     }
     public bool TryTakeHoplite(out HopliteModel hoplite)

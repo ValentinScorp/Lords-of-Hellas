@@ -19,6 +19,7 @@ public class RegionViewModel : IDisposable
         if (GameContext.Instance.RegionDataRegistry.TryFindRegion(id, out var region)) {
             _regionModel = region;
             _regionModel.TokenPlaced += HandleTokenPlaced;
+            _regionModel.TokenRemoved += HandleTokenRemoved;
             _regionModel.OwnerChanged += HandleOwnerChanged;
         }
     }
@@ -33,6 +34,25 @@ public class RegionViewModel : IDisposable
     {
         var tokenVm = ServiceLocator.Get<TokenFactory>().CreateGhostToken(token);
         Place(tokenVm, nest);
+    }
+    private void HandleTokenRemoved(TokenModel token)
+    {
+        foreach (var t in _tokens) {
+            if (t.Model == token) {                
+                var viewRegistry = ServiceLocator.Get<TokenViewRegistry>();
+                if (viewRegistry is null) {
+                    Debug.LogWarning("Unable to get TokenViewRegistry!");
+                } else {
+                    
+                    if(!viewRegistry.TryDestroy(t)) {
+                        Debug.LogWarning("Unable to destroy ghost TokenView in TokenDragger!");
+                    } else {
+                        _tokens.Remove(t);
+                        return;
+                    }
+                }
+            }
+        }
     }
     private void HandleOwnerChanged(PlayerColor color)
     {

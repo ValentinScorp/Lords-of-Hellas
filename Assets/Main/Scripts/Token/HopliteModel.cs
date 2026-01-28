@@ -1,13 +1,11 @@
 [System.Serializable]
-public class HopliteModel : TokenModel, IPlayerOwned
+public class HopliteModel : TokenModel
 {
     private bool _isMoved;
     public bool OnBoard { get; set; }
-    public PlayerColor PlayerColor { get; private set; }
 
-    public HopliteModel(PlayerColor color) : base(TokenType.Hoplite)
+    public HopliteModel(Player player) : base(TokenType.Hoplite, player)
     {
-        PlayerColor = color;
     }
     public void SetOwner(PlayerColor color)
     {

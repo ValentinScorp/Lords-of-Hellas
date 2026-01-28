@@ -22,11 +22,11 @@ public class TokenView : MonoBehaviour, ISelectable
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
     public TokenType TokenType => _tokenType;
-    // public TokenModel Model => _model;
-    public PlayerColor PlayerColor { get; set; }
-    public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
-    public TokenNest SpawnPoint { get; set; }
     private TokenViewModel _viewModel;
+    public PlayerColor PlayerColor => _viewModel != null ? _viewModel.Model.PlayerColor : PlayerColor.Gray;
+    public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
+    public TokenNest Nest => _viewModel != null ? _viewModel.TokenNest : null;
+    
     public TokenViewModel ViewModel => _viewModel;
 
     private void Awake()
@@ -113,8 +113,8 @@ public class TokenView : MonoBehaviour, ISelectable
     }
     public void AdjustPositionToSpawnPoint()
     {
-        if (SpawnPoint != null) {
-            SetPosition(SpawnPoint.Position);
+        if (Nest != null) {
+            SetPosition(Nest.Position);
         } else {
             Debug.LogWarning("SpawnPoint doesn't set in TokenView!");
         }
@@ -172,10 +172,13 @@ public class TokenView : MonoBehaviour, ISelectable
             heroVm.LeadershipChanged += HandleLeadershipChanged;
             heroVm.SpeedChanged += HandleSpeedChanged;
             heroVm.StrengthChanged += HandleStrengthChanged;
+            heroVm.RefreshStats();
+            SetLabel(heroVm.DisplayName);
         }
 
         if (_viewModel is HopliteStackViewModel hopliteVm) {
             hopliteVm.CountChanged += SetCount;
+            hopliteVm.RefreshCount();
         }
         _viewModel.WorldPositionChanged += SetPosition;
         _viewModel.VisualStateChanged += HandleVisualState;

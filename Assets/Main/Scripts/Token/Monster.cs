@@ -14,7 +14,7 @@ public class Monster : TokenModel
     }
     public Id MonsterId { get; }
     public Monster(Id monsterId) 
-        : base(TokenType.Monster) {
+        : base(TokenType.Monster, PlayerColor.Gray) {
         MonsterId = monsterId;
     }
 }

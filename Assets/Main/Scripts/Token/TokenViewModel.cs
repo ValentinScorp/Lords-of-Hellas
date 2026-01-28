@@ -43,10 +43,7 @@ public class TokenViewModel : IDisposable
     public void SetPlacedVisual()
     {
         GhostState = VisualState.Placed;
-        if (Model is IPlayerOwned playerOwnedModel)
-            VisualStateChanged?.Invoke(GhostState, playerOwnedModel.PlayerColor);
-        else
-            VisualStateChanged?.Invoke(GhostState, PlayerColor.Gray);
+        VisualStateChanged?.Invoke(GhostState, Model.PlayerColor);
     }
     public virtual void Dispose() { }
 }

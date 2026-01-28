@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LandToken : IPlayerOwned
+public class LandToken
 {
     public LandId LandId { get; private set; }
     public PlayerColor PlayerColor { get; set; }

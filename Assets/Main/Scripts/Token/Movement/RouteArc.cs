@@ -1,6 +1,7 @@
+
 using UnityEngine;
 
-public class RouteLink
+public class RouteArc
 {
     private LineRenderer _lineRenderer;
     private Vector3 _fromPosition;
@@ -25,8 +26,8 @@ public class RouteLink
         _lineRenderer.SetPosition(0, fromPosition);
         _lineRenderer.SetPosition(1, toPosition);
 
-        _fromPosition = fromPosition;
-        _toPosition = toPosition;
+        SetFirstNode(fromPosition);
+        SetSecondNode(toPosition);
 
         BuildArc();        
     }

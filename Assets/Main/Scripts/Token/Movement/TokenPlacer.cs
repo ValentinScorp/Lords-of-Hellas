@@ -19,22 +19,22 @@ public class TokenPlacer
             Debug.Log("Region data not found.");
             return false;
         }
-        if (token is IPlayerOwned playerToken) {
-            if (regionManager.IsHeroAnotherColor(regionId, playerToken.PlayerColor)) {
-                Debug.Log("There is Hero of another player in this region.");
+
+        if (regionManager.IsHeroAnotherColor(regionId, token.PlayerColor)) {
+            Debug.Log("There is Hero of another player in this region.");
+            return false;
+        }
+        if (regionManager.IsHopliteAnotherColor(regionId, token.PlayerColor)) {
+            Debug.Log("There is hoplite of another player in this region.");
+            return false;
+        }
+        if (regionManager.IsAnotherTokenPlacedOnMap(token.PlayerColor, out RegionId id)) {
+            if (regionId != id) {
+                Debug.Log("There is of same color token placed already in another region!" + RegionIdParser.IdToString(id));
                 return false;
-            }
-            if (regionManager.IsHopliteAnotherColor(regionId, playerToken.PlayerColor)) {
-                Debug.Log("There is hoplite of another player in this region.");
-                return false;
-            }
-            if (regionManager.IsAnotherTokenPlacedOnMap(playerToken.PlayerColor, out RegionId id)) {
-                if (regionId != id) {
-                    Debug.Log("There is of same color token placed already in another region!" + RegionIdParser.IdToString(id));
-                    return false;
-                }
             }
         }
+
         return true;
     }
     public bool ValidatePlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
@@ -43,13 +43,11 @@ public class TokenPlacer
             Debug.Log("Region data not found.");
             return false;
         }
-        if (token is IPlayerOwned playerToken) {           
-            if (token is HopliteStackModel hoplite) {
-                var neighbors = regionManager.GetNeighborRegionIds(hoplite.RegionId);
-                if (!neighbors.Contains(regionId)) {
-                    Debug.Log("Hoplite can move only to a neighboring region.");
-                    return false;
-                }
+        if (token is HopliteStackModel hoplite) {
+            var neighbors = regionManager.GetNeighborRegionIds(hoplite.RegionId);
+            if (!neighbors.Contains(regionId)) {
+                Debug.Log("Hoplite can move only to a neighboring region.");
+                return false;
             }
         }
         return true;

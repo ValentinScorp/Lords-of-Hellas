@@ -57,7 +57,14 @@ public class RegionsContext
         }
         return false;
     }
-
+    public bool TryTake(TokenModel token, RegionId regionId)
+    {
+        if (TryFindRegion(regionId, out var region)) {
+            region.Take(token);
+            return true;
+        }
+        return false;
+    }
     public bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
@@ -192,17 +199,6 @@ public class RegionsContext
         }
         Debug.LogWarning($"Region {regionId} not found in map.");
         return 0;
-    }
-    public bool TryPlace(RegionId regionId, TokenModel token)
-    {
-        var region = GetRegionContext(regionId);
-        if (region == null) {
-            Debug.LogWarning($"Region {regionId} not found for registering token.");
-            return false;
-        }
-        region.Place(token);
-        GameLogger.Instance.Event($"Adding {token.Type} to {regionId}");
-        return true;
     }
 
     public bool TryTake(RegionId regionId, TokenType tokenType, PlayerColor color, out TokenModel token)

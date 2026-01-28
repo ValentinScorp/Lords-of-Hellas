@@ -8,6 +8,13 @@ public class HopliteStackViewModel : TokenViewModel
         CountChanged?.Invoke(hopliteStack.Count);
         hopliteStack.OnCountChanged += HandleCountChanged;
     }
+    public override void Dispose()
+    {
+        if (Model is HopliteStackModel hoplite) {
+            hoplite.OnCountChanged -= HandleCountChanged;
+        }
+        base.Dispose();
+    }
     private void HandleCountChanged(int value) => CountChanged?.Invoke(value);
     public void Add(HopliteModel hoplite)
     {
@@ -16,11 +23,10 @@ public class HopliteStackViewModel : TokenViewModel
         }
     }
     
-    public override void Dispose()
+    public void RefreshCount()
     {
-        if (Model is HopliteStackModel hoplite) {
-            hoplite.OnCountChanged -= HandleCountChanged;
+        if (Model is HopliteStackModel hopliteStack) {
+            CountChanged?.Invoke(hopliteStack.Count);
         }
-        base.Dispose();
     }
 }

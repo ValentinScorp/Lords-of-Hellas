@@ -43,6 +43,8 @@ public class GameLoader : MonoBehaviour
         _uiRegistry.Register(_regionInfoUiPanel);
         ServiceLocator.Register(_uiRegistry);
 
+        // ServiceLocator.Register(new RouteArcBuilder());
+
         ServiceLocator.Register(new TokenViewRegistry());
         ServiceLocator.Register(new TokenPlacementPresenter());
         ServiceLocator.Register(new RegularActionManager());
@@ -86,7 +88,6 @@ public class GameLoader : MonoBehaviour
         ServiceLocator.Get<ObjectsHitDetector>().RegisterRegionInfoController(regionInfoUiCtlr);
     }
     private void Update() {
-        _tokenMover.Update();
     }
     private void CheckIfExist(object parameter, string message) {
         if (parameter == null) Debug.LogWarning($"No {message} assigned in GameInitializer!");

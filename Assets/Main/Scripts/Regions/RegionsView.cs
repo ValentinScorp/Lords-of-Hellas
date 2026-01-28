@@ -15,24 +15,24 @@ public class RegionsView : MonoBehaviour
         }
     }
 
-    public TokenNest PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
-    {
-        var spawnPoint = GetFreeSpawnPoint(regionId, pos);
-        if (spawnPoint != null) {
-            PlaceTokenAtSpawn(token, spawnPoint);
-            return spawnPoint;
-        } else {
-            Debug.LogError($"No free spawn points in region {regionId}");
-        }
-        return spawnPoint;
-    }
-    public void PlaceTokenAtSpawn(TokenView token, TokenNest spawnPoint)
-    {
-        spawnPoint.Occupy();
-        token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
-        token.SpawnPoint = spawnPoint;
-        token.SetPosition(spawnPoint.Position);
-    }
+    // public TokenNest PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
+    // {
+    //     var spawnPoint = GetFreeSpawnPoint(regionId, pos);
+    //     if (spawnPoint != null) {
+    //         PlaceTokenAtSpawn(token, spawnPoint);
+    //         return spawnPoint;
+    //     } else {
+    //         Debug.LogError($"No free spawn points in region {regionId}");
+    //     }
+    //     return spawnPoint;
+    // }
+    // public void PlaceTokenAtSpawn(TokenView token, TokenNest spawnPoint)
+    // {
+    //     spawnPoint.Occupy();
+    //     token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
+    //     token.Nest = spawnPoint;
+    //     token.SetPosition(spawnPoint.Position);
+    // }
     public void RemoveToken(RegionId regionId, TokenType tokenType, PlayerColor color)
     {
         var region = FindRegionById(regionId);
@@ -44,7 +44,7 @@ public class RegionsView : MonoBehaviour
                         TokenView hoplitePrefab = hoplite.GetComponent<TokenView>();
                         int hopliteCount = hoplitePrefab.GetHopliteCount();
                         if (hopliteCount <= 1) {
-                            hoplitePrefab.SpawnPoint.Release();
+                            hoplitePrefab.Nest.Release();
                             Destroy(hoplite);
                         }
                     } else {
@@ -55,7 +55,7 @@ public class RegionsView : MonoBehaviour
                     GameObject hero = FindHeroInRegion(region, color);
                     if (hero != null) {
                         TokenView heroPrefab = hero.GetComponent<TokenView>();
-                        heroPrefab.SpawnPoint.Release();
+                        heroPrefab.Nest.Release();
                         Destroy(hero);
                     }
                     break;

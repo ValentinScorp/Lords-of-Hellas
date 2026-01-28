@@ -68,17 +68,30 @@ public class RegionContext
                 ChangeOwner(hopliteStack.PlayerColor);
             }
         }
-    }
+    }   
     public void Take(TokenModel token)
     {
-        token.RegionId = RegionId.Unknown;
-        _tokens.Remove(token);        
-        TokenRemoved?.Invoke(token);
+        if (token is HopliteModel hoplite) {
+            TakeHoplite(hoplite);
+        } else {
+            token.RegionId = RegionId.Unknown;
+            _tokens.Remove(token);
+            TokenRemoved?.Invoke(token);
+        }
+    }
+     private void TakeHoplite(HopliteModel hoplite)
+    {
+        if (TryFindHopliteStack(hoplite.PlayerColor, out var hopliteStack)) {
+            hopliteStack.RemoveHoplite(hoplite);
+            if (hopliteStack.Count == 0) {
+                Take(hopliteStack); 
+            }
+        }
     }
     public bool TryFindToken(TokenType tokenType, PlayerColor color, out TokenModel token)
     {
         foreach (TokenModel t in _tokens) {
-            if (t.Type == tokenType && (t is IPlayerOwned ownedToken) && ownedToken.PlayerColor == color) {
+            if (t.Type == tokenType && (t.PlayerColor == color)) {
                 token = t;
                 return true;
             }
@@ -92,7 +105,7 @@ public class RegionContext
     }
     public bool ContainsToken(PlayerColor color)
     {
-        return _tokens.Any(t => t is IPlayerOwned owned && owned.PlayerColor == color);
+        return _tokens.Any(t => t.PlayerColor == color);
     }
     public int GetHopliteCount(PlayerColor color)
     {
@@ -155,7 +168,7 @@ public class RegionContext
     public bool TryGetToken(TokenType tokenType, PlayerColor color, out TokenModel token)
     {
         foreach (var t in _tokens) {
-            if (t.Type == tokenType && t is IPlayerOwned owned && owned.PlayerColor == color) {
+            if (t.Type == tokenType && t.PlayerColor == color) {
                 token = t;
                 return true;
             }
