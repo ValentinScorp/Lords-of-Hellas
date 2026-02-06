@@ -64,4 +64,9 @@ public class Player
         }
         return null;
     }
+
+    public void ResetHoplitesMove()
+    {
+        _hopliteManager.ResetMove();
+    }
 }

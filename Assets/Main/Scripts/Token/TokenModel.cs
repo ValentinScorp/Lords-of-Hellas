@@ -1,12 +1,21 @@
-using System;
+using UnityEngine;
 
 public abstract class TokenModel
 {
     public TokenType Type { get; private set; }
-    public RegionId RegionId { get; set; }  
+    private RegionId _regionId;
+    public RegionId RegionId { 
+        get => _regionId; 
+        set {
+            if (_regionId == value) {
+                return;
+            }
+            //  Debug.Log($"TokenModel RegionId set: {_regionId} -> {value}");
+            _regionId = value;
+        }
+    }  
     public PlayerColor PlayerColor { get; protected set;}
 
-    public event Action<RegionId> OnRegionChanged; 
     protected TokenModel(TokenType type, PlayerColor color) {
         Type = type;
         PlayerColor = color;
@@ -17,9 +26,5 @@ public abstract class TokenModel
         PlayerColor = player.Color;
         RegionId = RegionId.Unknown;
     }
-    public void MoveToRegion(RegionId regionId)
-    {
-        RegionId = regionId;
-        OnRegionChanged?.Invoke(RegionId);
-    }
+
 }

@@ -1,6 +1,6 @@
 using System;
 
-public class TokenPlacementPresenter
+public class TokenPlacementManager
 {
     private PlacementController _placementController;
     private TokenPlacementModel _model = new();

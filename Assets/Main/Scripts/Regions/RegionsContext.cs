@@ -65,6 +65,15 @@ public class RegionsContext
         }
         return false;
     }
+    public void Move(TokenModel token, TokenNest nest)
+    {
+        Debug.Log($"{token.RegionId} to {nest.RegionId}");
+        if (TryFindRegion(token.RegionId, out var fromReg) && TryFindRegion(nest.RegionId, out var toReg)) {
+            Debug.Log($"{fromReg.RegionId} to {toReg.RegionId}");
+            fromReg.Take(token);
+            toReg.Place(token, nest);
+        }
+    }
     public bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
@@ -122,7 +131,7 @@ public class RegionsContext
         }
         fromRegion.Take(hoplite);
         toRegion.Place(hoplite);
-        hoplite.MarkModved();
+        hoplite.MarkMoved();
         return true;    
     }
     public bool TryFindRegion(RegionId regionId, out RegionContext region)

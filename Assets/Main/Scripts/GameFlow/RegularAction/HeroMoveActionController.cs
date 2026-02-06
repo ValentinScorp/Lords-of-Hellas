@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
 
-public class HeroMoveActionController
+public class HeroMoveActionController : IRegularAction
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
+    private readonly ActionControlPanelController _actionControlPanelController;
+
     private HeroMoveActionModel _moveModel;
     private TokenView _heroToken;
     private MoveRoute _moveRoute;
     private Action _onComplete;
+
+    public event Action Completed;
+
     public HeroMoveActionController()
     {
+        _actionControlPanelController = ServiceLocator.Get<ActionControlPanelController>();
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         _moveRoute = new MoveRoute();
@@ -19,7 +25,7 @@ public class HeroMoveActionController
     {
         _onComplete = onComplete;
         _moveModel = moveModel;
-        Debug.Log($"{_moveModel.PlayerColor}");
+        _actionControlPanelController.Start(this);
         _tokenSelector.WaitTokenSelection(_moveModel.PlayerColor, TokenType.Hero, HandleSelection);
     }
     private void HandleSelection(TokenView token)
@@ -36,7 +42,7 @@ public class HeroMoveActionController
         _moveModel.MakeStep();
         _moveRoute.AddRouteNode(nest.RegionId, nest);
 
-        if (!_moveModel.CanMove()) {
+        if (!_moveModel.CanMove()) {            
             HandleMoveComplete(nest);
         } else {
             _tokenMover.CatchNeibRegionPoint(nest.RegionId, HandleStep);
@@ -44,10 +50,12 @@ public class HeroMoveActionController
     }
     private void HandleMoveComplete(TokenNest nest)
     {
+        Debug.Log("Move completed");
         var regionsRegistry = GameContext.Instance.RegionDataRegistry;
         
-        regionsRegistry.TryTake(_heroToken.ViewModel.Model, _heroToken.RegionId);
-        regionsRegistry.TryPlace(_heroToken.ViewModel.Model, nest);
+        regionsRegistry.Move(_heroToken.ViewModel.Model, nest);
+        // regionsRegistry.TryTake(_heroToken.ViewModel.Model, _heroToken.RegionId);
+        // regionsRegistry.TryPlace(_heroToken.ViewModel.Model, nest);
 
         _tokenMover.DestroyVisuals();
         _moveRoute.Clear();
@@ -55,5 +63,18 @@ public class HeroMoveActionController
         _onComplete?.Invoke();
     }
 
+    public void Done()
+    {
+        throw new NotImplementedException();
+    }
 
+    public void Undo()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Cancel()
+    {
+        throw new NotImplementedException();
+    }
 }

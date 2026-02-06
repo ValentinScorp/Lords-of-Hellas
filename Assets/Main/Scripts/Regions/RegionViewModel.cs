@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class RegionViewModel : IDisposable
@@ -19,6 +20,8 @@ public class RegionViewModel : IDisposable
         if (GameContext.Instance.RegionDataRegistry.TryFindRegion(id, out var region)) {
             _regionModel = region;
             _regionModel.TokenPlaced += HandleTokenPlaced;
+            _regionModel.TokenMoved += HandleTokenMoved;
+
             _regionModel.TokenRemoved += HandleTokenRemoved;
             _regionModel.OwnerChanged += HandleOwnerChanged;
         }
@@ -27,6 +30,8 @@ public class RegionViewModel : IDisposable
     {
         if (_regionModel is not null) {
             _regionModel.TokenPlaced -= HandleTokenPlaced;
+            _regionModel.TokenMoved -= HandleTokenMoved;
+            _regionModel.TokenRemoved -= HandleTokenRemoved;
             _regionModel.OwnerChanged -= HandleOwnerChanged;
         }
     }
@@ -34,6 +39,17 @@ public class RegionViewModel : IDisposable
     {
         var tokenVm = ServiceLocator.Get<TokenFactory>().CreateGhostToken(token);
         Place(tokenVm, nest);
+    }
+    private void HandleTokenMoved(TokenModel token, RegionId from, TokenNest nest)
+    {
+        // Debug.Log($"Registering token at {_regionModel.RegionId}");
+        // Debug.Log($"Token from {token.RegionId}");
+        if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(from, out var region)) {
+            if (region.TryFindToken(token, out var tokenVm)) {
+                tokenVm.SetWorldPosition(nest.Position); 
+                Place(tokenVm, nest);
+            }
+        }        
     }
     private void HandleTokenRemoved(TokenModel token)
     {
@@ -65,6 +81,17 @@ public class RegionViewModel : IDisposable
         } 
         token.Place(nest);
         _tokens.Add(token);
+    }
+    public bool TryFindToken(TokenModel model, out TokenViewModel tokenVm)
+    {
+        foreach(var t in _tokens) {
+            if (t.Model == model) {
+                tokenVm = t;
+                return true;
+            }
+        }
+        tokenVm = null;
+        return false;
     }
     public void SetNests(List<TokenNest> nests)
     {

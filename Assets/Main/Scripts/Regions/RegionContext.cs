@@ -16,6 +16,8 @@ public class RegionContext
 
     public event Action<PlayerColor> OwnerChanged;
     public event Action<TokenModel, TokenNest> TokenPlaced;
+    public event Action<TokenModel, RegionId, TokenNest> TokenMoved;
+
     public event Action<TokenModel> TokenRemoved;
 
     [SerializeField] private List<TokenModel> _tokens = new();
@@ -35,6 +37,14 @@ public class RegionContext
             PlaceToken(token, nest);
         }
     }
+    public void Move(TokenModel token, TokenNest nest)
+    {
+        if (token is HopliteModel hoplite) {
+            PlaceHoplite(hoplite, nest);
+        } else {
+            MoveToken(token, nest);
+        }
+    }
     private void PlaceHoplite(HopliteModel hoplite, TokenNest nest)
     {
         if (TryFindHopliteStack(hoplite.PlayerColor, out var hopliteStack)) {
@@ -42,10 +52,18 @@ public class RegionContext
             RecalcOwner();
         } else {
             var newHopliteStack = new HopliteStackModel(hoplite.PlayerColor);
+            newHopliteStack.RegionId = RegionId;
             newHopliteStack.AddHoplite(hoplite);
             PlaceToken(newHopliteStack, nest);
             RecalcOwner();            
         }
+    }
+    private void MoveToken(TokenModel token, TokenNest nest)
+    {
+        var fromRegion = token.RegionId;
+        token.RegionId = RegionId;
+        _tokens.Add(token);
+        TokenMoved?.Invoke(token, fromRegion, nest);
     }
     private void PlaceToken(TokenModel token, TokenNest nest)
     {

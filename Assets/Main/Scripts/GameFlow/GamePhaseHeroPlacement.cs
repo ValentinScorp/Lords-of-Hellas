@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
-    private TokenPlacementPresenter _tokenPlacementPresenter;
+    private TokenPlacementManager _tokenPlacementPresenter;
     private TurnOrderManager TurnOrderManager;
 
     public override string Name => "Heroes Placement Phase";
@@ -12,7 +12,7 @@ public class GamePhaseHeroPlacement : GamePhaseBase
                                 IReadOnlyList<Player> players)
         : base (phaseManager) {
         TurnOrderManager = new TurnOrderManager(players);
-        _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementPresenter>();
+        _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementManager>();
         TurnOrderManager.PlayerChanged += HandlePlayerChanged;
         TurnOrderManager.NoPlayersLeft += ProceedNextPhase;
     }

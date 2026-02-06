@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -16,12 +17,18 @@ public class HopliteManager
     {
         foreach (var h in _hoplites) {
             if (!h.OnBoard) {
-                h.OnBoard = true;
+                h.OnBoard = true;                
                 hoplite = h;
                 return true;
             }
         }
         hoplite = null;
         return false;
+    }
+    internal void ResetMove()
+    {
+        foreach(var hoplite in _hoplites) {
+            hoplite.ResetMove();
+        }
     }
 }

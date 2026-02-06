@@ -49,7 +49,7 @@ public class ObjectsHitDetector
         List<Target> hitTargets = new List<Target>();
 
         foreach (var hit in hits) {
-            // Debug.Log($"ClickMgr: Raycast hit {hit.collider.gameObject.name}");
+            //  Debug.Log($"ClickMgr: Raycast hit {hit.collider.gameObject.name}");
             foreach (var selectable in hit.collider.GetComponents<ISelectable>()) {
                 hitTargets.Add(new Target(selectable, hit.point));
             }

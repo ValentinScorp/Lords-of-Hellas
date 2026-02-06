@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 public class TokenView : MonoBehaviour, ISelectable
 {
     public static event Action<TokenView, PointerEventData> Clicked;
-    [SerializeField] private TokenType _tokenType;
-    [SerializeField] private TokenModel _model;
     [SerializeField] private TMP_Text _leadershipText;
     [SerializeField] private TMP_Text _speedText;
     [SerializeField] private TMP_Text _strengthText;
@@ -21,8 +19,8 @@ public class TokenView : MonoBehaviour, ISelectable
     private Renderer _renderer = null;
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
-    public TokenType TokenType => _tokenType;
     private TokenViewModel _viewModel;
+    public TokenType TokenType => _viewModel != null ? _viewModel.Model.Type : TokenType.None;   
     public PlayerColor PlayerColor => _viewModel != null ? _viewModel.Model.PlayerColor : PlayerColor.Gray;
     public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
     public TokenNest Nest => _viewModel != null ? _viewModel.TokenNest : null;

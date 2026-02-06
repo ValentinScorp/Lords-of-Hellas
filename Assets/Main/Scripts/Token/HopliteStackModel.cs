@@ -21,8 +21,9 @@ public class HopliteStackModel : TokenModel
     }
     public void AddHoplite(HopliteModel hoplite)
     {
-        _hoplites.Add(hoplite);
+        Debug.Log($"Adding hoplite {RegionId}");
         hoplite.RegionId = RegionId;
+        _hoplites.Add(hoplite);
         OnCountChanged?.Invoke(_hoplites.Count);
     }
     public bool RemoveHoplite(HopliteModel hoplite)

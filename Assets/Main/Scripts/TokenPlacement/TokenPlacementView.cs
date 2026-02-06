@@ -9,12 +9,12 @@ public class TokenPlacementView : MonoBehaviour
     [SerializeField] private Button _okButton;
     [SerializeField] private Button _cancelButton;
 
-    private TokenPlacementPresenter _tokenPlacementPresenter;
+    private TokenPlacementManager _tokenPlacementPresenter;
 
     private void Start()
     {
         HidePanel();
-        _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementPresenter>();        
+        _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementManager>();        
         _tokenPlacementPresenter.PlacementStarted += HandleStartPlacement;
         _tokenPlacementPresenter.RefreshAction += UpdateButtonInteractability;
         _tokenPlacementPresenter.PlacementCompleted += HidePanel;

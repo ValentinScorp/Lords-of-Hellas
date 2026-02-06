@@ -15,15 +15,12 @@ public class TurnManager
     public void StartRegularAction(Player player) {
         var regularActionManager = ServiceLocator.Get<RegularActionManager>();
         regularActionManager.Launch(player, RegularActionComplete);
-
-        // var regularActionService = ServiceLocator.Get<RegularActionService>();
-        // regularActionService.Launch(new RegularAction(player), RegularActionComplete);
     }
     public void StartSpecialAction(Player player) {
         
     }
     private void RegularActionComplete()
     {
-        Debug.Log("Regular action complete!");
+        OnTurnCompleted?.Invoke();
     }
 }

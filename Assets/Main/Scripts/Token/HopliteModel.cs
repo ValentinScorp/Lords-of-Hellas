@@ -11,7 +11,7 @@ public class HopliteModel : TokenModel
     {
         PlayerColor = color;
     }
-    public void MarkModved()
+    public void MarkMoved()
     {
         OnBoard = true;
         _isMoved = true;
