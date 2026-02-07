@@ -5,17 +5,16 @@ public class HoplitesMoveActionController : IRegularAction
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
+    private readonly ActionControlPanel _actionControlPanel;
     private HoplitesMoveActionModel _moveModel;
     private HopliteModel _hopliteModel;
     private Action _onComplete;
-
-    private readonly ActionControlPanelController _actionControlPanelController;
 
     public event Action Completed;
 
     public HoplitesMoveActionController()
     {
-        _actionControlPanelController = ServiceLocator.Get<ActionControlPanelController>();
+        _actionControlPanel = SceneUIRegistry.Get<ActionControlPanel>();
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         if (_tokenSelector is null || _tokenMover is null) {
@@ -26,7 +25,16 @@ public class HoplitesMoveActionController : IRegularAction
     {
         _onComplete = onComplete;
         _moveModel = moveModel;
-        _actionControlPanelController.Start(this);
+
+        _actionControlPanel?.Show(true);
+        _actionControlPanel?.Bind(
+            onDone: Done,
+            onUndo: Undo,
+            onCancel: Cancel
+        );
+        _moveModel.CanUndoChanged += _actionControlPanel.SetUndoInteractable;
+        _actionControlPanel.SetUndoInteractable(_moveModel.CanUndo);
+
         _tokenSelector.WaitTokenSelection(_moveModel.PlayerColor, TokenType.HopliteStack, HandleSelection);
     }
     private void HandleSelection(TokenView token)
@@ -57,22 +65,31 @@ public class HoplitesMoveActionController : IRegularAction
     private void HandleMoveComplete()
     {
         Debug.Log("Hoplies Move completed");
-        _onComplete?.Invoke();
     }
-
 
     public void Done()
     {
-        throw new NotImplementedException();
+        Cleanup();
+        _onComplete?.Invoke();
     }
 
     public void Undo()
     {
-        throw new NotImplementedException();
+        _moveModel.UndoLast();
     }
 
     public void Cancel()
     {
-        throw new NotImplementedException();
+         _moveModel.UndoAll();
+
+        Cleanup();
+        _onComplete?.Invoke();
+    }
+     private void Cleanup()
+    {
+        _moveModel.CanUndoChanged -= _actionControlPanel.SetUndoInteractable;
+
+        _actionControlPanel.Unbind();
+        _actionControlPanel.Show(false);
     }
 }
