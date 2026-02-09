@@ -16,12 +16,12 @@ public class GamePhaseHeroPlacement : GamePhaseBase
         TurnOrderManager.PlayerChanged += HandlePlayerChanged;
         TurnOrderManager.NoPlayersLeft += ProceedNextPhase;
     }
-    public override void Enter() {
+    public override void OnEnter() {
         TurnOrderManager.StartPlacement();
         _tokenPlacementPresenter.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
     }
        
-    public override void Exit() {
+    public override void OnExit() {
     }
     private void HandlePlacementCompleted() {
         TurnOrderManager.PrevPlayer();

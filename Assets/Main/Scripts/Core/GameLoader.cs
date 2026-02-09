@@ -19,7 +19,6 @@ public class GameLoader : MonoBehaviour
     private TokenMover _tokenMover;
     private TokenPlacer _tokenPlacer;
     private RaycastIntersector _raycastBoard;
-    private UiRegistry _uiRegistry = new();
 
     public ObjectsHitDetector _objectsHitDetector;
     public RegionsViewModel _regionsViewModel;
@@ -40,14 +39,10 @@ public class GameLoader : MonoBehaviour
         GameConfig.Instance.Initialize();
         GameContext.Instance.Initialize();
 
-        _uiRegistry.Register(_regionInfoUiPanel);
-        ServiceLocator.Register(_uiRegistry);
-
         // ServiceLocator.Register(new RouteArcBuilder());
 
         ServiceLocator.Register(new TokenViewRegistry());
         ServiceLocator.Register(new TokenPlacementManager());
-        ServiceLocator.Register(new RegularActionManager());
 
         _raycastBoard = new RaycastIntersector(Camera.main, 
                                                 _boardSurface, 

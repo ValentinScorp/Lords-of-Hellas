@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class SceneUIRegistry
+public static class SceneUiRegistry
 {
     private static readonly Dictionary<Type, object> _views = new();
     public static void Register<T>(T instance) where T : class => _views[typeof(T)] = instance;

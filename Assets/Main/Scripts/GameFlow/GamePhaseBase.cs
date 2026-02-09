@@ -8,7 +8,6 @@ public abstract class GamePhaseBase
 
     public abstract string Name { get; }
 
-    public virtual void Enter() { }
-    public virtual void Update() { }
-    public virtual void Exit() { }
+    public virtual void OnEnter() { }
+    public virtual void OnExit() { }
 }

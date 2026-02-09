@@ -6,23 +6,23 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class GameManager
 {
-    private TurnManager _playerTurnManager;
+    private PlayerTurnController _playerTurn;
     public GamePhaseManager GamePhaseManager;
-    public PlayerDataManager PlayerDataManager;
     private LandTokenManager _landTokenManager = new();
     private CardSelectPanel _cardSelectPanel;
     public event Action OnGameStarted;
 
     public GameManager(CardSelectPanel cardSelectPanel) {
-        _playerTurnManager = new TurnManager(GameContext.Instance.Players);
         _cardSelectPanel = cardSelectPanel;
 
         foreach (var player in GameContext.Instance.Players) {
             _landTokenManager.Subscribe(player);
         }
-        _cardSelectPanel.SubscribeToPlayers(_playerTurnManager.Players);
-        GamePhaseManager = new GamePhaseManager(_playerTurnManager.Players, _playerTurnManager);
-        PlayerDataManager = new PlayerDataManager(_playerTurnManager.Players);
+        var players = GameContext.Instance.Players;
+
+        _cardSelectPanel.SubscribeToPlayers(players);
+
+        GamePhaseManager = new GamePhaseManager(players);
     }
     public void StartGame() {
         GamePhaseManager.StartHeroesPlacement();       

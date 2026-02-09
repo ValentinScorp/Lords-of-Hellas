@@ -4,7 +4,6 @@ public class RegionInfoUiCtlr
 {
     private RegionAreaView _selectedRegion;
     private RegionInfoUi _regionInfoUi;
-    public event Action<RegionContext> OnRegionSelected;
 
     public void RegisterUi(RegionInfoUi infoUi)
     {

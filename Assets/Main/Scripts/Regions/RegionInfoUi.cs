@@ -14,7 +14,6 @@ public class RegionInfoUi : MonoBehaviour
     {
         _regionInfoUiController = new RegionInfoUiCtlr();
         _regionInfoUiController.RegisterUi(this);
-        _regionInfoUiController.OnRegionSelected += ShowRegionInfo;
         ServiceLocator.Register(_regionInfoUiController);
     }
 
@@ -34,9 +33,5 @@ public class RegionInfoUi : MonoBehaviour
     public void HidePanel()
     {
         gameObject.SetActive(false);
-    }
-    private void OnDestroy()
-    {
-        _regionInfoUiController.OnRegionSelected -= ShowRegionInfo;
     }
 }

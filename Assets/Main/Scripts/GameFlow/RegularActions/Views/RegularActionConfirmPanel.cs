@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ActionControlPanel : MonoBehaviour
+public class RegularActionConfirmPanel : MonoBehaviour
 {
     [SerializeField] private Button _buttonCancel;
     [SerializeField] private Button _buttonUndo;
@@ -15,11 +15,11 @@ public class ActionControlPanel : MonoBehaviour
     {
         SetInteractable(false);
         Show(false);
-        SceneUIRegistry.Register(this);     
+        SceneUiRegistry.Register(this);
     }
     private void OnDestroy()
     {
-        SceneUIRegistry.Unregister<ActionControlPanel>();
+        SceneUiRegistry.Unregister<RegularActionConfirmPanel>();
     }
     
     public void Show(bool show)

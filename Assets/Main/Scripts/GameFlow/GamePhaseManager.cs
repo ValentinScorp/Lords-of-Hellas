@@ -9,10 +9,9 @@ public class GamePhaseManager
 
     public event Action<GamePhaseBase> OnPhaseChanged;
 
-    public GamePhaseManager (   IReadOnlyList<Player> players,
-                                TurnManager turnManager) {
+    public GamePhaseManager (IReadOnlyList<Player> players) {
         _phases[typeof(GamePhaseHeroPlacement)] = new GamePhaseHeroPlacement(this, players);
-        _phases[typeof(GamePhasePlayerTurn)] = new GamePhasePlayerTurn(this, players, turnManager);
+        _phases[typeof(GamePhasePlayerTurn)] = new GamePhasePlayerTurn(this, players);
     }
     public void StartHeroesPlacement() {
         SwitchPhase<GamePhaseHeroPlacement>();
@@ -25,12 +24,9 @@ public class GamePhaseManager
         }
     }
     private void SwitchPhase<T>() where T : GamePhaseBase {
-        CurrentPhase?.Exit();
+        CurrentPhase?.OnExit();
         CurrentPhase = _phases[typeof(T)];
-        CurrentPhase.Enter();
+        CurrentPhase.OnEnter();
         OnPhaseChanged?.Invoke(CurrentPhase);
-    }
-    public void Update() {
-        CurrentPhase?.Update();
     }
 }

@@ -1,36 +1,35 @@
 using System;
 using UnityEngine;
 
-public class HoplitesMoveActionController : IRegularAction
+public class HoplitesMoveActionController
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
-    private readonly ActionControlPanel _actionControlPanel;
     private HoplitesMoveActionModel _moveModel;
     private HopliteModel _hopliteModel;
-    private Action _onComplete;
 
-    public event Action Completed;
+    private RegularActionConfirmPanel _actionControlPanel;
+    private Action<RegularActionType> _onComplete;
 
     public HoplitesMoveActionController()
     {
-        _actionControlPanel = SceneUIRegistry.Get<ActionControlPanel>();
+        _actionControlPanel = SceneUiRegistry.Get<RegularActionConfirmPanel>();
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         if (_tokenSelector is null || _tokenMover is null) {
             Debug.LogError("HoplitesMoveActionController constructor error!");
         }
     }
-    public void Start(HoplitesMoveActionModel moveModel, Action onComplete = null)
+    public void Start(HoplitesMoveActionModel moveModel, Action<RegularActionType> onComplete = null)
     {
         _onComplete = onComplete;
         _moveModel = moveModel;
 
         _actionControlPanel?.Show(true);
         _actionControlPanel?.Bind(
-            onDone: Done,
-            onUndo: Undo,
-            onCancel: Cancel
+            onDone: OnDone,
+            onUndo: OnUndo,
+            onCancel: OnCancel
         );
         _moveModel.CanUndoChanged += _actionControlPanel.SetUndoInteractable;
         _actionControlPanel.SetUndoInteractable(_moveModel.CanUndo);
@@ -67,23 +66,23 @@ public class HoplitesMoveActionController : IRegularAction
         Debug.Log("Hoplies Move completed");
     }
 
-    public void Done()
+    public void OnDone()
     {
         Cleanup();
-        _onComplete?.Invoke();
+        _onComplete?.Invoke(RegularActionType.HopliesMove);
     }
 
-    public void Undo()
+    public void OnUndo()
     {
         _moveModel.UndoLast();
     }
 
-    public void Cancel()
+    public void OnCancel()
     {
          _moveModel.UndoAll();
 
         Cleanup();
-        _onComplete?.Invoke();
+        _onComplete?.Invoke(RegularActionType.HopliesMove);
     }
      private void Cleanup()
     {

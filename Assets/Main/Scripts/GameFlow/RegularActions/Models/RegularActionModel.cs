@@ -9,8 +9,6 @@ public abstract class RegularActionModel
     public bool CanDone { get; private set; }
 
     public event Action<bool> CanUndoChanged;
-    public event Action<bool> CanCancelChanged;
-    public event Action<bool> CanDoneChanged;
 
     public void UndoLast()
     {
