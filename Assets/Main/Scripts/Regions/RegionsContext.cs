@@ -49,6 +49,14 @@ public class RegionsContext
             }
         }
     }
+    public bool TryPlace(TokenModel token, RegionId regionId)
+    {
+        if (TryFindRegion(regionId, out var region)) {
+            region.Place(token);
+            return true;
+        }
+        return false;
+    }
     public bool TryPlace(TokenModel token, TokenNest nest)
     {
         if (TryFindRegion(nest.RegionId, out var region)) {

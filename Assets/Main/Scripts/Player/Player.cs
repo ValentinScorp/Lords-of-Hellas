@@ -56,6 +56,16 @@ public class Player
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
         OnPlayerInfoChange?.Invoke(this);
     }
+    internal bool TryTakeHoplite(out HopliteModel hoplite)
+    {
+        var h = TakeHoplite();
+        if (h is not null) {
+            hoplite = h;
+            return true;
+        }
+        hoplite = null;
+        return false;
+    }
     public HopliteModel TakeHoplite()
     {
         if (_hopliteManager.TryTakeHoplite(out var hoplite) && hoplite != null) {
@@ -64,7 +74,6 @@ public class Player
         }
         return null;
     }
-
     public void ResetHoplitesMove()
     {
         _hopliteManager.ResetMove();

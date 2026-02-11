@@ -26,5 +26,8 @@ public abstract class TokenModel
         PlayerColor = player.Color;
         RegionId = RegionId.Unknown;
     }
-
+    internal bool IsOnBoard()
+    {
+        return _regionId != RegionId.Unknown;
+    }
 }
