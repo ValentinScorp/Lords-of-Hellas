@@ -8,7 +8,6 @@ public class CardCombatIconPanel : MonoBehaviour
     private List<CardCombatIcon> _icons = new();
 
     public void AddCardIcon(CardCombat card) {
-        Debug.Log("Adding card icon");
         var icon = Instantiate(_iconPrefab, transform);
         icon.Init(card);
         _icons.Add(icon);

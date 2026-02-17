@@ -8,8 +8,15 @@ public class PlayerTurnController
     private SpecialActionsController _specialActionController;
 
     public Action<Player> _TurnCompleted;
-    public void StartRegularAction(Player player, Action<Player> TurnCompleted) {
+    public void Launch(Player player, Action<Player> TurnCompleted)
+    {
         _TurnCompleted = TurnCompleted;
+
+        SceneUiRegistry.Get<TurnStartPanel>().Launch(player, StartRegularAction); 
+        SceneUiRegistry.Get<PlayerInfoUiPanel>().BindPlayer(player);   
+    }
+    public void StartRegularAction(Player player) {
+
         _regularActionController = new RegularActionController();
         _regularActionController.Launch(player, RegularActionComplete);
     }

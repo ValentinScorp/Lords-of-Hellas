@@ -10,7 +10,6 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private GameObject _boardSurface;
     [SerializeField] private Button _startPlacementButton;
     [SerializeField] private CardSelectPanelView _cardSelectPanelView;
-    [SerializeField] private PlayerInfoUi _playerInfoPanelView;
     [SerializeField] private RegionInfoUi _regionInfoUiPanel;
 
     private GameManager _gameManager;
@@ -57,7 +56,6 @@ public class GameLoader : MonoBehaviour
         _cardSelectPanelView.Initialize(_cardSelectPanel);
 
         _gameManager = new GameManager(_cardSelectPanel);
-        _playerInfoPanelView.Subscribe(_gameManager.GamePhaseManager);
 
         _tokenSelector = new TokenSelector();
         ServiceLocator.Register(_tokenSelector);

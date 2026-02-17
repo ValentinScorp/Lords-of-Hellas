@@ -1,17 +1,20 @@
+using System;
 using UnityEngine;
 
 public abstract class TokenModel
 {
     public TokenType Type { get; private set; }
     private RegionId _regionId;
+    public event Action<TokenModel> RegionChanged;
     public RegionId RegionId { 
         get => _regionId; 
         set {
             if (_regionId == value) {
                 return;
-            }
-            //  Debug.Log($"TokenModel RegionId set: {_regionId} -> {value}");
+            }            
+            Debug.Log($"TokenModel RegionId set: {_regionId} -> {value}");
             _regionId = value;
+            RegionChanged?.Invoke(this);
         }
     }  
     public PlayerColor PlayerColor { get; protected set;}

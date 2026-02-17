@@ -27,15 +27,10 @@ public class GamePhasePlayerTurn : GamePhaseBase
     }
     private void HandleNextPlayer(Player player) {
         GameContext.Instance.CurrentPlayer = player;
-        SceneUiRegistry.Get<TurnStartPanel>().Launch(player, HandleNextPlayerLaunch);
         InitPlayerTurn(player);
     }
-    private void HandleNextPlayerLaunch()
-    {
-        
-    }
     private void InitPlayerTurn(Player player) {
-        _playerTurnController.StartRegularAction(player, HandleTurnCompleted);
+        _playerTurnController.Launch(player, HandleTurnCompleted);
     }
     private void HandleTurnCompleted(Player player) {
         _turnOrder.NextPlayer();

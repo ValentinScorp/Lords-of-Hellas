@@ -17,6 +17,7 @@ public class Player
     public HeroModel Hero { get; set; }
     public PlayerColor Color { get; set; }
     public int PriestsInPool => _priestManager.InPool;
+    public int HoplitesOnBoard => _hopliteManager.HoplitesOnBoard();
     public event Action<Player, int, Action> OnArtifactCardSelect;
     public event Action<Player, LandId> OnAddLandToken;
     public event Action<Player> OnPlayerInfoChange;
@@ -58,9 +59,11 @@ public class Player
     }
     internal bool TryTakeHoplite(out HopliteModel hoplite)
     {
+        Debug.Log("Taking hoplite from player!");
         var h = TakeHoplite();
         if (h is not null) {
             hoplite = h;
+            OnPlayerInfoChange?.Invoke(this);
             return true;
         }
         hoplite = null;
@@ -77,5 +80,9 @@ public class Player
     public void ResetHoplitesMove()
     {
         _hopliteManager.ResetMove();
+    }
+    public void HopliteRegionChanded()
+    {
+        OnPlayerInfoChange?.Invoke(this);
     }
 }
