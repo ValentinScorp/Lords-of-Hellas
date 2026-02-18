@@ -33,7 +33,7 @@ public class SpecialActionsController
     }
     internal void OnBuildMonumentPressed()
     {
-        throw new NotImplementedException();
+        HandleSpecialActionCompleted(_player);
     }
 
     internal void OnBuildTemplePressed()

@@ -7,6 +7,9 @@ public static class SceneUiRegistry
     private static readonly Dictionary<Type, object> _views = new();
     public static void Register<T>(T instance) where T : class => _views[typeof(T)] = instance;
     public static void Unregister<T>() where T : class => _views.Remove(typeof(T));
+
+    public static void Register(Type type, object instance) => _views[type] = instance;
+    public static void Unregister(Type type) => _views.Remove(type);
     public static T Get<T>() where T : class
     {
         T view = _views.TryGetValue(typeof(T), out var s) ? (T)s : null;

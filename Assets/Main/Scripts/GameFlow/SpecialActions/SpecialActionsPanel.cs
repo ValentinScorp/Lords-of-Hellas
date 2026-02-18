@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpecialActionsPanel : MonoBehaviour
+public class SpecialActionsPanel : UiPanel
 {
     [SerializeField] private Button _prepare;
     [SerializeField] private Button _hunt;
@@ -11,17 +11,17 @@ public class SpecialActionsPanel : MonoBehaviour
     [SerializeField] private Button _march;
     [SerializeField] private Button _buildMonument;
 
-    private void Awake()
+    protected override void Awake()
     {
-        SceneUiRegistry.Register(this);
+        base.Awake();
     }
     private void Start()
     {
         Show(false);
     }
-    private void Oestroy()
+    protected override void OnDestroy()
     {
-        SceneUiRegistry.Unregister<SpecialActionsPanel>();
+        base.OnDestroy();
     }
 
     public void Bind(SpecialActionsController controller)
@@ -47,8 +47,5 @@ public class SpecialActionsPanel : MonoBehaviour
             _march.onClick.RemoveListener(controller.OnMarchPressed);
             _buildMonument.onClick.RemoveListener(controller.OnBuildMonumentPressed);
         }
-    }
-    public void Show(bool show) {
-        gameObject.SetActive(show);
     }
 }

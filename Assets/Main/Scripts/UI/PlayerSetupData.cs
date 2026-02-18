@@ -8,12 +8,12 @@ public class PlayerSetupData
     [SerializeField] private PlayerSetupConfigList _playerSetupConfigList;
     public PlayerSetupConfigList Players => _playerSetupConfigList;
 
-    private const int MinPlayers = 2;
-    private const int MaxPlayers = 4;
+    private const int _MinPlayers = 2;
+    private const int _MaxPlayers = 4;
 
     public bool StartGame(List<PlayerSetupPanel> playerPanels) {
-        if (playerPanels.Count < MinPlayers) {
-            Debug.LogWarning("����������� �������!");
+        if (playerPanels.Count < _MinPlayers) {
+            Debug.LogWarning($"Players must be more then {_MinPlayers - 1}!");
             return false;
         }
         _playerSetupConfigList = ScriptableObject.CreateInstance<PlayerSetupConfigList>();
@@ -52,7 +52,7 @@ public class PlayerSetupData
                 break;
             }
         }
-        if (playerPanels.Count < MinPlayers) {
+        if (playerPanels.Count < _MinPlayers) {
             isValid = false;
         }
 

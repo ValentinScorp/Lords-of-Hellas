@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoUiPanel : MonoBehaviour
+public class PlayerInfoUiPanel : UiPanel
 {
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private TMP_Text _currentGamePhaseText;
@@ -13,32 +13,25 @@ public class PlayerInfoUiPanel : MonoBehaviour
 
     private Player _currentPlayer;
     private static Color _defaultBackgroundColor = Color.white;
-    private void Awake()
+    protected override void Awake()
     {
-        SceneUiRegistry.Register(this);
+        base.Awake();
+
+        SetBackgroundColor(_defaultBackgroundColor);
+        Show(false);
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         if (_currentPlayer is not null) {
             _currentPlayer.OnPlayerInfoChange -= UpdatePlayerInfo;
         }
         _currentPlayer = null;
-        SceneUiRegistry.Unregister<PlayerInfoUiPanel>();
+
+        base.OnDestroy();
     }
-    private void Start()
-    {
-        SetBackgroundColor(_defaultBackgroundColor);
-    }
-    // private void OnEnable()
-    // {
-    //     GameContext.Instance.OnPlayerChanged += HandlePlayerChanged;
-    // }
-    // private void OnDisable()
-    // {
-    //     GameContext.Instance.OnPlayerChanged -= HandlePlayerChanged;
-    // }
     public void BindPlayer(Player newPlayer)
     {
+        Show(true);
         SetBackgroundColor(newPlayer.Color);
 
         if (_currentPlayer != null) {
@@ -83,9 +76,5 @@ public class PlayerInfoUiPanel : MonoBehaviour
         } else {
             Debug.LogError("Image color not assigned!");
         }
-    }
-    private void HandleGamePhaseChanged(GamePhaseBase gamePhase)
-    {
-        _currentGamePhaseText.text = gamePhase.Name;
     }
 }
