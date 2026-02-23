@@ -23,7 +23,7 @@ public class TokenView : MonoBehaviour, ISelectable
     public TokenType TokenType => _viewModel != null ? _viewModel.Model.Type : TokenType.None;   
     public PlayerColor PlayerColor => _viewModel != null ? _viewModel.Model.PlayerColor : PlayerColor.Gray;
     public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
-    public TokenNest Nest => _viewModel != null ? _viewModel.TokenNest : null;
+    public RegionNest Nest => _viewModel != null ? _viewModel.TokenNest : null;
     
     public TokenViewModel ViewModel => _viewModel;
 

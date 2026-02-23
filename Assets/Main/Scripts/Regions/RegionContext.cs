@@ -15,8 +15,9 @@ public class RegionContext
     public bool IsFortified { get; private set; }
 
     public event Action<PlayerColor> OwnerChanged;
-    public event Action<TokenModel, TokenNest> TokenPlaced;
-    public event Action<TokenModel, RegionId, TokenNest> TokenMoved;
+    public event Action<TokenModel, RegionNest> TokenPlaced;
+    public event Action<TokenModel, RegionId, RegionNest> TokenMoved;
+    public event Action<RegionContext> TemplePlaced;
 
     public event Action<TokenModel> TokenRemoved;
 
@@ -29,7 +30,7 @@ public class RegionContext
         RegionConfig = regionCfg;
         OwnedBy = PlayerColor.Gray;
     }
-    public void Place(TokenModel token, TokenNest nest = null)
+    public void Place(TokenModel token, RegionNest nest = null)
     {
         if (token is HopliteModel hoplite) {
             PlaceHoplite(hoplite, nest);
@@ -37,7 +38,7 @@ public class RegionContext
             PlaceToken(token, nest);
         }
     }
-    public void Move(TokenModel token, TokenNest nest)
+    public void Move(TokenModel token, RegionNest nest)
     {
         if (token is HopliteModel hoplite) {
             PlaceHoplite(hoplite, nest);
@@ -45,29 +46,29 @@ public class RegionContext
             MoveToken(token, nest);
         }
     }
-    private void PlaceHoplite(HopliteModel hoplite, TokenNest nest)
+    private void PlaceHoplite(HopliteModel hoplite, RegionNest nest)
     {
         if (TryFindHopliteStack(hoplite.PlayerColor, out var hopliteStack)) {
             hopliteStack.AddHoplite(hoplite);
             RecalcOwner();
         } else {
             var newHopliteStack = new HopliteStackModel(hoplite.PlayerColor);
-            newHopliteStack.RegionId = RegionId;
+            newHopliteStack.Nest = nest;
             newHopliteStack.AddHoplite(hoplite);
             PlaceToken(newHopliteStack, nest);
             RecalcOwner();            
         }
     }
-    private void MoveToken(TokenModel token, TokenNest nest)
+    private void MoveToken(TokenModel token, RegionNest nest)
     {
         var fromRegion = token.RegionId;
-        token.RegionId = RegionId;
+        token.Nest = nest;
         _tokens.Add(token);
         TokenMoved?.Invoke(token, fromRegion, nest);
     }
-    private void PlaceToken(TokenModel token, TokenNest nest)
+    private void PlaceToken(TokenModel token, RegionNest nest)
     {
-        token.RegionId = RegionId;
+        token.Nest = nest;
         _tokens.Add(token);
         TokenPlaced?.Invoke(token, nest);
     }
@@ -92,7 +93,7 @@ public class RegionContext
         if (token is HopliteModel hoplite) {
             TakeHoplite(hoplite);
         } else {
-            token.RegionId = RegionId.Unknown;
+            token.ClearNest();
             _tokens.Remove(token);
             TokenRemoved?.Invoke(token);
         }
@@ -204,5 +205,15 @@ public class RegionContext
         }
         hopliteStack = null;
         return false;
+    }
+
+    internal bool TryPlaceTemple()
+    {
+        if (!RegionConfig.HasShrine) return false;
+        if (HasTemple) return false;
+
+        HasTemple = true;
+        TemplePlaced?.Invoke(this);
+        return true;
     }
 }

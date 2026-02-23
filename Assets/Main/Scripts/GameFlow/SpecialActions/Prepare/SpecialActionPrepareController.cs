@@ -41,7 +41,7 @@ public class SpecialActionPrepareController
         if (!_player.Hero.IsOnBoard()) return;
 
         if (_player.TryTakeHoplite(out var hoplite)) {
-            if (GameContext.Instance.RegionDataRegistry.TryPlace(hoplite, _player.Hero.RegionId)) {
+            if (GameContext.Instance.RegionRegistry.TryPlace(hoplite, _player.Hero.RegionId)) {
                 CheckIfShutdown();
             }
         }       

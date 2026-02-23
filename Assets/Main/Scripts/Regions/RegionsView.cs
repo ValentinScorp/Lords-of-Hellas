@@ -65,12 +65,12 @@ public class RegionsView : MonoBehaviour
             }
         }
     }
-    public TokenNest GetFreeSpawnPoint(RegionId regionId, Vector3? position = null)
+    public RegionNest GetFreeSpawnPoint(RegionId regionId, Vector3? position = null)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
             foreach (Transform child in region) {
-                var spawnPoints = child.GetComponent<TokenNestsView>();
+                var spawnPoints = child.GetComponent<RegionNestsView>();
                 if (spawnPoints != null) {
                     return position.HasValue ? 
                         spawnPoints.GetNearestUnoccupied(position.Value) :

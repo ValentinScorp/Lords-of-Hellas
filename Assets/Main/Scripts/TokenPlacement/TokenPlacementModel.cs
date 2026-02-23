@@ -12,11 +12,11 @@ public sealed class TokenPlacementModel
     public HopliteModel Hoplite => _player.TakeHoplite();
     public bool CanPlaceHero()
     {
-        return !GameContext.Instance.RegionDataRegistry.TryFindHero(_player.Hero, out var regionId);
+        return !GameContext.Instance.RegionRegistry.TryFindHero(_player.Hero, out var regionId);
     }
     public bool CanPlaceHoplite()
     {
-        return GameContext.Instance.RegionDataRegistry.HoplitesCount(_player.Color) < 2;
+        return GameContext.Instance.RegionRegistry.HoplitesCount(_player.Color) < 2;
     }
     public bool CanComplete()
     {

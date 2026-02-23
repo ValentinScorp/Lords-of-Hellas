@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class RulesCheckerStartup : IRulesChecker
 {
-    public bool CanPlace(TokenModel token, TokenNest nest)
+    public bool CanPlace(TokenModel token, RegionNest nest)
     {
-        var regions = GameContext.Instance.RegionDataRegistry;
+        var regions = GameContext.Instance.RegionRegistry;
         if (token is HopliteModel hoplite) {
             if (regions.IsHeroAnotherColor(nest.RegionId, hoplite.PlayerColor)) {
                 return false;

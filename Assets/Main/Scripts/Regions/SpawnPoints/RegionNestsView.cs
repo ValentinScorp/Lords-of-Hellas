@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class TokenNestsView : MonoBehaviour
+public class RegionNestsView : MonoBehaviour
 {
     [SerializeField] private float _step = 1f;
     private RegionId _regionId;
-    private List<TokenNest> _spawnPoints = new();
+    private List<RegionNest> _nests = new();
 
     private void Start()
     {
@@ -14,12 +14,12 @@ public class TokenNestsView : MonoBehaviour
         GenerateNests();
 
         if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_regionId, out var region)) {
-            region.SetNests(_spawnPoints);
+            region.SetNests(_nests);
         }
     }
-    public TokenNest GetFreeNest()
+    public RegionNest GetFreeNest()
     {
-        foreach (var point in _spawnPoints) {
+        foreach (var point in _nests) {
             if (!point.IsOccupied) {
                 return point;
             }
@@ -27,17 +27,17 @@ public class TokenNestsView : MonoBehaviour
         Debug.LogError("No free SawnPoints left!");
         return null;
     }
-    public TokenNest GetCenteredUnoccupied()
+    public RegionNest GetCenteredUnoccupied()
     {
         var average = CalcAverageNest();
         return GetNearestUnoccupied(average);
     }
-    public TokenNest GetNearestUnoccupied(Vector3 point)
+    public RegionNest GetNearestUnoccupied(Vector3 point)
     {
-        TokenNest nearest = null;
+        RegionNest nearest = null;
         float minDistance = float.MaxValue;
 
-        foreach (var spawnPoint in _spawnPoints) {
+        foreach (var spawnPoint in _nests) {
             if (!spawnPoint.IsOccupied) {
                 float distance = Vector3.Distance(point, spawnPoint.Position);
                 if (distance < minDistance) {
@@ -53,7 +53,7 @@ public class TokenNestsView : MonoBehaviour
     }
     private void GenerateNests()
     {
-        _spawnPoints.Clear();
+        _nests.Clear();
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         var vertices = mesh.vertices;
         for (int i = 0; i < vertices.Length; i++) {
@@ -67,7 +67,7 @@ public class TokenNestsView : MonoBehaviour
             for (float z = min.z; z <= max.z; z += _step) {
                 Vector3 pos = new Vector3(x, 0f, z);
                 if (IsPointInsideMesh(pos)) {
-                    _spawnPoints.Add(new(pos, _regionId));
+                    _nests.Add(new(pos, _regionId));
                 }
             }
         }
@@ -77,10 +77,10 @@ public class TokenNestsView : MonoBehaviour
     private Vector3 CalcAverageNest()
     {
         Vector3 averagePoint = Vector3.zero;
-        foreach (var spawnPoint in _spawnPoints) {
+        foreach (var spawnPoint in _nests) {
             averagePoint += spawnPoint.Position;
         }
-        averagePoint /= _spawnPoints.Count;
+        averagePoint /= _nests.Count;
         return averagePoint;
     }
     private bool IsPointInsideMesh(Vector3 point)
@@ -104,10 +104,10 @@ public class TokenNestsView : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        if (_spawnPoints == null) {
+        if (_nests == null) {
             return;
         }
-        foreach (var p in _spawnPoints) {
+        foreach (var p in _nests) {
             Gizmos.DrawSphere(p.Position, 0.1f);
         }
     }

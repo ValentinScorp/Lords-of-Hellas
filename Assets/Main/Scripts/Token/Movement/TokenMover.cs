@@ -7,7 +7,7 @@ public class TokenMover
     private RegionId _prevReionId;
     private TokenDragger _tokenDragger;
     private TokenNestHitDetector _tokenNestHitDetector;
-    private Action<TokenNest> _onComplete;
+    private Action<RegionNest> _onComplete;
     private readonly List<RouteArc> _arcsList = new();
     private RouteArcBuilder _arcBuilder;
 
@@ -25,16 +25,16 @@ public class TokenMover
         _arcBuilder = arcBuilder;
         _arcsList.Add(arcBuilder.Arc);
     }
-    public void CatchNeibRegionPoint(RegionId fromRegion, Action<TokenNest> onComplete, Action onCancel = null)    
+    public void CatchNeibRegionPoint(RegionId fromRegion, Action<RegionNest> onComplete, Action onCancel = null)    
     {
         _prevReionId = fromRegion;
         _onComplete = onComplete;
 
         _tokenNestHitDetector.ListenHits(HandleHittedNest);
     }
-    private void HandleHittedNest(TokenNest nest)
+    private void HandleHittedNest(RegionNest nest)
     {
-        var regRegistry = GameContext.Instance.RegionDataRegistry;
+        var regRegistry = GameContext.Instance.RegionRegistry;
 
         var neibRegions = regRegistry.GetNeighborRegionIds(_prevReionId);
         foreach (var regId in neibRegions) {

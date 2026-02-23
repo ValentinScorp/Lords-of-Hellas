@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TokenNestHitDetector
 {
-    private Action<TokenNest> _onHitDetected;
-    public void ListenHits(Action<TokenNest> OnHitDetected)
+    private Action<RegionNest> _onHitDetected;
+    public void ListenHits(Action<RegionNest> OnHitDetected)
     {
         _onHitDetected = OnHitDetected;
 

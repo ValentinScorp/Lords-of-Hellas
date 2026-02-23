@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class RegionViewModel : IDisposable
 {
     public RegionId Id { get; }
-    private List<TokenNest> _nests;
+    private List<RegionNest> _nests;
 
     private List<TokenViewModel> _tokens = new();
     private RegionContext _regionModel;
@@ -17,30 +15,31 @@ public class RegionViewModel : IDisposable
     public RegionViewModel(RegionId id)
     {
         Id = id;
-        if (GameContext.Instance.RegionDataRegistry.TryFindRegion(id, out var region)) {
+        if (GameContext.Instance.RegionRegistry.TryFindRegion(id, out var region)) {
             _regionModel = region;
-            _regionModel.TokenPlaced += HandleTokenPlaced;
-            _regionModel.TokenMoved += HandleTokenMoved;
-
-            _regionModel.TokenRemoved += HandleTokenRemoved;
-            _regionModel.OwnerChanged += HandleOwnerChanged;
+            _regionModel.TokenPlaced += OnTokenPlaced;
+            _regionModel.TokenMoved += OnTokenMoved;
+            _regionModel.TokenRemoved += OnTokenRemoved;
+            _regionModel.OwnerChanged += OnOwnerChanged;
+            _regionModel.TemplePlaced += OnTemplePlaced;
         }
     }
     public void Dispose()
     {
         if (_regionModel is not null) {
-            _regionModel.TokenPlaced -= HandleTokenPlaced;
-            _regionModel.TokenMoved -= HandleTokenMoved;
-            _regionModel.TokenRemoved -= HandleTokenRemoved;
-            _regionModel.OwnerChanged -= HandleOwnerChanged;
+            _regionModel.TokenPlaced -= OnTokenPlaced;
+            _regionModel.TokenMoved -= OnTokenMoved;
+            _regionModel.TokenRemoved -= OnTokenRemoved;
+            _regionModel.OwnerChanged -= OnOwnerChanged;
+            _regionModel.TemplePlaced -= OnTemplePlaced;
         }
     }
-    private void HandleTokenPlaced(TokenModel token, TokenNest nest)
+    private void OnTokenPlaced(TokenModel token, RegionNest nest)
     {
         var tokenVm = ServiceLocator.Get<TokenFactory>().CreateGhostToken(token);
         Place(tokenVm, nest);
     }
-    private void HandleTokenMoved(TokenModel token, RegionId from, TokenNest nest)
+    private void OnTokenMoved(TokenModel token, RegionId from, RegionNest nest)
     {
         // Debug.Log($"Registering token at {_regionModel.RegionId}");
         // Debug.Log($"Token from {token.RegionId}");
@@ -51,7 +50,7 @@ public class RegionViewModel : IDisposable
             }
         }        
     }
-    private void HandleTokenRemoved(TokenModel token)
+    private void OnTokenRemoved(TokenModel token)
     {
         foreach (var t in _tokens) {
             if (t.Model == token) {                
@@ -70,17 +69,21 @@ public class RegionViewModel : IDisposable
             }
         }
     }
-    private void HandleOwnerChanged(PlayerColor color)
+    private void OnOwnerChanged(PlayerColor color)
     {
         OwnerChanged?.Invoke(color);
     }
-    private void Place(TokenViewModel token, TokenNest nest)
+    private void Place(TokenViewModel token, RegionNest nest)
     {
         if (nest is null) {
             nest = GetCenteredUnoccupied();
         } 
         token.Place(nest);
         _tokens.Add(token);
+    }
+    private void OnTemplePlaced(RegionContext region)
+    {
+        
     }
     public bool TryFindToken(TokenModel model, out TokenViewModel tokenVm)
     {
@@ -93,11 +96,11 @@ public class RegionViewModel : IDisposable
         tokenVm = null;
         return false;
     }
-    public void SetNests(List<TokenNest> nests)
+    public void SetNests(List<RegionNest> nests)
     {
         _nests = nests;
     }
-    public bool TryGetFreeNest(Vector3 hitPoint, out TokenNest nest)
+    public bool TryGetFreeNest(Vector3 hitPoint, out RegionNest nest)
     {
         nest = GetNearestUnoccupied(hitPoint);
         if (nest != null) {
@@ -119,14 +122,14 @@ public class RegionViewModel : IDisposable
         hopliteStack = null;
         return false;
     }
-    public TokenNest GetCenteredUnoccupied()
+    public RegionNest GetCenteredUnoccupied()
     {
         var average = CalcAveragePoint();
         return GetNearestUnoccupied(average);
     }    
-    public TokenNest GetNearestUnoccupied(Vector3 point)
+    public RegionNest GetNearestUnoccupied(Vector3 point)
     {
-        TokenNest nearest = null;
+        RegionNest nearest = null;
         float minDistance = float.MaxValue;
 
         foreach (var spawnPoint in _nests) {

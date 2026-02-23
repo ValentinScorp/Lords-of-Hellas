@@ -8,6 +8,7 @@ public class SpecialActionsController
     private SpecialActionsPanel _uiPanel;
 
     private SpecialActionPrepareController _prepareController = new();
+    private SpecialActionRecruit _recruitAction = new();
     
     internal SpecialActionsController()
     {
@@ -29,12 +30,9 @@ public class SpecialActionsController
     internal void OnPreparePressed()
     {
         _uiPanel?.Show(false);
-        _prepareController.Launch(_player, HandleSpecialActionCompleted);
+        _prepareController.Launch(_player, OnSpecialActionCompleted);
     }
-    internal void OnBuildMonumentPressed()
-    {
-        HandleSpecialActionCompleted(_player);
-    }
+    
 
     internal void OnBuildTemplePressed()
     {
@@ -53,14 +51,18 @@ public class SpecialActionsController
 
     internal void OnRecruitPressed()
     {
-        throw new NotImplementedException();
+        _recruitAction.Launch(_player, OnSpecialActionCompleted);
     }
 
     internal void OnUsurpPressed()
     {
         throw new NotImplementedException();
     }
-    private void HandleSpecialActionCompleted(Player player)
+    internal void OnBuildMonumentPressed()
+    {
+        OnSpecialActionCompleted(_player);
+    }    
+    private void OnSpecialActionCompleted(Player player)
     {
         _uiPanel?.Undbind(this);
         _uiPanel?.Show(false);

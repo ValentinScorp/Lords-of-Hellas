@@ -1,12 +1,12 @@
 
 using UnityEngine;
 
-public class TokenNest
+public class RegionNest
 {
     public RegionId RegionId { get; private set; }
     public Vector3 Position { get; private set; } 
     public bool IsOccupied { get; private set; }
-    public TokenNest(Vector3 position = default, RegionId regionId = RegionId.Unknown) {
+    public RegionNest(Vector3 position = default, RegionId regionId = RegionId.Unknown) {
         RegionId = regionId;
         Position = position;
         IsOccupied = false;

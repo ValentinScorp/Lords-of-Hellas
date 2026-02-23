@@ -7,6 +7,7 @@ public class GameContent
     private static GameContent _instance;
     public static GameContent Instance => _instance ??= new GameContent();
     private GameContent() { }
+
     private List<CardMonsterAttack> _monsterAttackCards;
     private List<CardCombat> _combatCards;
     private List<CardArtifact> _artifactCards;
@@ -17,6 +18,8 @@ public class GameContent
     public static PlayerColorPalette PlayerColorPalette { get; private set; }
     public static TokenMaterialPalette TokenMaterialPalette { get; private set; }
     public static GlobalMaterials GlobalMaterials { get; private set; }
+    public static PrefabCatalog PrefabCatalog { get; private set; }
+    
     public IReadOnlyList<CardTemple> TempleCards { get; private set; }
     public List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards;
     public List<CardCombat> CombatCards => _combatCards;
@@ -49,6 +52,7 @@ public class GameContent
         if (TempleCards == null) {
             Debug.LogWarning("Temple Cards not loaded!");
         }
+        PrefabCatalog = Resources.Load<PrefabCatalog>("ScriptableObjects/GameSetup/PrefabCatalog");
 
         CardLoader.Instance.LoadAllCards();
 

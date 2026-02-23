@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class HopliteManager
 {
-    public const int TOTAL_HOPLITES = 15;
+    public const int HopliatesMax = 15;
     private List<HopliteModel> _hoplites = new();
     private Action _HopliteChangedRegion;
 
@@ -13,7 +13,7 @@ public class HopliteManager
     {
         _HopliteChangedRegion = player.HopliteRegionChanded;
 
-        for (var id = 1; id <= TOTAL_HOPLITES; id++) {
+        for (var id = 1; id <= HopliatesMax; id++) {
             var hoplite = new HopliteModel(player);
             hoplite.RegionChanged += HopliteChangedRegion;
             _hoplites.Add(hoplite);
@@ -39,6 +39,10 @@ public class HopliteManager
                 count++;
         }
         return count;
+    }
+    internal int HoplitesInHand()
+    {
+        return HopliatesMax - HoplitesOnBoard();
     }
     internal void ResetMove()
     {

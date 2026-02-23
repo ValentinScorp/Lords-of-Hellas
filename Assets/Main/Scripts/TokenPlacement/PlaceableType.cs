@@ -1,0 +1,5 @@
+
+public enum PlaceableType
+{
+    Temple
+}

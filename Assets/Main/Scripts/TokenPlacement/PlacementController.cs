@@ -16,10 +16,10 @@ public class PlacementController
         _tokenDragger.CreateGhost(_token);
         _tokenNestHitDetector.ListenHits(HandleHitedNest);
     }
-    private void HandleHitedNest(TokenNest nest)
+    private void HandleHitedNest(RegionNest nest)
     {
         if (_rulesChecker.CanPlace(_token, nest)) {            
-            if (GameContext.Instance.RegionDataRegistry.TryPlace(_token, nest)) {
+            if (GameContext.Instance.RegionRegistry.TryPlace(_token, nest)) {
                 _tokenDragger.Dispose();
                 _placementCompleted(_token);
                 _token = null;

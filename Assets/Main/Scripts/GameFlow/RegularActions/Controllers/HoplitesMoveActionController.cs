@@ -47,9 +47,9 @@ public class HoplitesMoveActionController
             }
         }        
     }
-    private void HandleStep(TokenNest nest)
+    private void HandleStep(RegionNest nest)
     {
-        var regionsRegistry = GameContext.Instance.RegionDataRegistry;
+        var regionsRegistry = GameContext.Instance.RegionRegistry;
         regionsRegistry.Move(_hopliteModel, nest);
         _hopliteModel.MarkMoved();
         _moveModel.MakeStep();

@@ -22,7 +22,7 @@ public class HopliteStackModel : TokenModel
     public void AddHoplite(HopliteModel hoplite)
     {
         // Debug.Log($"Adding hoplite {RegionId}");
-        hoplite.RegionId = RegionId;
+        hoplite.Nest = Nest;
         _hoplites.Add(hoplite);
         OnCountChanged?.Invoke(_hoplites.Count);
     }

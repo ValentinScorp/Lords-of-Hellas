@@ -18,6 +18,7 @@ public class Player
     public PlayerColor Color { get; set; }
     public int PriestsInPool => _priestManager.InPool;
     public int HoplitesOnBoard => _hopliteManager.HoplitesOnBoard();
+    public int HoplitesInHand => _hopliteManager.HoplitesInHand();
     public event Action<Player, int, Action> OnArtifactCardSelect;
     public event Action<Player, LandId> OnAddLandToken;
     public event Action<Player> OnPlayerInfoChange;

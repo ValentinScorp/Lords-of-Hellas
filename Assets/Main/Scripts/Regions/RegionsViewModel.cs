@@ -26,7 +26,7 @@ public class RegionsViewModel : IDisposable
         region = null;
         return false;
     }
-    public bool TryGetFreeSpawnPoint(RegionId regionId, Vector3 hitPoint, out TokenNest spawnPoint) 
+    public bool TryGetFreeSpawnPoint(RegionId regionId, Vector3 hitPoint, out RegionNest spawnPoint) 
     {
         if (TryGetRegion(regionId, out var region)) {
             if (region.TryGetFreeNest(hitPoint, out var sp)) {

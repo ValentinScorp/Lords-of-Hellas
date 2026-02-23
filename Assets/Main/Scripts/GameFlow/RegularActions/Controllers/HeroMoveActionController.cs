@@ -44,7 +44,7 @@ public class HeroMoveActionController
         _tokenMover.Init(token);
         _tokenMover.CatchNeibRegionPoint(token.RegionId, HandleStep);
     }
-    private void HandleStep(TokenNest nest)
+    private void HandleStep(RegionNest nest)
     {
         _moveModel.MakeStep();
         _moveRoute.AddRouteNode(nest.RegionId, nest);
@@ -55,10 +55,10 @@ public class HeroMoveActionController
             _tokenMover.CatchNeibRegionPoint(nest.RegionId, HandleStep);
         }
     }
-    private void HandleMoveComplete(TokenNest nest)
+    private void HandleMoveComplete(RegionNest nest)
     {
         Debug.Log("Hero Move completed");
-        var regionsRegistry = GameContext.Instance.RegionDataRegistry;        
+        var regionsRegistry = GameContext.Instance.RegionRegistry;        
         regionsRegistry.Move(_heroToken.ViewModel.Model, nest);
 
         _tokenMover.DestroyVisuals();

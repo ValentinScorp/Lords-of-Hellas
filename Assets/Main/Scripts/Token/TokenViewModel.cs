@@ -4,7 +4,7 @@ using UnityEngine;
 public class TokenViewModel : IDisposable
 {
     public Vector3 WorldPosition { get; private set; }
-    public TokenNest TokenNest { get; private set; }
+    public RegionNest TokenNest { get; private set; }
     public TokenModel Model { get; private set; }
 
     public enum VisualState
@@ -28,7 +28,7 @@ public class TokenViewModel : IDisposable
         TokenNest = new();
         Model = model;
     }
-    public void Place(TokenNest nest)
+    public void Place(RegionNest nest)
     {
         TokenNest = nest;
         nest.Occupy();

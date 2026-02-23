@@ -49,6 +49,13 @@ public class RegionsContext
             }
         }
     }
+    public bool TryPlaceTemple(RegionId regionId)
+    {
+        if (TryFindRegion(regionId, out var region)) {
+            return region.TryPlaceTemple();
+        }
+        return false;
+    }
     public bool TryPlace(TokenModel token, RegionId regionId)
     {
         if (TryFindRegion(regionId, out var region)) {
@@ -57,7 +64,7 @@ public class RegionsContext
         }
         return false;
     }
-    public bool TryPlace(TokenModel token, TokenNest nest)
+    public bool TryPlace(TokenModel token, RegionNest nest)
     {
         if (TryFindRegion(nest.RegionId, out var region)) {
             region.Place(token, nest);
@@ -73,7 +80,7 @@ public class RegionsContext
         }
         return false;
     }
-    public void Move(TokenModel token, TokenNest nest)
+    public void Move(TokenModel token, RegionNest nest)
     {
         Debug.Log($"{token.RegionId} to {nest.RegionId}");
         if (TryFindRegion(token.RegionId, out var fromReg) && TryFindRegion(nest.RegionId, out var toReg)) {
@@ -235,6 +242,16 @@ public class RegionsContext
         }
         Debug.LogWarning("Unable to unregister token in RegionManager!");
         return false;
+    }
+    public List<RegionId> GetControlled(Player player)
+    {
+        List<RegionId> regionIds = new();
+        foreach (var r in _regionsContextList) {
+            if (r.OwnedBy == player.Color) {
+                regionIds.Add(r.RegionId);
+            }
+        }
+        return regionIds;
     }
     public List<RegionId> GetNeighborRegionIds(RegionId regionId)
     {

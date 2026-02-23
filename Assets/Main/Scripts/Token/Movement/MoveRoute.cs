@@ -7,16 +7,16 @@ public class MoveRoute
     private class Node
     {
         public RegionId RegionId { get; private set; }
-        public TokenNest TokenNest { get; private set; }        
+        public RegionNest TokenNest { get; private set; }        
 
-        public Node(RegionId regionId, TokenNest tokenNest)
+        public Node(RegionId regionId, RegionNest tokenNest)
         {
             RegionId = regionId;
             TokenNest = tokenNest;
         }
     }
     private List<Node> _nodes = new List<Node>();
-    public void AddRouteNode(RegionId regionId, TokenNest nest)
+    public void AddRouteNode(RegionId regionId, RegionNest nest)
     {
         if (nest is null) Debug.LogWarning("Adding node to route with token nest == null!");
         _nodes.Add(new Node(regionId, nest));

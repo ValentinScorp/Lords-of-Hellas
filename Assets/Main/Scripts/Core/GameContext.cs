@@ -22,7 +22,7 @@ public class GameContext
     public CardDeck ArtifactDeck => _artifactDeck;
     public CardDeck BlessingDeck => _blessingDeck;
     public TemplePool TemplePool => _templePool;
-    public RegionsContext RegionDataRegistry { get; private set; }
+    public RegionsContext RegionRegistry { get; private set; }
 
     public event Action<Player> OnPlayerChanged;
     public Player CurrentPlayer {
@@ -55,7 +55,7 @@ public class GameContext
         _artifactDeck = new CardDeck(CardLoader.Instance.ArtifactCards);
         _blessingDeck = new CardDeck(CardLoader.Instance.BlessingCards);
 
-        RegionDataRegistry = new(GameContent.Instance.RegionsConfig);
+        RegionRegistry = new(GameContent.Instance.RegionsConfig);
 
         foreach (var playerCfg in GameConfig.Instance.Players) {
             var player = new Player(playerCfg);
