@@ -1,8 +1,16 @@
 using UnityEngine;
 
-public class TempleView : MonoBehaviour, IPlaceableView
+public class TempleModel : TokenModel
 {
-    private PlayerColorable _playerColorable;    
+    public TempleModel() : base(TokenType.Temple, PlayerColor.Gray)
+    {
+    }
+}
+public class TempleVisual : MonoBehaviour, IPlaceableVisual
+{
+    private PlayerColorable _playerColorable;
+    private TempleModel _model = new TempleModel();
+    public TokenModel Model => _model;
 
     private void Awake()
     {

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class RegionsContext
 {
-    private List<RegionContext> _regionsContextList;
-    public List<RegionContext> RegionsContextList => _regionsContextList;
-    private readonly Dictionary<RegionId, RegionContext> _regionMap = new();
+    private List<RegionModel> _regionsContextList;
+    public List<RegionModel> RegionsContextList => _regionsContextList;
+    private readonly Dictionary<RegionId, RegionModel> _regionMap = new();
 
     public RegionsContext(List<RegionConfig> regionConfigs)
     {
         _regionsContextList = new();
         foreach (var regConf in regionConfigs) {
-            var regionData = new RegionContext(regConf);            
+            var regionData = new RegionModel(regConf);            
             _regionsContextList.Add(regionData);
         }
         foreach (var region in _regionsContextList) {
@@ -24,11 +24,11 @@ public class RegionsContext
 
     private void BuildGraph()
     {
-        foreach (RegionContext region in _regionsContextList) {
+        foreach (RegionModel region in _regionsContextList) {
             region.RegionConfig.RegionConnections = new List<RegionConnection>();
 
             foreach (string neighborName in region.RegionConfig.SourceData.neighbors_land) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionContext neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(neighborName), out RegionModel neighbor)) {
                     region.RegionConfig.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Land
@@ -38,7 +38,7 @@ public class RegionsContext
                 }
             }
             foreach (string seaNeighborName in region.RegionConfig.SourceData.neighbors_sea) {
-                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionContext neighbor)) {
+                if (_regionMap.TryGetValue(RegionIdParser.Parse(seaNeighborName), out RegionModel neighbor)) {
                     region.RegionConfig.RegionConnections.Add(new RegionConnection {
                         TargetRegionId = neighbor.RegionId,
                         ConnectionType = RegionConnectionType.Sea
@@ -138,8 +138,8 @@ public class RegionsContext
         if (hoplite == null) {
             return false;
         }
-        RegionContext fromRegion = GetRegionContext(hoplite.RegionId);
-        RegionContext toRegion = GetRegionContext(regionId);
+        RegionModel fromRegion = GetRegionContext(hoplite.RegionId);
+        RegionModel toRegion = GetRegionContext(regionId);
 
         if (fromRegion == null || toRegion == null) {
             return false;
@@ -149,7 +149,7 @@ public class RegionsContext
         hoplite.MarkMoved();
         return true;    
     }
-    public bool TryFindRegion(RegionId regionId, out RegionContext region)
+    public bool TryFindRegion(RegionId regionId, out RegionModel region)
     {
         region = GetRegionContext(regionId);
         if (region is not null) {
@@ -157,9 +157,9 @@ public class RegionsContext
         }
         return false;
     }
-    public RegionContext GetRegionContext(RegionId regionId)
+    public RegionModel GetRegionContext(RegionId regionId)
     {
-        if (_regionMap.TryGetValue(regionId, out RegionContext regionData)) {
+        if (_regionMap.TryGetValue(regionId, out RegionModel regionData)) {
             return regionData;
         }
         Debug.LogWarning($"Region with ID {regionId} not found in _regionMap");
@@ -263,9 +263,9 @@ public class RegionsContext
         }
         return regionIds;
     }
-    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionContext> neighbors)
+    private bool TryGetNeighborRegions(RegionId regionId, out List<RegionModel> neighbors)
     {
-        neighbors = new List<RegionContext>();
+        neighbors = new List<RegionModel>();
         if (!_regionMap.TryGetValue(regionId, out var region)) {
             Debug.LogWarning($"Region {regionId} not found in map.");
             return false;

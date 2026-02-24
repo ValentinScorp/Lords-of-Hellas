@@ -4,6 +4,11 @@ public class RegionsView : MonoBehaviour
 {
     private void Awake()
     {
+        ServiceLocator.Register(this);
+    }
+    private void OnDestroy()
+    {
+        ServiceLocator.Unregister<RegionsView>();     
     }
 
     public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
@@ -65,7 +70,30 @@ public class RegionsView : MonoBehaviour
             }
         }
     }
-    public RegionNest GetFreeSpawnPoint(RegionId regionId, Vector3? position = null)
+    public bool TryGetNest(RegionId regionId, int nestId, out RegionNest nest)
+    {
+        var region = FindRegionById(regionId);
+        if (region != null) {
+            foreach (Transform child in region) {
+                var nestsView = child.GetComponent<RegionNestsView>();
+                if (nestsView != null) {
+                    nest = nestsView.GetNest(nestId);
+                    if (nest is not null) {
+                        return true;
+                    }
+                }
+            }
+        }
+        nest = null;
+        return false;
+    }
+    public bool TryGetFreeNest(RegionId regionId, Vector3 position, out RegionNest nest)
+    {
+        nest = GetFreeNest(regionId, position);
+        if (nest is not null) return true;
+        return false;
+    }
+    public RegionNest GetFreeNest(RegionId regionId, Vector3? position = null)
     {
         var region = FindRegionById(regionId);
         if (region != null) {

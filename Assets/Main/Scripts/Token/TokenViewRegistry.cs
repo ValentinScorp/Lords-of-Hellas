@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class TokenViewRegistry
 {
-    private readonly Dictionary<TokenViewModel, TokenView> _views = new();
+    private readonly Dictionary<TokenModel, TokenView> _views = new();
 
-    public void Register(TokenViewModel vm, TokenView view)
+    public void Register(TokenModel m, TokenView view)
     {
-        if (vm == null || view == null) return;
-        _views[vm] = view;
+        if (m == null || view == null) return;
+        _views[m] = view;
     }
 
-    public void Unregister(TokenViewModel vm, TokenView view)
+    public void Unregister(TokenModel m, TokenView view)
     {
-        if (vm == null || view == null) return;
-        if (_views.TryGetValue(vm, out var current) && current == view) {
-            _views.Remove(vm);
+        if (m == null || view == null) return;
+        if (_views.TryGetValue(m, out var current) && current == view) {
+            _views.Remove(m);
         }
     }
 
-    public bool TryDestroy(TokenViewModel vm)
+    public bool TryDestroy(TokenModel m)
     {
-        if (vm != null && _views.TryGetValue(vm, out var view)) {
+        if (m != null && _views.TryGetValue(m, out var view)) {
             Object.Destroy(view.gameObject);
-            _views.Remove(vm);
+            _views.Remove(m);
             return true;
         }
         return false;

@@ -18,7 +18,7 @@ public class TokenMover
     }
     public void Init(TokenView token)
     {         
-        _tokenDragger.CreateGhost(token.ViewModel.Model);
+        _tokenDragger.CreateGhost(token.Model);
 
         var arcBuilder = new RouteArcBuilder();
         arcBuilder.Create(token.transform.position, _tokenDragger.Ghost, token.PlayerColor);

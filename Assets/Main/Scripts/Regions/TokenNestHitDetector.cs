@@ -22,7 +22,7 @@ public class TokenNestHitDetector
 
         foreach (var target in targets){
             if (target.Selectable is RegionAreaView regionArea) {
-                if (ServiceLocator.Get<RegionsViewModel>().TryGetFreeSpawnPoint(regionArea.Id, target.HitPoint, out var nest)) {
+                if (ServiceLocator.Get<RegionsView>().TryGetFreeNest(regionArea.Id, target.HitPoint, out var nest)) {
                     _onHitDetected?.Invoke(nest);
                 }
             }

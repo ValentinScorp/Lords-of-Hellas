@@ -38,7 +38,7 @@ public class HoplitesMoveActionController
     }
     private void HandleSelection(TokenView token)
     {
-        if (token.ViewModel.Model is HopliteStackModel hsm) {
+        if (token.Model is HopliteStackModel hsm) {
             if (hsm.TryTakeUnmovedHoplite(out var unmovedHoplite)) {
                 _hopliteModel = unmovedHoplite;
                 Debug.Log($"{_hopliteModel.RegionId}");

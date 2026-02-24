@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class HeroModel : TokenModel//, IPlayerOwned
+public class HeroModel : TokenModel
 {
     public enum Id {
         None,
@@ -24,9 +24,9 @@ public class HeroModel : TokenModel//, IPlayerOwned
     public int Strength { get; private set; }
 
     public string DisplayName => HeroId.ToString();
-    public event Action<int> OnLeadershpChanged;
-    public event Action<int> OnSpeedChanged;
-    public event Action<int> OnStrengthChanged;
+    public event Action<int> LeadershipChanged;
+    public event Action<int> SpeedChanged;
+    public event Action<int> StrengthChanged;
 
     public HeroModel(Id heroId, Player player) 
         : base (TokenType.Hero, player) {
@@ -41,18 +41,25 @@ public class HeroModel : TokenModel//, IPlayerOwned
 
     public void ChangeStrength(int delta) {
         Strength = Mathf.Max(0, Strength + delta);
-        OnStrengthChanged?.Invoke(Strength);
+        StrengthChanged?.Invoke(Strength);
     }
     public void ChangeSpeed(int delta) {
         Speed = Mathf.Max(0, Speed + delta);
-        OnSpeedChanged?.Invoke(Speed);
+        SpeedChanged?.Invoke(Speed);
     }
     public void ChangeLeadership(int delta) {
         Leadership = Mathf.Max(0, Leadership + delta);
-        OnLeadershpChanged?.Invoke(Leadership);
+        LeadershipChanged?.Invoke(Leadership);
     }
     public void ApplyStartinBonus(Player player, Action onCompleted) {
         _config.StartingBonus.Apply(player, onCompleted);
+    }
+
+    internal void RefreshStats()
+    {
+        StrengthChanged?.Invoke(Strength);
+        SpeedChanged?.Invoke(Speed);
+        LeadershipChanged?.Invoke(Leadership);
     }
 }
 

@@ -4,4 +4,5 @@ public enum TokenType {
     Hoplite,
     HopliteStack,
     Monster,
+    Temple
 }

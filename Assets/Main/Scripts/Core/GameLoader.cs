@@ -20,7 +20,6 @@ public class GameLoader : MonoBehaviour
     private RaycastIntersector _raycastBoard;
 
     public ObjectsHitDetector _objectsHitDetector;
-    public RegionsViewModel _regionsViewModel;
 
     private void Awake() 
     {
@@ -72,8 +71,6 @@ public class GameLoader : MonoBehaviour
         var tokenPrefabFactory = new TokenFactory();
         ServiceLocator.Register(tokenPrefabFactory);
 
-        _regionsViewModel = new RegionsViewModel();
-        ServiceLocator.Register(_regionsViewModel);
     }
     private void Start() 
     {
@@ -87,7 +84,5 @@ public class GameLoader : MonoBehaviour
     }
     private void OnDestroy() {
         _startPlacementButton.onClick.RemoveListener(_gameManager.StartGame);
-        _regionsViewModel.Dispose();
-
     }
 }

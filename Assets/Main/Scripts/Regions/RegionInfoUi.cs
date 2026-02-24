@@ -17,7 +17,7 @@ public class RegionInfoUi : MonoBehaviour
         ServiceLocator.Register(_regionInfoUiController);
     }
 
-    public void ShowRegionInfo(RegionContext regionData)
+    public void ShowRegionInfo(RegionModel regionData)
     {
         _regionNameText.text = $"Region Name: {regionData.RegionConfig.RegionName}";
         _populationStrengthText.text = $"Population Strength: {regionData.RegionConfig.PopulationStrength}";

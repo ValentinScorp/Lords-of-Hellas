@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GamePhaseHeroPlacement : GamePhaseBase
 {
-    private TokenPlacementManager _tokenPlacementPresenter;
+    private TokenPlacementManager _placementManager;
     private TurnOrderManager TurnOrderManager;
 
     public override string Name => "Heroes Placement Phase";
@@ -12,13 +12,13 @@ public class GamePhaseHeroPlacement : GamePhaseBase
                                 IReadOnlyList<Player> players)
         : base (phaseManager) {
         TurnOrderManager = new TurnOrderManager(players);
-        _tokenPlacementPresenter = ServiceLocator.Get<TokenPlacementManager>();
+        _placementManager = ServiceLocator.Get<TokenPlacementManager>();
         TurnOrderManager.PlayerChanged += HandlePlayerChanged;
         TurnOrderManager.NoPlayersLeft += ProceedNextPhase;
     }
     public override void OnEnter() {
         TurnOrderManager.StartPlacement();
-        _tokenPlacementPresenter.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
+        _placementManager.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
     }
        
     public override void OnExit() {
@@ -37,6 +37,6 @@ public class GamePhaseHeroPlacement : GamePhaseBase
     }
     private void StartingBonusApplied()
     {
-        _tokenPlacementPresenter.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
+        _placementManager.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
     }
 }

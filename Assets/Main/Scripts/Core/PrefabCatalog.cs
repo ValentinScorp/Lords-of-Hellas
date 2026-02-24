@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PrefabCatalog", menuName = "Game/PrefabCatalog")]
 public class PrefabCatalog : ScriptableObject
 {
-    [SerializeField] private TempleView _templePrefab;
+    [SerializeField] private TempleVisual _templePrefab;
 
-    public TempleView TemplePrefab => _templePrefab;
+    public TempleVisual TemplePrefab => _templePrefab;
 }

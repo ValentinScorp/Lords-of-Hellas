@@ -1,12 +1,11 @@
 using System;
-using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class TokenDragger : IDisposable
 {
     private UserInputController _userInputController;
-    private TokenViewModel _ghost;
-    public TokenViewModel Ghost => _ghost;
+    private TokenView _ghost;
+    public TokenView Ghost => _ghost;
 
     private RaycastIntersector _raycastBoard;
 
@@ -25,44 +24,34 @@ public class TokenDragger : IDisposable
     }
     public void CreateGhost(TokenModel model)
     {
-        _userInputController.MouseMoved += HandleMouseMove;
-
-        var tokenFactory = ServiceLocator.Get<TokenFactory>();
-        _ghost = tokenFactory.CreateGhostToken(model);
-        AdjustGhostPosition();
+        if (_userInputController is not null) {
+            _userInputController.MouseMoved += OnMouseMove;
+        }
+        if (_ghost is null) {
+            var tokenFactory = ServiceLocator.Get<TokenFactory>();
+            _ghost = tokenFactory?.CreateGhostToken(model);
+            AdjustGhostPosition();
+        }
     }
     public void Dispose()
     {
-        var viewRegistry = ServiceLocator.Get<TokenViewRegistry>();
-        if (viewRegistry is null) {
-            Debug.LogWarning("Unable to get TokenViewRegistry!");
-        }
-        if(!viewRegistry.TryDestroy(_ghost)) {
-            Debug.LogWarning("Unable to destroy ghost TokenView in TokenDragger!");
-        } else {      
+        if (_ghost is not null) {
+            UnityEngine.Object.Destroy(_ghost.gameObject);
             _ghost = null;
-        }
-        if (_userInputController) {
-            _userInputController.MouseMoved -= HandleMouseMove;
+        }       
+
+        if (_userInputController is not null) {
+            _userInputController.MouseMoved -= OnMouseMove;
         }
     }
 
-    private void HandleMouseMove(Vector2 vector)
+    private void OnMouseMove(Vector2 vector)
     {
         if (_ghost == null) return;
 
         AdjustGhostPosition();
     }    
 
-    // public void SetTarget(TokenViewModel token)
-    // {
-    //     if (token is null || _ghost is not null) {
-    //         Debug.LogWarning("Unable to SetTarget to TokenDragger!");
-    //         return;
-    //     }
-    //     _ghost = token;
-    //     AdjustTargetPosition();
-    // } 
     private void AdjustGhostPosition()
     {
         if (_raycastBoard.TryGetBoardPosition(out Vector3 position)) {

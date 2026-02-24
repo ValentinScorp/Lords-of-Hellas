@@ -4,7 +4,7 @@ using UnityEngine;
 public class RouteArcBuilder : IDisposable
 {
     private RouteArc _arc;
-    private TokenViewModel _toToken;
+    private TokenView _toToken;
     private UserInputController _userInputController;
 
     public RouteArc Arc => _arc;
@@ -16,7 +16,7 @@ public class RouteArcBuilder : IDisposable
             return;
         }
     }
-    public void Create(Vector3 fromPosition, TokenViewModel toToken, PlayerColor playerColor)
+    public void Create(Vector3 fromPosition, TokenView toToken, PlayerColor playerColor)
     {
         _userInputController.MouseMoved += HandleMouseMove;
 

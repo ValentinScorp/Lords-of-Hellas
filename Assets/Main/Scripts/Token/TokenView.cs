@@ -3,8 +3,9 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class TokenView : MonoBehaviour, ISelectable
+public class TokenView : MonoBehaviour, ISelectable, IPlaceableVisual
 {
     public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TMP_Text _leadershipText;
@@ -19,14 +20,16 @@ public class TokenView : MonoBehaviour, ISelectable
     private Renderer _renderer = null;
     private Transform _canvas = null;
     private TextMeshProUGUI _label = null;
-    private TokenViewModel _viewModel;
-    public TokenType TokenType => _viewModel != null ? _viewModel.Model.Type : TokenType.None;   
-    public PlayerColor PlayerColor => _viewModel != null ? _viewModel.Model.PlayerColor : PlayerColor.Gray;
-    public RegionId RegionId => _viewModel != null ? _viewModel.RegionId : RegionId.Unknown;
-    public RegionNest Nest => _viewModel != null ? _viewModel.TokenNest : null;
-    
-    public TokenViewModel ViewModel => _viewModel;
+    private TokenModel _model;
+    private RegionNest _nest;
 
+    public TokenModel Model => _model;
+    public RegionNest Nest => _nest;
+    public TokenType TokenType => _model != null ? _model.Type : TokenType.None;   
+    public PlayerColor PlayerColor => _model != null ? _model.PlayerColor : PlayerColor.Gray;
+    public RegionId RegionId => _model != null ? _model.RegionId : RegionId.Unknown;
+    public Vector3 WorldPosition => transform.position;
+    
     private void Awake()
     {
         _mpb = new MaterialPropertyBlock();
@@ -40,15 +43,69 @@ public class TokenView : MonoBehaviour, ISelectable
             enabled = false;
         }
     }
-    public void HandleLeadershipChanged(int value)
+    public void SubscribeToModel(TokenModel model)
+    {
+        if (model == null) {
+            Debug.Log($"Unable to subscribe to model {model}. Model is null!");
+            return;
+        }
+
+        _model = model;
+
+        _model.RegionChanged += RegionChanged;
+        
+        if (_model is HeroModel hero) {
+            hero.LeadershipChanged += OnLeadershipChanged;
+            hero.SpeedChanged += OnSpeedChanged;
+            hero.StrengthChanged += OnStrengthChanged;
+            hero.RefreshStats();
+            SetLabel(hero.DisplayName);
+        }
+
+        if (_model is HopliteStackModel hoplite) {
+            hoplite.CountChanged += SetCount;
+            hoplite.RefreshCount();
+        }
+    }    
+
+    private void UnsubscribeFromModel()
+    {
+        if (_model is null) return;
+
+        _model.RegionChanged -= RegionChanged;
+
+        if (_model is HeroModel hero) {
+            hero.LeadershipChanged -= OnLeadershipChanged;
+            hero.SpeedChanged -= OnSpeedChanged;
+            hero.StrengthChanged -= OnStrengthChanged;
+        }
+
+        if (_model is HopliteStackModel hoplite) {
+            hoplite.CountChanged -= SetCount;
+        }
+        _model = null;
+    }
+    private void RegionChanged(TokenModel model)
+    {
+        var regions = ServiceLocator.Get<RegionsView>();
+        if (regions == null) return;
+        if (regions.TryGetNest(model.RegionId, model.NestId, out var nest)) {
+            _nest = nest;
+            AdjustPositionToNest();
+            SetLayer("HoplonToken");
+            SetTag("PlacedToken");
+            ChangeMaterial(PlayerColor);
+        }
+    }
+    public void OnLeadershipChanged(int value)
     {
         _leadershipText.text = value.ToString();
     }
-    public void HandleSpeedChanged(int value)
+    public void OnSpeedChanged(int value)
     {
         _speedText.text = value.ToString();
     }
-    public void HandleStrengthChanged(int value)
+    public void OnStrengthChanged(int value)
     {
         _strengthText.text = value.ToString();
     }
@@ -109,26 +166,14 @@ public class TokenView : MonoBehaviour, ISelectable
     {
         transform.SetParent(parent);
     }
-    public void AdjustPositionToSpawnPoint()
+
+    public void AdjustPositionToNest()
     {
         if (Nest != null) {
-            SetPosition(Nest.Position);
+            SetWorldPosition(Nest.Position);
         } else {
             Debug.LogWarning("SpawnPoint doesn't set in TokenView!");
         }
-    }
-    public void SetPosition(Vector3 position)
-    {
-        transform.position = position;
-    }
-    public void ChangeToPlayerMaterial()
-    {
-        var renderer = gameObject.GetComponentInChildren<Renderer>();
-        if (renderer == null) {
-            Debug.LogWarning("No renderer found!");
-            return;
-        }
-        renderer.material = GameContent.TokenMaterialPalette.GetPlayerMaterial(PlayerColor);
     }
     public void SetLabel(string text)
     {
@@ -138,7 +183,6 @@ public class TokenView : MonoBehaviour, ISelectable
         }
         _label.text = text;
     }
-
     public void SetCount(int count)
     {
         if (count <= 0) {
@@ -161,49 +205,7 @@ public class TokenView : MonoBehaviour, ISelectable
             position = Camera.main.WorldToScreenPoint(hitPoint)
         };
         Clicked?.Invoke(this, eventData);
-    }
-    public void SubscribeToViewModel(TokenViewModel viewModel)
-    {
-        _viewModel = viewModel;
-
-        if (_viewModel is HeroViewModel heroVm) {
-            heroVm.LeadershipChanged += HandleLeadershipChanged;
-            heroVm.SpeedChanged += HandleSpeedChanged;
-            heroVm.StrengthChanged += HandleStrengthChanged;
-            heroVm.RefreshStats();
-            SetLabel(heroVm.DisplayName);
-        }
-
-        if (_viewModel is HopliteStackViewModel hopliteVm) {
-            hopliteVm.CountChanged += SetCount;
-            hopliteVm.RefreshCount();
-        }
-        _viewModel.WorldPositionChanged += SetPosition;
-        _viewModel.VisualStateChanged += HandleVisualState;
-    }
-
-    private void UnsubscribeFromViewModel()
-    {
-        if (_viewModel is HeroViewModel heroVm) {
-            heroVm.LeadershipChanged -= HandleLeadershipChanged;
-            heroVm.SpeedChanged -= HandleSpeedChanged;
-            heroVm.StrengthChanged -= HandleStrengthChanged;
-        }
-
-        if (_viewModel is HopliteStackViewModel hopliteVm) {
-            hopliteVm.CountChanged -= SetCount;
-        }
-        _viewModel.WorldPositionChanged -= SetPosition;
-        _viewModel.VisualStateChanged -= HandleVisualState;
-    }
-    private void HandleVisualState(TokenViewModel.VisualState state, PlayerColor playerColor)
-    {
-        if (state == TokenViewModel.VisualState.Placed) {
-            SetLayer("HoplonToken");
-            SetTag("PlacedToken");
-            ChangeMaterial(playerColor);
-        }
-    }
+    }    
     private void ChangeMaterial(PlayerColor playerColor)
     {
         if (GameContent.Instance.TryGetPlayerMaterial(playerColor, out var material)) {
@@ -212,8 +214,11 @@ public class TokenView : MonoBehaviour, ISelectable
     }
     private void OnDestroy()
     {
-        ServiceLocator.Get<TokenViewRegistry>()?.Unregister(_viewModel, this);
-        UnsubscribeFromViewModel();
-        _viewModel.Dispose();
+        UnsubscribeFromModel();
+    }
+
+    internal void SetWorldPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 }

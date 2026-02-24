@@ -59,7 +59,7 @@ public class HeroMoveActionController
     {
         Debug.Log("Hero Move completed");
         var regionsRegistry = GameContext.Instance.RegionRegistry;        
-        regionsRegistry.Move(_heroToken.ViewModel.Model, nest);
+        regionsRegistry.Move(_heroToken.Model, nest);
 
         _tokenMover.DestroyVisuals();
         _moveRoute.Clear(); 

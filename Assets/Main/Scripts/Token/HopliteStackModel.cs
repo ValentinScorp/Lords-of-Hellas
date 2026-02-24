@@ -9,7 +9,7 @@ public class HopliteStackModel : TokenModel
     private List<HopliteModel> _hoplites = new List<HopliteModel>();
     public IReadOnlyList<HopliteModel> Hoplites => _hoplites;
     public int Count => _hoplites.Count;
-    public event Action<int> OnCountChanged;
+    public event Action<int> CountChanged;
 
     public HopliteStackModel(PlayerColor color) : base(TokenType.HopliteStack, color)
     {
@@ -22,9 +22,10 @@ public class HopliteStackModel : TokenModel
     public void AddHoplite(HopliteModel hoplite)
     {
         // Debug.Log($"Adding hoplite {RegionId}");
-        hoplite.Nest = Nest;
+        hoplite.CopyBoardLocation(this);
+
         _hoplites.Add(hoplite);
-        OnCountChanged?.Invoke(_hoplites.Count);
+        CountChanged?.Invoke(_hoplites.Count);
     }
     public bool RemoveHoplite(HopliteModel hoplite)
     {
@@ -32,7 +33,7 @@ public class HopliteStackModel : TokenModel
             Debug.LogWarning("Hoplite not found in stack.");
             return false;
         } else {
-            OnCountChanged?.Invoke(_hoplites.Count);
+            CountChanged?.Invoke(_hoplites.Count);
         }
         return true;
     }
@@ -45,7 +46,7 @@ public class HopliteStackModel : TokenModel
         var index = _hoplites.Count - 1;
         var hoplite = _hoplites[index];
         _hoplites.RemoveAt(index);
-        OnCountChanged?.Invoke(_hoplites.Count);
+        CountChanged?.Invoke(_hoplites.Count);
         return hoplite;
     }
     public bool TryTakeUnmovedHoplite(out HopliteModel hoplite)
@@ -58,5 +59,10 @@ public class HopliteStackModel : TokenModel
         }
         hoplite = null;
         return false;
+    }
+
+    internal void RefreshCount()
+    {
+        CountChanged?.Invoke(_hoplites.Count);
     }
 }

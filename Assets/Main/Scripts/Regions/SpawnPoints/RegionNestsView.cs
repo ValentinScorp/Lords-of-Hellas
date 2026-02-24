@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -7,15 +8,19 @@ public class RegionNestsView : MonoBehaviour
     [SerializeField] private float _step = 1f;
     private RegionId _regionId;
     private List<RegionNest> _nests = new();
+    private void Awake()
+    {
+        ServiceLocator.Register(this);
+    }
 
     private void Start()
     {
          _regionId = GetComponent<RegionAreaView>().Id;
-        GenerateNests();
-
-        if (ServiceLocator.Get<RegionsViewModel>().TryGetRegion(_regionId, out var region)) {
-            region.SetNests(_nests);
-        }
+        GenerateNests();        
+    }
+    private void OnDestroy()
+    {
+        ServiceLocator.Unregister<RegionNestsView>();
     }
     public RegionNest GetFreeNest()
     {
@@ -51,6 +56,14 @@ public class RegionNestsView : MonoBehaviour
         }
         return nearest;
     }
+    public RegionNest GetNest(int id)
+    {
+        foreach (var n in _nests) {
+            if (id == n.Id)
+                return n;
+        }
+        return null;
+    }
     private void GenerateNests()
     {
         _nests.Clear();
@@ -63,11 +76,14 @@ public class RegionNestsView : MonoBehaviour
         Vector3 min = transform.TransformPoint(bounds.min);
         Vector3 max = transform.TransformPoint(bounds.max);
 
+        int nestId = 0;
+
         for (float x = min.x; x <= max.x; x += _step) {
             for (float z = min.z; z <= max.z; z += _step) {
                 Vector3 pos = new Vector3(x, 0f, z);
                 if (IsPointInsideMesh(pos)) {
-                    _nests.Add(new(pos, _regionId));
+                    _nests.Add(new(pos, _regionId, nestId));
+                    nestId++;
                 }
             }
         }
