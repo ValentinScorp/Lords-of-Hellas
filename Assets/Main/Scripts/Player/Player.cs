@@ -8,7 +8,7 @@ public class Player
 {
     private List<CardArtifact> _artifactCards = new();
     private HopliteManager _hopliteManager;
-    private PriestManager _priestManager = new();
+    private PriestManager _priestManager;
     private string _name;
     private List<CardCombat> _combatCards = new();
 
@@ -29,6 +29,7 @@ public class Player
         Color = playerConfig.PlayerColor;
         Hero = new HeroModel(playerConfig.HeroId, this);
         _hopliteManager = new(this);
+        _priestManager = new(Color);
     }
     public void AddLandToken()
     {
@@ -84,6 +85,16 @@ public class Player
     }
     public void HopliteRegionChanded()
     {
+        OnPlayerInfoChange?.Invoke(this);
+    }
+
+    internal void PlacePriestInPool()
+    {
+        if (!_priestManager.MoveToPool()) {
+            Debug.LogWarning($"Player {Color} has no available priest to place in pool");
+            return;
+        }
+
         OnPlayerInfoChange?.Invoke(this);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ISelectable
+public interface IHittable
 {
     // Vector3 HitPoint { get; set; }
 }

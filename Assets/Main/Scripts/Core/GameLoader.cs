@@ -75,7 +75,7 @@ public class GameLoader : MonoBehaviour
     private void Start() 
     {
         var regionInfoUiCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
-        ServiceLocator.Get<ObjectsHitDetector>().RegisterRegionInfoController(regionInfoUiCtlr);
+        // ServiceLocator.Get<ObjectsHitDetector>().RegisterRegionInfoController(regionInfoUiCtlr);
     }
     private void Update() {
     }

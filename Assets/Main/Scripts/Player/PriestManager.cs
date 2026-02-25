@@ -1,43 +1,38 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PriestManager
 {
-    public const int TOTAL_PRIESTS = 4;
-    public int OnMonuments { get; private set; }
-    public int InPool { get; private set; }
-    public int InHand => TOTAL_PRIESTS - OnMonuments - InPool;
+    private const int _MaxPriests = 4;
+    private List<PriestModel> _priests = new();
 
-    public bool MoveToPool() {
-        if (InHand <= 0) return false;
-        InPool++;
-        OnChanged?.Invoke();
-        return true;
-    }
-    public bool PlaceOnMonument() {
-        if (InPool <= 0) return false;
-        InPool--;
-        OnMonuments++;
-        OnChanged?.Invoke();
-        return true;
-    }
-    public bool ReturnToHand() {
-        if (OnMonuments <= 0) return false;
-        OnMonuments--;
-        OnChanged?.Invoke();
-        return true;
-    }    
-    public bool TrySacrifice(int count) {
-        if (!CanSacrifice(count)) return false;
-        InPool -= count;
-        return true;
-    }
-    public bool CanSacrifice(int count) {
-        if (count == 0) {
-            Debug.LogWarning("Can't Sacrifice 0 Priests. Logical error!");
-            return false;
+    public PriestManager(PlayerColor color)
+    {
+        for (int i = 0; i < _MaxPriests; i++) {
+            _priests.Add(new PriestModel(color));
         }
-        return InPool >= count;
     }
-    public event System.Action OnChanged;
 
+    public int InPool {
+        get {
+            int count = 0;
+            foreach (var priest in _priests) {
+                if (priest.PlacedAt == PriestModel.Placement.Pool) {
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+
+    public bool MoveToPool()
+    {
+        foreach (var priest in _priests) {
+            if (priest.TryMoveToPool()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,14 +1,15 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class RegionAreaView : MonoBehaviour, ISelectable
+public class RegionAreaView : MonoBehaviour, IHittable
 {
     [SerializeField] private RegionId _id;
     [SerializeField] private Renderer _regionBorder;
-
+    
     private RegionBorderView _emissionController;
     private bool _isSelected = false;
     private Material _uniqueMaterial;
+
+    internal RegionId RegionId => _id;
 
     public RegionId Id {
         get => _id;

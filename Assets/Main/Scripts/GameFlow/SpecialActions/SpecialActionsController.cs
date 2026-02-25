@@ -9,6 +9,7 @@ public class SpecialActionsController
 
     private SpecialActionPrepareController _prepareController = new();
     private SpecialActionRecruit _recruitAction = new();
+    private SpecialActionBuildTemple _buildTemple = new();
     
     internal SpecialActionsController()
     {
@@ -19,41 +20,40 @@ public class SpecialActionsController
     }
     internal void Launch(Player player, Action<Player> Completed)
     {
+        if (player is null || Completed is null) return;
+
         _player = player;
         _Completed = Completed;
 
-        player?.ResetHoplitesMove();
+        player.ResetHoplitesMove();
 
-        _uiPanel?.Bind(this);
-        _uiPanel?.Show(true);        
+        _buildTemple.Init(player);
+
+        _uiPanel.UpdateButtonIneractable(_buildTemple.CanExecute());
+        _uiPanel.Bind(this);
+        _uiPanel.Show(true);        
     }
     internal void OnPreparePressed()
     {
         _uiPanel?.Show(false);
         _prepareController.Launch(_player, OnSpecialActionCompleted);
     }
-    
-
     internal void OnBuildTemplePressed()
     {
-        throw new NotImplementedException();
+        _buildTemple.Launch(OnSpecialActionCompleted);
     }
-
     internal void OnHuntPressed()
     {
         throw new NotImplementedException();
     }
-
     internal void OnMarchPressed()
     {
         throw new NotImplementedException();
     }
-
     internal void OnRecruitPressed()
     {
         _recruitAction.Launch(_player, OnSpecialActionCompleted);
     }
-
     internal void OnUsurpPressed()
     {
         throw new NotImplementedException();
@@ -66,6 +66,8 @@ public class SpecialActionsController
     {
         _uiPanel?.Undbind(this);
         _uiPanel?.Show(false);
+        _player = null;
         _Completed?.Invoke(player);
+        _Completed = null;
     }
 }

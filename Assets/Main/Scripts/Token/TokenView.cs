@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class TokenView : MonoBehaviour, ISelectable, IPlaceableVisual
+public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
 {
     public static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TMP_Text _leadershipText;

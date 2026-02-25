@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class MonumentManager : MonoBehaviour
+internal class MonumentManager : MonoBehaviour
 {
     [SerializeField] RectTransform _zeus;
     [SerializeField] RectTransform _hermes;
     [SerializeField] RectTransform _athena;
-    private Dictionary<MonumentType, (Monument monument, RectTransform rectTransform)> _monuments;
+    private Dictionary<MonumentModel.GodType, (MonumentModel monument, RectTransform rectTransform)> _monuments;
 
     private void Awake() {
-        _monuments = new Dictionary<MonumentType, (Monument, RectTransform)>
+        _monuments = new Dictionary<MonumentModel.GodType, (MonumentModel, RectTransform)>
         {
-            { MonumentType.Zeus, (new Monument(MonumentType.Zeus), _zeus) },
-            { MonumentType.Hermes, (new Monument(MonumentType.Hermes), _hermes) },
-            { MonumentType.Athena, (new Monument(MonumentType.Athena), _athena) }
+            { MonumentModel.GodType.Zeus, (new MonumentModel(MonumentModel.GodType.Zeus), _zeus) },
+            { MonumentModel.GodType.Hermes, (new MonumentModel(MonumentModel.GodType.Hermes), _hermes) },
+            { MonumentModel.GodType.Athena, (new MonumentModel(MonumentModel.GodType.Athena), _athena) }
         };
     }
-    public int GetMonumentLevel(MonumentType type) {
+    internal int GetMonumentLevel(MonumentModel.GodType type) {
         if (_monuments.TryGetValue(type, out var data))
             return data.monument.Level;
 
@@ -25,7 +25,7 @@ public class MonumentManager : MonoBehaviour
         return 0;
     }
 
-    public void IncreaseMonumentLevel(MonumentType type) {
+    internal void IncreaseMonumentLevel(MonumentModel.GodType type) {
         if (_monuments.TryGetValue(type, out var data)) {
             data.monument.IncreaseLevel();
             data.rectTransform.GetComponent<TMP_Text>().text = data.monument.Level.ToString();
@@ -34,7 +34,7 @@ public class MonumentManager : MonoBehaviour
         }
     }
 
-    public void ClickButton() {
-        IncreaseMonumentLevel(MonumentType.Zeus);
+    internal void ClickButton() {
+        IncreaseMonumentLevel(MonumentModel.GodType.Zeus);
     }
 }

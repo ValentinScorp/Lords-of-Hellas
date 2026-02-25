@@ -23,7 +23,7 @@ public class TokenSelector
         if (!_waitingToken || targets == null) return;
 
         foreach (var t in targets) {
-            if (t.Selectable is TokenView token) {
+            if (t.Hittable is TokenView token) {
                 if (token.PlayerColor == _playerColor &&  token.TokenType == _tokenType)  {
                     ServiceLocator.Get<ObjectsHitDetector>().Unlisten();
                     _waitingToken = false;

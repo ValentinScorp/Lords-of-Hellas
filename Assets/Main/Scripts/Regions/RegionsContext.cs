@@ -263,6 +263,21 @@ public class RegionsContext
         }
         return regionIds;
     }
+    internal List<RegionModel> GetRegionsWithEmptyShrines(Player player)
+    {
+        var regions = new List<RegionModel>();
+
+        foreach (var region in _regionsContextList) {
+            if (region.OwnedBy == player.Color && 
+                region.RegionConfig.HasShrine && 
+                !region.HasTemple) 
+            {
+                regions.Add(region);
+            }
+        }
+
+        return regions;
+    }
     private bool TryGetNeighborRegions(RegionId regionId, out List<RegionModel> neighbors)
     {
         neighbors = new List<RegionModel>();

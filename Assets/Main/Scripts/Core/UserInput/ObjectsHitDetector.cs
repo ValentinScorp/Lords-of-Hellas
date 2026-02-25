@@ -7,17 +7,16 @@ using UnityEngine.UI;
 public class ObjectsHitDetector
 {
     private Camera _camera;
-    private RegionInfoUiCtlr _regionInfoController;
-    private Action<List<Target>> _onHitTargets;
+    private Action<List<Target>> _HitTargets;
 
     public class Target
     {
-        public ISelectable Selectable { get; private set; }
+        public IHittable Hittable { get; private set; }
         public Vector3 HitPoint { get; private set; }
 
-        public Target(ISelectable selectable, Vector3 hitPoint)
+        public Target(IHittable selectable, Vector3 hitPoint)
         {
-            Selectable = selectable;
+            Hittable = selectable;
             HitPoint = hitPoint;
         }
     }
@@ -50,22 +49,23 @@ public class ObjectsHitDetector
 
         foreach (var hit in hits) {
             //  Debug.Log($"ClickMgr: Raycast hit {hit.collider.gameObject.name}");
-            foreach (var selectable in hit.collider.GetComponents<ISelectable>()) {
+            foreach (var selectable in hit.collider.GetComponents<IHittable>()) {
                 hitTargets.Add(new Target(selectable, hit.point));
             }
         }
-        if (_onHitTargets != null) {
+        if (_HitTargets is not null) {
             if (hitTargets.Count > 0) {
-                _onHitTargets.Invoke(hitTargets);
+                _HitTargets.Invoke(hitTargets);
             }
-        } else {
-            foreach (var ct in hitTargets) {
-                if (ct.Selectable is RegionAreaView regionArea) {
-                    _regionInfoController?.Select(regionArea);
-                    break;
-                }
-            }
-        }
+        } 
+        // else {
+        //     foreach (var ct in hitTargets) {
+        //         if (ct.Selectable is RegionAreaView regionArea) {
+        //             _regionInfoController?.Select(regionArea);
+        //             break;
+        //         }
+        //     }
+        // }
     }
     private bool IsMouseOverCanvas(Canvas canvas, Vector2 screenPosition)
     {
@@ -88,23 +88,19 @@ public class ObjectsHitDetector
 
         return results.Count > 0;
     }
-    public void Listen(Action<List<Target>> onHitTargets)
+    public void Listen(Action<List<Target>> HitTargets)
     {
-        if (_onHitTargets != null) {
+        if (_HitTargets != null) {
             Debug.LogWarning("ClickMgr: Overwriting existing click listener!");
         }
         // Debug.Log("ClickMgr: Listening for clicks.");
-        _onHitTargets = onHitTargets;
+        _HitTargets = HitTargets;
         var regionInfoCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
         regionInfoCtlr.Deactivate();
     }
     public void Unlisten()
     {
-        _onHitTargets = null;
-    }
-    public void RegisterRegionInfoController(RegionInfoUiCtlr regionInfoController)
-    {
-        _regionInfoController = regionInfoController;
+        _HitTargets = null;
     }
 }
 

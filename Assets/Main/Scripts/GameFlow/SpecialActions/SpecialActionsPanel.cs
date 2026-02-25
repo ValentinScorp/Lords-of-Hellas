@@ -48,4 +48,8 @@ public class SpecialActionsPanel : UiPanel
             _buildMonument.onClick.RemoveListener(controller.OnBuildMonumentPressed);
         }
     }
+    public void UpdateButtonIneractable(bool canBuildTemple)
+    {
+        _buildTemple.interactable = canBuildTemple;
+    }
 }
