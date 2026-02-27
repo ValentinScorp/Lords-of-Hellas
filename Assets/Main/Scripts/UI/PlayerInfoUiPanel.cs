@@ -18,7 +18,7 @@ public class PlayerInfoUiPanel : UiPanel
         base.Awake();
 
         SetBackgroundColor(_defaultBackgroundColor);
-        Show(false);
+        // Show(false);
     }
     protected override void OnDestroy()
     {
