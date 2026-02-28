@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PrefabCatalog
   m_EditorClassIdentifier: Assembly-CSharp::PrefabCatalog
   _templePrefab: {fileID: 4082869523894501904, guid: 2d0691bcaedcf424983af31a7f812649, type: 3}
+  _hopliteIconPrefab: {fileID: 6157980221907484951, guid: 87c6704f6a9bab7449540ad19c03587a, type: 3}

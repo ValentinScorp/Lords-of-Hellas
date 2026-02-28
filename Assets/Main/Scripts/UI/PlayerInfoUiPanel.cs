@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class PlayerInfoUiPanel : UiPanel
 {
+    [SerializeField] private HoplitesInfoUiPanel _hoplitesPanel;
+    [SerializeField] private Button _testButton;
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private TMP_Text _currentGamePhaseText;
     [SerializeField] private CardArtifactIconPanel _artifactIconPanel;
@@ -18,10 +20,16 @@ public class PlayerInfoUiPanel : UiPanel
         base.Awake();
 
         SetBackgroundColor(_defaultBackgroundColor);
-        // Show(false);
+    }
+    private void Start()
+    {
+        _testButton?.onClick.AddListener(AddHoplite);
+        // Show(false);        
     }
     protected override void OnDestroy()
     {
+        _testButton?.onClick.RemoveListener(AddHoplite);
+
         if (_currentPlayer is not null) {
             _currentPlayer.OnPlayerInfoChange -= UpdatePlayerInfo;
         }
@@ -46,7 +54,7 @@ public class PlayerInfoUiPanel : UiPanel
 
     private void UpdatePlayerInfo(Player player)
     {
-        Debug.Log("Updating player info!");
+        // Debug.Log("Updating player info!");
         _heroNameText.text = player.Hero.DisplayName;
         _hoplitesInfoText.text = $"Total {player.HoplitesOnBoard} hoplites on board!";
         _combatIconPanel.ClearPanel();
@@ -76,5 +84,9 @@ public class PlayerInfoUiPanel : UiPanel
         } else {
             Debug.LogError("Image color not assigned!");
         }
+    }
+    private void AddHoplite()
+    {
+        
     }
 }

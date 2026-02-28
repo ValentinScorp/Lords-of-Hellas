@@ -4,6 +4,7 @@ using UnityEngine;
 public class PrefabCatalog : ScriptableObject
 {
     [SerializeField] private TempleVisual _templePrefab;
+    [SerializeField] private HopliteIconView _hopliteIconPrefab;
 
     public TempleVisual TemplePrefab => _templePrefab;
 }
