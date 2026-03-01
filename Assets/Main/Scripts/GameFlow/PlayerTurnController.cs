@@ -12,9 +12,8 @@ internal class PlayerTurnController
     {
         _TurnCompleted = TurnCompleted;
 
-        SceneUiRegistry.Get<TurnStartPanel>().Launch(player, StartRegularAction); 
-        
-        SceneUiRegistry.Get<PlayerInfoUiPanel>().Bind(player); 
+        SceneUiRegistry.Get<TurnStartPanel>().Launch(player, StartRegularAction);         
+        SceneUiRegistry.Get<PlayerInfoUiPanel>().DiplayPlayerInfo(player); 
     }
     internal void StartRegularAction(Player player) {
 

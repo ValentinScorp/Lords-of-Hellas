@@ -41,7 +41,7 @@ internal class HoplitesMoveActionController
         if (token.Model is HopliteStackModel hsm) {
             if (hsm.TryTakeUnmovedHoplite(out var unmovedHoplite)) {
                 _hopliteModel = unmovedHoplite;
-                Debug.Log($"{_hopliteModel.RegionId}");
+                // Debug.Log($"{_hopliteModel.RegionId}");
                 _tokenMover.Init(token);
                 _tokenMover.CatchNeibRegionPoint(token.RegionId, HandleStep);
             }

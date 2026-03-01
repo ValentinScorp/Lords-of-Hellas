@@ -32,15 +32,16 @@ public class PlayerInfoUiPanel : UiPanel
     internal void DiplayPlayerInfo(Player player)
     {
         Show(true);
+        _hoplitesPanel.Show(true);
         Unbind();
         Bind(player);
     }
-    internal void Bind(Player player)
+    private void Bind(Player player)
     {
         SetBackgroundColor(player.Color);
         _hoplitesPanel.Bind(player.HopliteManager);
     }
-    internal void Unbind()
+    private void Unbind()
     {
         SetBackgroundColor(PlayerColor.Gray);
         _hoplitesPanel.Unbind();       

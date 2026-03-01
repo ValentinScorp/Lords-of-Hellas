@@ -36,7 +36,7 @@ public class HopliteInfoUiPanel : UiPanel
         }        
     }
     internal void OnHopliteChangedRegion(HopliteManager manager, TokenModel token)
-    {
+    {        
         if (manager is null) return;
         SetHoplitesOffBoard(manager.HoplitesOffBoard());
     }
