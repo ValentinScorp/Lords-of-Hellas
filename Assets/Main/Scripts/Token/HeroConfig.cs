@@ -2,15 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HeroConfig", menuName = "Game/Create Hero Config")]
-public class HeroConfig : ScriptableObject
+internal class HeroConfig : ScriptableObject
 {
-    public int BaseLeadership = 1;
-    public int BaseSpeed = 1;
-    public int BaseStrength = 1;
+    internal int BaseLeadership = 1;
+    internal int BaseSpeed = 1;
+    internal int BaseStrength = 1;
+    
+    [SerializeField] private PlayerAbitilyAsset _startingBonus;
+    internal PlayerAbitilyAsset StartingBonus => _startingBonus;
+    [SerializeField] private PlayerAbitilyAsset _specialAbility;
+    internal PlayerAbitilyAsset SpecialAbility => _specialAbility;
 
-    public PlayerAbitilyAsset StartingBonus;
-    public PlayerAbitilyAsset SpecialAbility;
-
-    public string DisplayName;
+    internal string DisplayName;
 
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RegionAreaView : MonoBehaviour, IHittable
+internal class RegionAreaView : MonoBehaviour, IHittable
 {
     [SerializeField] private RegionId _id;
     [SerializeField] private Renderer _regionBorder;
@@ -11,7 +11,7 @@ public class RegionAreaView : MonoBehaviour, IHittable
 
     internal RegionId RegionId => _id;
 
-    public RegionId Id {
+    internal RegionId Id {
         get => _id;
         set => _id = value;
     }
@@ -41,7 +41,7 @@ public class RegionAreaView : MonoBehaviour, IHittable
             Destroy(_uniqueMaterial);
         }
     }
-    public void OnOwnerChanged(PlayerColor newOwner) {
+    internal void OnOwnerChanged(PlayerColor newOwner) {
         HandleOwnerChanged(newOwner);
     }
     private void HandleOwnerChanged(PlayerColor newOwner) {
@@ -74,11 +74,11 @@ public class RegionAreaView : MonoBehaviour, IHittable
             _emissionController?.DisablePulse();
         }
     }
-    public void Activate() {
+    internal void Activate() {
         _isSelected = true;
         _emissionController?.SetEmissionMax();
     }
-    public void Deactivate() {
+    internal void Deactivate() {
         _isSelected = false;
         _emissionController?.SetEmissionMin();
     }

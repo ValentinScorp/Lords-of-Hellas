@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
 
-public class TurnStartPanel : MonoBehaviour
+internal class TurnStartPanel : MonoBehaviour
 {
     [SerializeField] TMP_Text _title;
     [SerializeField] Button _okButton;
@@ -34,7 +34,7 @@ public class TurnStartPanel : MonoBehaviour
         _okButton.onClick.RemoveListener(HandleOkButton);
         SceneUiRegistry.Unregister<TurnStartPanel>();
     }
-    public void Launch(Player player, Action<Player> Confirmed)
+    internal void Launch(Player player, Action<Player> Confirmed)
     {
         _player = player;
         _Confirmed = Confirmed;
@@ -52,13 +52,13 @@ public class TurnStartPanel : MonoBehaviour
 
         Show(true);
     }
-    public void HandleOkButton()
+    internal void HandleOkButton()
     {
         Show(false);
         _Confirmed.Invoke(_player);
         _Confirmed = null;
     }
-    public void Show(bool show) {
+    internal void Show(bool show) {
         gameObject.SetActive(show);
     }
 }

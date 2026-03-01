@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class TempleModel : TokenModel
+internal class TempleModel : TokenModel
 {
-    public TempleModel() : base(TokenType.Temple, PlayerColor.Gray)
+    internal TempleModel() : base(TokenType.Temple, PlayerColor.Gray)
     {
     }
 }
-public class TempleVisual : MonoBehaviour, IPlaceableVisual
+internal class TempleVisual : MonoBehaviour, IPlaceableVisual
 {
     private PlayerColorable _playerColorable;
     private TempleModel _model = new TempleModel();

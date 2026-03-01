@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GameContent
+internal class GameContent
 {
     private static GameContent _instance;
-    public static GameContent Instance => _instance ??= new GameContent();
+    internal static GameContent Instance => _instance ??= new GameContent();
     private GameContent() { }
 
     private List<CardMonsterAttack> _monsterAttackCards;
@@ -15,23 +15,23 @@ public class GameContent
     private List<CardMonster> _monsterCards;
     private List<CardQuest> _questCards;
 
-    public static PlayerColorPalette PlayerColorPalette { get; private set; }
-    public static TokenMaterialPalette TokenMaterialPalette { get; private set; }
-    public static GlobalMaterials GlobalMaterials { get; private set; }
-    public static PrefabCatalog PrefabCatalog { get; private set; }
+    internal static PlayerColorPalette PlayerColorPalette { get; private set; }
+    internal static TokenMaterialPalette TokenMaterialPalette { get; private set; }
+    internal static GlobalMaterials GlobalMaterials { get; private set; }
+    internal static PrefabCatalog PrefabCatalog { get; private set; }
     
-    public IReadOnlyList<CardTemple> TempleCards { get; private set; }
-    public List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards;
-    public List<CardCombat> CombatCards => _combatCards;
-    public List<CardArtifact> ArtifactCards => _artifactCards;
-    public List<CardBlessing> BlessingCards => _blessingCards;
-    public List<CardMonster> MonsterCards => _monsterCards;
-    public List<CardQuest> QuestCards => _questCards;
-    public List<RegionConfig> RegionsConfig { get; private set; }
+    internal IReadOnlyList<CardTemple> TempleCards { get; private set; }
+    internal List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards;
+    internal List<CardCombat> CombatCards => _combatCards;
+    internal List<CardArtifact> ArtifactCards => _artifactCards;
+    internal List<CardBlessing> BlessingCards => _blessingCards;
+    internal List<CardMonster> MonsterCards => _monsterCards;
+    internal List<CardQuest> QuestCards => _questCards;
+    internal List<RegionConfig> RegionsConfig { get; private set; }
 
     private bool _initialized = false;
 
-    public void Initialize()
+    internal void Initialize()
     {
         if (_initialized) return;
         _initialized = true;
@@ -70,7 +70,7 @@ public class GameContent
             RegionsConfig = regCfgs;
         }
     }
-    public HeroModel.Id GetPlayerHeroId(PlayerColor color)
+    internal HeroModel.Id GetPlayerHeroId(PlayerColor color)
     {
         var player = GameConfig.Instance.Players.FirstOrDefault(p => p.PlayerColor == color);
         if (player == null) {
@@ -79,7 +79,7 @@ public class GameContent
         }
         return player.HeroId;
     }
-    public LandId GetLandColor(RegionId regionId)
+    internal LandId GetLandColor(RegionId regionId)
     {
         var regionData = RegionsConfig.FirstOrDefault(r => RegionIdParser.Parse(r.RegionName) == regionId);
         if (regionData == null) {
@@ -101,7 +101,7 @@ public class GameContent
                 return LandId.Red;
         }
     }
-    public Color GetPlayerColor(PlayerColor playerColor)
+    internal Color GetPlayerColor(PlayerColor playerColor)
     {
         if (PlayerColorPalette == null) {
             Debug.LogError("PlayerColorPalette is not loaded.");
@@ -119,7 +119,7 @@ public class GameContent
             default: return PlayerColorPalette.Grey;
         }
     }
-    public bool TryGetPlayerMaterial(PlayerColor playerColor, out Material material)
+    internal bool TryGetPlayerMaterial(PlayerColor playerColor, out Material material)
     {
         if (PlayerColorPalette == null) {
             Debug.LogError("PlayerColorPalette is not loaded.");
@@ -139,7 +139,7 @@ public class GameContent
         }
         return true;
     }
-    public bool TryGetTempleCard(int index, out CardTemple card)
+    internal bool TryGetTempleCard(int index, out CardTemple card)
     {
         card = null;
         if (TempleCards == null || index < 0 || index >= TempleCards.Count) {

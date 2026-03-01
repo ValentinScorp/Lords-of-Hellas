@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DatabaseCardTemple", menuName = "Cards/Database Cards Temple")]
-public class CardTempleDatabase : ScriptableObject
+internal class CardTempleDatabase : ScriptableObject
 {    
-    public CardTemple[] Cards = new CardTemple[5];
+    internal CardTemple[] Cards = new CardTemple[5];
 }

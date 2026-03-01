@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class RouteArcBuilder : IDisposable
+internal class RouteArcBuilder : IDisposable
 {
     private RouteArc _arc;
     private TokenView _toToken;
     private UserInputController _userInputController;
 
-    public RouteArc Arc => _arc;
-    public RouteArcBuilder()
+    internal RouteArc Arc => _arc;
+    internal RouteArcBuilder()
     {
         _userInputController = ServiceLocator.Get<UserInputController>();
         if (_userInputController == null) {
@@ -16,7 +16,7 @@ public class RouteArcBuilder : IDisposable
             return;
         }
     }
-    public void Create(Vector3 fromPosition, TokenView toToken, PlayerColor playerColor)
+    internal void Create(Vector3 fromPosition, TokenView toToken, PlayerColor playerColor)
     {
         _userInputController.MouseMoved += HandleMouseMove;
 
@@ -24,7 +24,7 @@ public class RouteArcBuilder : IDisposable
         _arc = new RouteArc();
         _arc.Create(fromPosition, toToken.WorldPosition, playerColor);
     }
-    public void SetFirstNode(Vector3 position)
+    internal void SetFirstNode(Vector3 position)
     {
         _arc.SetFirstNode(position);
     }
@@ -42,5 +42,4 @@ public class RouteArcBuilder : IDisposable
             _userInputController.MouseMoved -= HandleMouseMove;
         }
     }
-
 }

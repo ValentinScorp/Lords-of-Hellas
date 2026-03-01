@@ -1,25 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePhasePlayerTurn : GamePhaseBase
+internal class GamePhasePlayerTurn : GamePhaseBase
 {
-    public override string Name => "Player Turn Phase";
+    internal override string Name => "Player Turn Phase";
 
     private TurnOrderManager _turnOrder;
     private PlayerTurnController _playerTurnController;
 
-    public GamePhasePlayerTurn( GamePhaseManager phaseManager, IReadOnlyList<Player> players)
+    internal GamePhasePlayerTurn( GamePhaseManager phaseManager, IReadOnlyList<Player> players)
         : base (phaseManager) {
         _playerTurnController = new PlayerTurnController();
         _turnOrder = new TurnOrderManager(players);
         _turnOrder.PlayerChanged += HandleNextPlayer;
         _turnOrder.NoPlayersLeft += ProceedNextPhase;
     }
-    public override void OnEnter() {
+    internal override void OnEnter() {
         _turnOrder.ResetToFirstPlayer();       
         InitPlayerTurn(_turnOrder.CurrentPlayer);
     }
-    public override void OnExit() {
+    internal override void OnExit() {
        
     }    
     private void ProceedNextPhase() {        

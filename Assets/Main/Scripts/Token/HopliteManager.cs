@@ -2,24 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class HopliteManager
+[Serializable]
+internal class HopliteManager
 {
-    public const int HopliatesMax = 15;
+    internal const int MaxHoplites = 15;
     private List<HopliteModel> _hoplites = new();
-    private Action _HopliteChangedRegion;
+    internal Action<HopliteManager, TokenModel> HopliteChangedRegion;    
 
-    public HopliteManager(Player player)
+    internal HopliteManager(PlayerColor color)
     {
-        _HopliteChangedRegion = player.HopliteRegionChanded;
-
-        for (var id = 1; id <= HopliatesMax; id++) {
-            var hoplite = new HopliteModel(player);
-            hoplite.RegionChanged += HopliteChangedRegion;
+        for (var id = 1; id <= MaxHoplites; id++) {
+            var hoplite = new HopliteModel(color);
+            hoplite.RegionChanged += OnHopliteChangedRegion;
             _hoplites.Add(hoplite);
         }
     }
-    public bool TryTakeHoplite(out HopliteModel hoplite)
+    internal bool TryTakeHoplite(out HopliteModel hoplite)
     {
         foreach (var h in _hoplites) {
             if (!h.OnBoard) {
@@ -31,6 +29,10 @@ public class HopliteManager
         hoplite = null;
         return false;
     }
+    internal int HoplitesOffBoard()
+    {
+        return MaxHoplites - HoplitesOnBoard();
+    }
     internal int HoplitesOnBoard()
     {
         int count = 0;
@@ -40,21 +42,20 @@ public class HopliteManager
         }
         return count;
     }
-    internal int HoplitesInHand()
-    {
-        return HopliatesMax - HoplitesOnBoard();
-    }
     internal void ResetMove()
     {
         foreach(var hoplite in _hoplites) {
             hoplite.ResetMove();
         }
     }
-    internal void HopliteChangedRegion(TokenModel token)
+    internal void RefreshStatus()
+    {
+        HopliteChangedRegion?.Invoke(this, null);
+    }
+    internal void OnHopliteChangedRegion(TokenModel token)
     {
         if (token.RegionId != RegionId.Unknown) {
-            Debug.Log("Hoplite changed Region!");
-            _HopliteChangedRegion.Invoke();
+            HopliteChangedRegion?.Invoke(this, token);
         }
     }
 }

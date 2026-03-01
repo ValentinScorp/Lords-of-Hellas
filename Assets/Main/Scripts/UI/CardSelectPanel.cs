@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CardSelectPanel
+internal class CardSelectPanel
 {
-    public event Action<List<CardArtifact>> OnInitiateSelection;
+    internal event Action<List<CardArtifact>> OnInitiateSelection;
 
     private Action OnSelectionCompleted;
 
-    public void SetCardSelected(CardArtifact chosenCard) {
+    internal void SetCardSelected(CardArtifact chosenCard) {
         if (GameContext.Instance.CurrentPlayer == null) {
             Debug.LogWarning("No current player when selecting artifact card!");
             return;
@@ -25,12 +25,12 @@ public class CardSelectPanel
         }  
     }
 
-    public void SubscribeToPlayers(IEnumerable<Player> players) {
+    internal void SubscribeToPlayers(IEnumerable<Player> players) {
         foreach (var player in players) {
             player.OnArtifactCardSelect += SelectArtifactCard;
         }
     }
-    public void ConfirmSelection() {
+    internal void ConfirmSelection() {
         OnSelectionCompleted?.Invoke();
     }
     private void SelectArtifactCard(Player player, int cardCount, Action onCompleted) {

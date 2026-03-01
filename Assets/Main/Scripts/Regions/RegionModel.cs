@@ -5,30 +5,30 @@ using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
-public class RegionModel
+internal class RegionModel
 {
-    public RegionId RegionId { get; private set; }
-    public RegionConfig RegionConfig { get; private set; }
-    public bool HasTemple { get; set; }
-    public PlayerColor OwnedBy { get; set; }
-    public List<Quest> ActiveQuests { get; private set; } = new();
-    public bool IsFortified { get; private set; }
+    internal RegionId RegionId { get; private set; }
+    internal RegionConfig RegionConfig { get; private set; }
+    internal bool HasTemple { get; set; }
+    internal PlayerColor OwnedBy { get; set; }
+    internal List<Quest> ActiveQuests { get; private set; } = new();
+    internal bool IsFortified { get; private set; }
 
-    public event Action<PlayerColor> OwnerChanged;
-    public event Action<TokenModel, int> TokenPlaced;
-    public event Action<RegionModel> TemplePlaced;
-    public event Action<TokenModel> TokenRemoved;
+    internal event Action<PlayerColor> OwnerChanged;
+    internal event Action<TokenModel, int> TokenPlaced;
+    internal event Action<RegionModel> TemplePlaced;
+    internal event Action<TokenModel> TokenRemoved;
 
     [SerializeField] private List<TokenModel> _tokens = new();
-    public IReadOnlyList<TokenModel> Tokens => _tokens;
+    internal IReadOnlyList<TokenModel> Tokens => _tokens;
 
-    public RegionModel(RegionConfig regionCfg)
+    internal RegionModel(RegionConfig regionCfg)
     {
         RegionId = RegionIdParser.Parse(regionCfg.RegionName);
         RegionConfig = regionCfg;
         OwnedBy = PlayerColor.Gray;
     }
-    public void Place(TokenModel token, RegionNest nest = null)
+    internal void Place(TokenModel token, RegionNest nest = null)
     {
         if (token is HopliteModel hoplite) {
             PlaceHoplite(hoplite, nest);
@@ -76,7 +76,7 @@ public class RegionModel
             }
         }
     }   
-    public void Take(TokenModel token)
+    internal void Take(TokenModel token)
     {
         if (token is HopliteModel hoplite) {
             TakeHoplite(hoplite);
@@ -95,7 +95,7 @@ public class RegionModel
             }
         }
     }
-    public bool TryFindToken(TokenType tokenType, PlayerColor color, out TokenModel token)
+    internal bool TryFindToken(TokenType tokenType, PlayerColor color, out TokenModel token)
     {
         foreach (TokenModel t in _tokens) {
             if (t.Type == tokenType && (t.PlayerColor == color)) {
@@ -106,15 +106,15 @@ public class RegionModel
         token = null;
         return false;
     }
-    public bool ContainsToken(TokenType tokenType)
+    internal bool ContainsToken(TokenType tokenType)
     {
         return _tokens.Any(t => t.Type == tokenType);
     }
-    public bool ContainsToken(PlayerColor color)
+    internal bool ContainsToken(PlayerColor color)
     {
         return _tokens.Any(t => t.PlayerColor == color);
     }
-    public int GetHopliteCount(PlayerColor color)
+    internal int GetHopliteCount(PlayerColor color)
     {
         foreach(var t in _tokens) {
             if (t  is HopliteStackModel hopliteStack) {
@@ -125,22 +125,22 @@ public class RegionModel
         }
         return 0;
     }
-    public bool ContainsHeroAnotherColor(PlayerColor color)
+    internal bool ContainsHeroAnotherColor(PlayerColor color)
     {
         return _tokens.OfType<HeroModel>().Any(h => h.PlayerColor != color);
     }
-    public bool ContainsHeroSameColor(PlayerColor color)
+    internal bool ContainsHeroSameColor(PlayerColor color)
     {
         return _tokens.OfType<HeroModel>().Any(h => h.PlayerColor == color);
     }
-    public bool ContainsHopliteAnotherColor(PlayerColor color)
+    internal bool ContainsHopliteAnotherColor(PlayerColor color)
     {
         if (_tokens.OfType<HopliteStackModel>().Any(h => h.PlayerColor != color)) {
             return true;
         }
         return false;
     }
-    public bool ContainsHopliteSameColor(PlayerColor color, out HopliteStackModel hoplite)
+    internal bool ContainsHopliteSameColor(PlayerColor color, out HopliteStackModel hoplite)
     {
         foreach (var token in _tokens) {
             if (token is HopliteStackModel hs) {
@@ -172,7 +172,7 @@ public class RegionModel
                 return LandId.Red;
         }
     }
-    public bool TryGetToken(TokenType tokenType, PlayerColor color, out TokenModel token)
+    internal bool TryGetToken(TokenType tokenType, PlayerColor color, out TokenModel token)
     {
         foreach (var t in _tokens) {
             if (t.Type == tokenType && t.PlayerColor == color) {

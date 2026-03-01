@@ -3,61 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Player
+[Serializable]
+internal class Player
 {
-    private List<CardArtifact> _artifactCards = new();
-    private HopliteManager _hopliteManager;
-    private PriestManager _priestManager;
-    private string _name;
-    private List<CardCombat> _combatCards = new();
+    internal List<CardArtifact> _artifactCards = new();
+    internal readonly HopliteManager _hopliteManager;
+    internal PriestManager _priestManager;
+    internal string _name;
+    internal List<CardCombat> _combatCards = new();
+    internal  HopliteManager HopliteManager => _hopliteManager;
+    internal List<CardArtifact> ArtifactCards => _artifactCards;
+    internal List<CardCombat> CombatCards => _combatCards;
+    internal HeroModel Hero { get; set; }
+    internal PlayerColor Color { get; set; }
+    internal int PriestsInPool => _priestManager.InPool;
+    internal int HoplitesOnBoard => _hopliteManager.HoplitesOnBoard();
+    internal int HoplitesInHand => _hopliteManager.HoplitesOffBoard();
+    internal event Action<Player, int, Action> OnArtifactCardSelect;
+    internal event Action<Player, LandId> OnAddLandToken;
+    // internal event Action<Player> OnPlayerInfoChange;
 
-    public List<CardArtifact> ArtifactCards => _artifactCards;
-    public List<CardCombat> CombatCards => _combatCards;
-    public HeroModel Hero { get; set; }
-    public PlayerColor Color { get; set; }
-    public int PriestsInPool => _priestManager.InPool;
-    public int HoplitesOnBoard => _hopliteManager.HoplitesOnBoard();
-    public int HoplitesInHand => _hopliteManager.HoplitesInHand();
-    public event Action<Player, int, Action> OnArtifactCardSelect;
-    public event Action<Player, LandId> OnAddLandToken;
-    public event Action<Player> OnPlayerInfoChange;
-
-    public Player(PlayerSetupConfig playerConfig)
+    internal Player(PlayerSetupConfig playerConfig)
     {
         _name = playerConfig.PlayerName;
         Color = playerConfig.PlayerColor;
         Hero = new HeroModel(playerConfig.HeroId, this);
-        _hopliteManager = new(this);
+        _hopliteManager = new(Color);
         _priestManager = new(Color);
     }
-    public void AddLandToken()
+    internal void AddLandToken()
     {
         OnAddLandToken?.Invoke(this, GameContent.Instance.GetLandColor(Hero.RegionId));
     }
-    public void SelectOneOfArtifactCards(int cardCount, Action onCompleted)
+    internal void SelectOneOfArtifactCards(int cardCount, Action onCompleted)
     {
         OnArtifactCardSelect?.Invoke(this, cardCount, onCompleted);
     }
-    public void TakeArtifactCard(CardArtifact card)
+    internal void TakeArtifactCard(CardArtifact card)
     {
         _artifactCards.Add(card);
-        OnPlayerInfoChange?.Invoke(this);
+        // OnPlayerInfoChange?.Invoke(this);
     }
-    public void ApplyHeroStartingBonus(Action onCompleted)
+    internal void ApplyHeroStartingBonus(Action onCompleted)
     {
-        if (Hero != null) {
+        if (Hero is not null) {
             Hero.ApplyStartinBonus(this, onCompleted);
         } else {
             Debug.Log("Can`t apply starting bonus!");
             onCompleted?.Invoke();
         }
     }
-    public void TakeCombatCards(int count)
+    internal void TakeCombatCards(int count)
     {
         List<CardData> drawnCards = GameContext.Instance.CombatCardsDeck.DrawMultiple(count);
         _combatCards.AddRange(drawnCards.Cast<CardCombat>());
-        OnPlayerInfoChange?.Invoke(this);
+        // OnPlayerInfoChange?.Invoke(this);
     }
     internal bool TryTakeHoplite(out HopliteModel hoplite)
     {
@@ -65,13 +65,13 @@ public class Player
         var h = TakeHoplite();
         if (h is not null) {
             hoplite = h;
-            OnPlayerInfoChange?.Invoke(this);
+            // OnPlayerInfoChange?.Invoke(this);
             return true;
         }
         hoplite = null;
         return false;
     }
-    public HopliteModel TakeHoplite()
+    internal HopliteModel TakeHoplite()
     {
         if (_hopliteManager.TryTakeHoplite(out var hoplite) && hoplite != null) {
             hoplite.SetOwner(Color);
@@ -79,13 +79,13 @@ public class Player
         }
         return null;
     }
-    public void ResetHoplitesMove()
+    internal void ResetHoplitesMove()
     {
         _hopliteManager.ResetMove();
     }
-    public void HopliteRegionChanded()
+    internal void HopliteRegionChanded(HopliteManager manager, TokenModel token)
     {
-        OnPlayerInfoChange?.Invoke(this);
+        // OnPlayerInfoChange?.Invoke(this);
     }
 
     internal void PlacePriestInPool()
@@ -95,6 +95,6 @@ public class Player
             return;
         }
 
-        OnPlayerInfoChange?.Invoke(this);
+        // OnPlayerInfoChange?.Invoke(this);
     }
 }

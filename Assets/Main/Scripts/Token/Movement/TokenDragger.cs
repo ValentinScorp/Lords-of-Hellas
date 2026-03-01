@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-public class TokenDragger : IDisposable
+internal class TokenDragger : IDisposable
 {
     private UserInputController _userInputController;
     private TokenView _ghost;
-    public TokenView Ghost => _ghost;
+    internal TokenView Ghost => _ghost;
 
     private RaycastIntersector _raycastBoard;
 
-    public TokenDragger()
+    internal TokenDragger()
     {
         _userInputController = ServiceLocator.Get<UserInputController>();
         if (_userInputController == null) {
@@ -22,7 +22,7 @@ public class TokenDragger : IDisposable
             return;
         }        
     }
-    public void CreateGhost(TokenModel model)
+    internal void CreateGhost(TokenModel model)
     {
         if (_userInputController is not null) {
             _userInputController.MouseMoved += OnMouseMove;

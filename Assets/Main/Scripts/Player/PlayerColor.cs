@@ -1,5 +1,5 @@
 [System.Serializable]
-public enum PlayerColor {
+internal enum PlayerColor {
     Gray,
     Red,
     Blue,

@@ -1,15 +1,15 @@
 using System;
 
-public class RegionInfoUiCtlr
+internal class RegionInfoUiCtlr
 {
     private RegionAreaView _selectedRegion;
     private RegionInfoUi _regionInfoUi;
 
-    public void RegisterUi(RegionInfoUi infoUi)
+    internal void RegisterUi(RegionInfoUi infoUi)
     {
         _regionInfoUi = infoUi;
     }
-    public void Select(RegionAreaView newRegion)
+    internal void Select(RegionAreaView newRegion)
     {
         if (_selectedRegion != null && _selectedRegion != newRegion) {
             _selectedRegion.Deactivate();
@@ -21,7 +21,7 @@ public class RegionInfoUiCtlr
 
         _regionInfoUi?.ShowRegionInfo(regionStatus);
     }
-    public void Deactivate()
+    internal void Deactivate()
     {
         _selectedRegion?.Deactivate();
         _selectedRegion = null;

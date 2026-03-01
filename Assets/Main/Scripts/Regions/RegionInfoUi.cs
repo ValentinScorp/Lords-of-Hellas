@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class RegionInfoUi : MonoBehaviour
+internal class RegionInfoUi : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _regionNameText;
     [SerializeField] private TextMeshProUGUI _populationStrengthText;
@@ -15,9 +15,10 @@ public class RegionInfoUi : MonoBehaviour
         _regionInfoUiController = new RegionInfoUiCtlr();
         _regionInfoUiController.RegisterUi(this);
         ServiceLocator.Register(_regionInfoUiController);
+        HidePanel();
     }
 
-    public void ShowRegionInfo(RegionModel regionData)
+    internal void ShowRegionInfo(RegionModel regionData)
     {
         _regionNameText.text = $"Region Name: {regionData.RegionConfig.RegionName}";
         _populationStrengthText.text = $"Population Strength: {regionData.RegionConfig.PopulationStrength}";
@@ -30,7 +31,7 @@ public class RegionInfoUi : MonoBehaviour
         //MonumentToggle.isOn = data.SourceData.monument;
         gameObject.SetActive(true);
     }
-    public void HidePanel()
+    internal void HidePanel()
     {
         gameObject.SetActive(false);
     }

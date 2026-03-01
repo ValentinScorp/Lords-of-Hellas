@@ -2,25 +2,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTurnController
+internal class PlayerTurnController
 {
     private RegularActionController _regularActionController;
     private SpecialActionsController _specialActionController;
 
-    public Action<Player> _TurnCompleted;
-    public void Launch(Player player, Action<Player> TurnCompleted)
+    internal Action<Player> _TurnCompleted;
+    internal void Launch(Player player, Action<Player> TurnCompleted)
     {
         _TurnCompleted = TurnCompleted;
 
         SceneUiRegistry.Get<TurnStartPanel>().Launch(player, StartRegularAction); 
-        SceneUiRegistry.Get<PlayerInfoUiPanel>().BindPlayer(player);   
+        
+        SceneUiRegistry.Get<PlayerInfoUiPanel>().Bind(player); 
     }
-    public void StartRegularAction(Player player) {
+    internal void StartRegularAction(Player player) {
 
         _regularActionController = new RegularActionController();
         _regularActionController.Launch(player, RegularActionComplete);
     }
-    public void StartSpecialAction(Player player) {
+    internal void StartSpecialAction(Player player) {
         _specialActionController = new SpecialActionsController();
         _specialActionController.Launch(player, SpecialActionCompleted);
     }

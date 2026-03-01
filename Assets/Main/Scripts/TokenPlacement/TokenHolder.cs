@@ -1,39 +1,39 @@
 using UnityEngine;
-public class TokenHolder
+internal class TokenHolder
 {
     private TokenView _tokenView = null;
-    public TokenView TokenView => _tokenView;
-    public TokenModel TokenModel => _tokenView.Model;
-    public TokenHolder() {
+    internal TokenView TokenView => _tokenView;
+    internal TokenModel TokenModel => _tokenView.Model;
+    internal TokenHolder() {
     }
-    public bool HasObject() {
+    internal bool HasObject() {
         if (_tokenView == null) {
             return false;
         }
         return true;
     }
-    public void AttachToken(TokenView token) {
+    internal void AttachToken(TokenView token) {
         _tokenView = token;
     }
-    public void SetGameObjectPosition(Vector3? newPosition) {
+    internal void SetGameObjectPosition(Vector3? newPosition) {
         if (newPosition.HasValue) {
             _tokenView.transform.position = newPosition.Value;
         } else {
             Debug.LogError("Can't set token new position, position is null!");
         }
     }
-    public Vector3? GetGameObjectPosition() {
+    internal Vector3? GetGameObjectPosition() {
         if (HasObject()) {
             return _tokenView.transform.position;
         }
         Debug.LogWarning("TokenHolder: Token or GameObject is missing.");
         return null;
     }
-    public TokenView UnattachTokenAt(Vector3? position) {
+    internal TokenView UnattachTokenAt(Vector3? position) {
         SetGameObjectPosition(position);
         return UnattachToken();
     }
-    public TokenView UnattachToken() {
+    internal TokenView UnattachToken() {
         if (HasObject()) {
             var token = _tokenView;
             _tokenView = null;
@@ -43,7 +43,7 @@ public class TokenHolder
         }
         return null;
     }  
-    public void DestroyTokenView() {
+    internal void DestroyTokenView() {
         if (HasObject()) {
             Object.Destroy(_tokenView.gameObject);
             _tokenView = null;

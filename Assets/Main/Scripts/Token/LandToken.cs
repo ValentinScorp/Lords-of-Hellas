@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class LandToken
+internal class LandToken
 {
-    public LandId LandId { get; private set; }
-    public PlayerColor PlayerColor { get; set; }
-    public LandToken(LandId id) {
+    internal LandId LandId { get; private set; }
+    internal PlayerColor PlayerColor { get; set; }
+    internal LandToken(LandId id) {
         LandId = id;
     }
 }

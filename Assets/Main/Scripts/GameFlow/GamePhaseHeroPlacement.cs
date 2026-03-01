@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePhaseHeroPlacement : GamePhaseBase
+internal class GamePhaseHeroPlacement : GamePhaseBase
 {
     private TokenPlacementManager _placementManager;
     private TurnOrderManager TurnOrderManager;
 
-    public override string Name => "Heroes Placement Phase";
+    internal override string Name => "Heroes Placement Phase";
 
-    public GamePhaseHeroPlacement(GamePhaseManager phaseManager, 
+    internal GamePhaseHeroPlacement(GamePhaseManager phaseManager, 
                                 IReadOnlyList<Player> players)
         : base (phaseManager) {
         TurnOrderManager = new TurnOrderManager(players);
@@ -16,12 +16,12 @@ public class GamePhaseHeroPlacement : GamePhaseBase
         TurnOrderManager.PlayerChanged += HandlePlayerChanged;
         TurnOrderManager.NoPlayersLeft += ProceedNextPhase;
     }
-    public override void OnEnter() {
+    internal override void OnEnter() {
         TurnOrderManager.StartPlacement();
         _placementManager.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
     }
        
-    public override void OnExit() {
+    internal override void OnExit() {
     }
     private void HandlePlacementCompleted() {
         TurnOrderManager.PrevPlayer();

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GamePhaseManager
+internal class GamePhaseManager
 {
-    public GamePhaseBase CurrentPhase { get; private set; }
+    internal GamePhaseBase CurrentPhase { get; private set; }
     private readonly Dictionary<Type, GamePhaseBase> _phases = new();
 
-    public event Action<GamePhaseBase> OnPhaseChanged;
+    internal event Action<GamePhaseBase> OnPhaseChanged;
 
-    public GamePhaseManager (IReadOnlyList<Player> players) {
+    internal GamePhaseManager (IReadOnlyList<Player> players) {
         _phases[typeof(GamePhaseHeroPlacement)] = new GamePhaseHeroPlacement(this, players);
         _phases[typeof(GamePhasePlayerTurn)] = new GamePhasePlayerTurn(this, players);
     }
-    public void StartHeroesPlacement() {
+    internal void StartHeroesPlacement() {
         SwitchPhase<GamePhaseHeroPlacement>();
     }
-    public void NextPhase(GamePhaseBase prevPhase) {
+    internal void NextPhase(GamePhaseBase prevPhase) {
         if (prevPhase is GamePhaseHeroPlacement) {
             SwitchPhase<GamePhasePlayerTurn>();
         } else if (prevPhase is GamePhasePlayerTurn) {

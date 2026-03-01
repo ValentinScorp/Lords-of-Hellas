@@ -1,14 +1,14 @@
 
 using UnityEngine;
 
-public class RouteArc
+internal class RouteArc
 {
     private LineRenderer _lineRenderer;
     private Vector3 _fromPosition;
     private Vector3 _toPosition;
-    public Vector3 FromPosition => _lineRenderer.GetPosition(0);
-    public Vector3 ToPosition => _lineRenderer.GetPosition(1);
-    public void Create(Vector3 fromPosition, Vector3 toPosition, PlayerColor playerColor)
+    internal Vector3 FromPosition => _lineRenderer.GetPosition(0);
+    internal Vector3 ToPosition => _lineRenderer.GetPosition(1);
+    internal void Create(Vector3 fromPosition, Vector3 toPosition, PlayerColor playerColor)
     {
         if (_lineRenderer != null) return;
         
@@ -31,17 +31,17 @@ public class RouteArc
 
         BuildArc();        
     }
-    public void SetFirstNode(Vector3 fromPosition)
+    internal void SetFirstNode(Vector3 fromPosition)
     {
         if (_lineRenderer == null) return;
         _fromPosition = fromPosition;
     }
-    public void SetSecondNode(Vector3 toPosition)
+    internal void SetSecondNode(Vector3 toPosition)
     {
         if (_lineRenderer == null) return;
         _toPosition = toPosition;
     }
-    public void BuildArc()
+    internal void BuildArc()
     {
         var segments = 16;
         var heightFactor = Vector3.Distance(_fromPosition, _toPosition);
@@ -57,7 +57,7 @@ public class RouteArc
             _lineRenderer.SetPosition(i, Vector3.Lerp(p0, p1, t));
         }
     }
-    public void Destroy()
+    internal void Destroy()
     {
         if (_lineRenderer != null) {
             Object.Destroy(_lineRenderer.gameObject);

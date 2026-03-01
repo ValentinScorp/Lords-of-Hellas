@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RulesCheckerStartup : IRulesChecker
+internal class RulesCheckerStartup : IRulesChecker
 {
     public bool CanPlace(TokenModel token, RegionNest nest)
     {

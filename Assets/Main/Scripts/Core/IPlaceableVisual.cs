@@ -1,5 +1,5 @@
 
-public interface IPlaceableVisual
+internal interface IPlaceableVisual
 {
-    TokenModel Model { get; }
+    public TokenModel Model { get; }
 }

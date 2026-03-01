@@ -1,14 +1,14 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewQuestCard", menuName = "Cards/QuestCard")]
-public class CardQuest : ScriptableObject, CardData
+internal class CardQuest : ScriptableObject, CardData
 {
-    public string quest;
-    public string region;
-    public string[] stepsCondition;
-    public string reward;
+    internal string quest;
+    internal string region;
+    internal string[] stepsCondition;
+    internal string reward;
 
     public string Title => quest;
-    public string Region => region;
-    public string Reward => reward;
+    internal string Region => region;
+    internal string Reward => reward;
 }

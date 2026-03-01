@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CardLoader
+internal class CardLoader
 {
     private static CardLoader _instance;
-    public static CardLoader Instance {
+    internal static CardLoader Instance {
         get {
             if (_instance == null) {
                 _instance = new CardLoader();
@@ -20,15 +20,15 @@ public class CardLoader
     private CardMonsterAttack[] _monsterAttackCards;
     private CardCombat[] _combatCards;
     private CardBlessing[] _blessingCards;
-    public List<CardArtifact> ArtifactCards => _artifactCards.ToList();
-    public List<CardQuest> QuestCards => _questCards.ToList();
-    public List<CardMonster> MonsterCards => _monsterCards.ToList();
-    public List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards.ToList();
-    public List<CardCombat> CombatCards => _combatCards.ToList();
-    public List<CardBlessing> BlessingCards => _blessingCards.ToList();
+    internal List<CardArtifact> ArtifactCards => _artifactCards.ToList();
+    internal List<CardQuest> QuestCards => _questCards.ToList();
+    internal List<CardMonster> MonsterCards => _monsterCards.ToList();
+    internal List<CardMonsterAttack> MonsterAttackCards => _monsterAttackCards.ToList();
+    internal List<CardCombat> CombatCards => _combatCards.ToList();
+    internal List<CardBlessing> BlessingCards => _blessingCards.ToList();
 
     private bool _loaded = false;
-    public void LoadAllCards() {
+    internal void LoadAllCards() {
         if (_loaded) return;
         _loaded = true;
 
@@ -55,14 +55,14 @@ public class CardLoader
         Debug.Log($"Loaded {blessingCards.Length} blessing cards");*/
     }
 
-    public void LoadEventCards() {
+    internal void LoadEventCards() {
         var questCardFactory = new CardFactory<CardQuest, QuestCardJson>(CopyQuestCardData);
         _questCards = questCardFactory.LoadCards("QuestCards.json");
 
         var monsterCardFactory = new CardFactory<CardMonster, MonsterCardJson>(CopyMonsterCardData);
         _monsterCards = monsterCardFactory.LoadCards("MonsterCards.json");
     }
-    public bool LoadEventCards(out List<CardData> cards) {
+    internal bool LoadEventCards(out List<CardData> cards) {
         cards = new List<CardData>();
 
         var questCardFactory = new CardFactory<CardQuest, QuestCardJson>(CopyQuestCardData);

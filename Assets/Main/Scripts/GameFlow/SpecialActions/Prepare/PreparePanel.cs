@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PreparePanel : MonoBehaviour
+internal class PreparePanel : MonoBehaviour
 {
     [SerializeField] private Button _healInjury;
     [SerializeField] private Button _drawCombatCard;
@@ -15,7 +15,7 @@ public class PreparePanel : MonoBehaviour
     {
         SceneUiRegistry.Unregister<PreparePanel>();
     }
-    public void Bind(SpecialActionPrepareController controller)
+    internal void Bind(SpecialActionPrepareController controller)
     {
         if (controller is null) return;
 
@@ -23,7 +23,7 @@ public class PreparePanel : MonoBehaviour
         _drawCombatCard?.onClick.AddListener(controller.OnDrawCombatCardPressed);
         _recruitHoplite?.onClick.AddListener(controller.OnRecruitHoplitePressed);
     }
-    public void Unbind(SpecialActionPrepareController controller)
+    internal void Unbind(SpecialActionPrepareController controller)
     {
         if (controller is null) return;
 
@@ -31,7 +31,7 @@ public class PreparePanel : MonoBehaviour
         _drawCombatCard?.onClick.RemoveListener(controller.OnDrawCombatCardPressed);
         _recruitHoplite?.onClick.RemoveListener(controller.OnRecruitHoplitePressed);
     }
-    public void Show(bool value)
+    internal void Show(bool value)
     {
         gameObject.SetActive(value);
     }

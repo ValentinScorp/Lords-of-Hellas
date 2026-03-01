@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class TokenPlacementRulesValidator
+internal class TokenPlacementRulesValidator
 {
-    public bool ValidateLogicalPlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
+    internal bool ValidateLogicalPlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
         var regionData = regionManager.GetRegionContext(regionId);
         if (regionData == null) {
             Debug.Log("Region data not found.");

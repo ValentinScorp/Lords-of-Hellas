@@ -49,8 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad869ad7767d2f24fa02f9fb5fe77623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HopliteIconVisual
-  _image: {fileID: 5606610906747343183}
-  _spriteCatalog: {fileID: 11400000, guid: b3ee646caa6215248b2ef2159baaf68a, type: 2}
+  _helmetImage: {fileID: 5606610906747343183}
+  _activeSprite: {fileID: 21300000, guid: 91bf8b9b17e35bc4f92b73721cb41319, type: 3}
+  _inactiveSprite: {fileID: 21300000, guid: 6793e315c95fe014a89790c976174839, type: 3}
 --- !u!1 &9023364000221286597
 GameObject:
   m_ObjectHideFlags: 0

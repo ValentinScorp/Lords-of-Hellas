@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public abstract class CardIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+internal abstract class CardIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private CardView _cardView;
     private CardData _cardData;
@@ -16,7 +16,7 @@ public abstract class CardIcon : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void Update() {
         SetCardPreviewPosition();
     }
-    public void Init(CardData card) {
+    internal void Init(CardData card) {
         _cardData = card;
         OnInit(card);
     }

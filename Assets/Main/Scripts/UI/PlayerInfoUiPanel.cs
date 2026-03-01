@@ -1,19 +1,13 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInfoUiPanel : UiPanel
 {
-    [SerializeField] private HoplitesInfoUiPanel _hoplitesPanel;
+    [SerializeField] private HopliteInfoUiPanel _hoplitesPanel;
     [SerializeField] private Button _testButton;
     [SerializeField] private Image _backgroundImage;
-    [SerializeField] private TMP_Text _currentGamePhaseText;
-    [SerializeField] private CardArtifactIconPanel _artifactIconPanel;
-    [SerializeField] private CardCombatIconPanel _combatIconPanel;
-    [SerializeField] private TMP_Text _heroNameText;
-    [SerializeField] private TMP_Text _hoplitesInfoText;
-
-    private Player _currentPlayer;
+    
+    // private Player _player;
     private static Color _defaultBackgroundColor = Color.white;
     protected override void Awake()
     {
@@ -24,47 +18,32 @@ public class PlayerInfoUiPanel : UiPanel
     private void Start()
     {
         _testButton?.onClick.AddListener(AddHoplite);
-        // Show(false);        
+        Show(false);        
     }
     protected override void OnDestroy()
     {
         _testButton?.onClick.RemoveListener(AddHoplite);
+        Unbind();
 
-        if (_currentPlayer is not null) {
-            _currentPlayer.OnPlayerInfoChange -= UpdatePlayerInfo;
-        }
-        _currentPlayer = null;
+        // _player = null;
 
         base.OnDestroy();
     }
-    public void BindPlayer(Player newPlayer)
+    internal void DiplayPlayerInfo(Player player)
     {
         Show(true);
-        SetBackgroundColor(newPlayer.Color);
-
-        if (_currentPlayer != null) {
-            _currentPlayer.OnPlayerInfoChange -= UpdatePlayerInfo;
-        }
-        _currentPlayer = newPlayer;
-        if (_currentPlayer != null) {
-            _currentPlayer.OnPlayerInfoChange += UpdatePlayerInfo;
-        }
-        UpdatePlayerInfo(newPlayer);
+        Unbind();
+        Bind(player);
     }
-
-    private void UpdatePlayerInfo(Player player)
+    internal void Bind(Player player)
     {
-        // Debug.Log("Updating player info!");
-        _heroNameText.text = player.Hero.DisplayName;
-        _hoplitesInfoText.text = $"Total {player.HoplitesOnBoard} hoplites on board!";
-        _combatIconPanel.ClearPanel();
-        foreach (var combatCard in player.CombatCards) {
-            _combatIconPanel.AddCardIcon(combatCard);
-        }
-        _artifactIconPanel.ClearPanel();
-        foreach (var artifact in player.ArtifactCards) {
-            _artifactIconPanel.AddCardIcon(artifact);
-        }
+        SetBackgroundColor(player.Color);
+        _hoplitesPanel.Bind(player.HopliteManager);
+    }
+    internal void Unbind()
+    {
+        SetBackgroundColor(PlayerColor.Gray);
+        _hoplitesPanel.Unbind();       
     }
     private void SetBackgroundColor(PlayerColor color)
     {

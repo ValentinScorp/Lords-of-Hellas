@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public class RegularActionController
+internal class RegularActionController
 {
     private RegularActionPanel _uiPanel;
     private Player _player;
@@ -12,11 +12,11 @@ public class RegularActionController
     private HeroMoveActionController _heroMoveActionController;
     private HoplitesMoveActionController _hoplitesMoveActionController;
 
-    public RegularActionController()
+    internal RegularActionController()
     {
         _uiPanel = SceneUiRegistry.Get<RegularActionPanel>();
     }
-    public void Launch(Player player, Action<Player> completed)
+    internal void Launch(Player player, Action<Player> completed)
     {
         _player = player;
         _completed = completed;
@@ -33,28 +33,28 @@ public class RegularActionController
             Debug.LogWarning("Visual Panel for Player Regular Action not set!");
         }
     }
-    public void HeroMoveStart()
+    internal void HeroMoveStart()
     {
         _uiPanel.Show(false);
         _heroMoveActionController = new();
         _heroMoveActionController.Start(_heroMoveModel, HandleActionCompleted);
     }
-    public void HoplitesMoveStart()
+    internal void HoplitesMoveStart()
     {
         _uiPanel?.Show(false);
 
         _hoplitesMoveActionController = new();
         _hoplitesMoveActionController.Start(_hoplitesMoveModel, HandleActionCompleted);
     }
-    public void ArtifactsUseAction()
+    internal void ArtifactsUseAction()
     {
         
     }
-    public void PrayerAction()
+    internal void PrayerAction()
     {
         
     }
-    public void OnCompleteAction()
+    internal void OnCompleteAction()
     {
         if (_uiPanel is not null) {
             _uiPanel.Undbind(this);

@@ -4,15 +4,15 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [ExecuteInEditMode]
-public class GameManager
+internal class GameManager
 {
     private PlayerTurnController _playerTurn;
-    public GamePhaseManager GamePhaseManager;
+    internal GamePhaseManager GamePhaseManager;
     private LandTokenManager _landTokenManager = new();
     private CardSelectPanel _cardSelectPanel;
-    public event Action OnGameStarted;
+    internal event Action OnGameStarted;
 
-    public GameManager(CardSelectPanel cardSelectPanel) {
+    internal GameManager(CardSelectPanel cardSelectPanel) {
         _cardSelectPanel = cardSelectPanel;
 
         foreach (var player in GameContext.Instance.Players) {
@@ -24,11 +24,11 @@ public class GameManager
 
         GamePhaseManager = new GamePhaseManager(players);
     }
-    public void StartGame() {
+    internal void StartGame() {
         GamePhaseManager.StartHeroesPlacement();       
         OnGameStarted?.Invoke();
     }
-    public void HandlePlacementFinished() {
+    internal void HandlePlacementFinished() {
         //Player nextPlayer = _gamePhaseHeroesPlacement.GetNextPlayer();
         //if (nextPlayer != null) {
         //    Debug.Log("Next player color: " + nextPlayer.Color);

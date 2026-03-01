@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerColorable : MonoBehaviour
+internal class PlayerColorable : MonoBehaviour
 {
     [SerializeField] Renderer _renderer;
     private readonly int _playerColorPropertyId = Shader.PropertyToID("_PlayerColor");
@@ -13,7 +13,7 @@ public class PlayerColorable : MonoBehaviour
     {
         _mpb = new MaterialPropertyBlock();
     }
-    public void SetPlayerColor(PlayerColor playerColor)
+    internal void SetPlayerColor(PlayerColor playerColor)
     {
         var color = GameContent.Instance.GetPlayerColor(playerColor);
         SetColor(color);

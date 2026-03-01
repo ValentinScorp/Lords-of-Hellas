@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerSetupData", menuName = "Game/Player Setup Data")]
-public class PlayerSetupConfigList : ScriptableObject
+internal class PlayerSetupConfigList : ScriptableObject
 {
-    public List<PlayerSetupConfig> Players = new();
+    internal List<PlayerSetupConfig> Players = new();
 }

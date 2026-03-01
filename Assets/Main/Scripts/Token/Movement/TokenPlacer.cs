@@ -1,19 +1,19 @@
 
 using UnityEngine;
 
-public class TokenPlacer
+internal class TokenPlacer
 {
-    public TokenPlacer()
+    internal TokenPlacer()
     {
         
     }
-    public bool CanPlaceStartup(TokenModel token, RegionId regionId) {        
+    internal bool CanPlaceStartup(TokenModel token, RegionId regionId) {        
         if (!ValidateStartupPlacement(ServiceLocator.Get<RegionsContext>(), regionId, token)) {
             return false;
         }
         return true;
     }
-    public bool ValidateStartupPlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
+    internal bool ValidateStartupPlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
         var regionData = regionManager.GetRegionContext(regionId);
         if (regionData == null) {
             Debug.Log("Region data not found.");
@@ -37,7 +37,7 @@ public class TokenPlacer
 
         return true;
     }
-    public bool ValidatePlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
+    internal bool ValidatePlacement(RegionsContext regionManager, RegionId regionId, TokenModel token) {
         var regionData = regionManager.GetRegionContext(regionId);
         if (regionData == null) {
             Debug.Log("Region data not found.");

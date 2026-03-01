@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class PlacementController
+internal class PlacementController
 {
     private TokenModel _token;
     private IRulesChecker _rulesChecker;
     private TokenDragger _tokenDragger = new();
     private TokenNestHitDetector _tokenNestHitDetector = new();
     private Action<TokenModel> _placementCompleted;
-    public void Start(TokenModel token, IRulesChecker rulesChecker, Action<TokenModel> onComplete)
+    internal void Start(TokenModel token, IRulesChecker rulesChecker, Action<TokenModel> onComplete)
     {
         _token = token;
         _rulesChecker = rulesChecker;

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardCombatView : CardView
+internal class CardCombatView : CardView
 {
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _descripionText;

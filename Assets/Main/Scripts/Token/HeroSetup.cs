@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class HeroSetup
+internal class HeroSetup
 {
-    public HeroModel.Id HeroId { get; }
-    public string DisplayName => HeroId.ToString();
+    internal HeroModel.Id HeroId { get; }
+    internal string DisplayName => HeroId.ToString();
 
-    public HeroSetup(HeroModel.Id heroId) {
+    internal HeroSetup(HeroModel.Id heroId) {
         HeroId = heroId;
     }
 }

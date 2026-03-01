@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Achilles Starting")]
-public class AchillesStartingBonus : PlayerAbitilyAsset
+internal class AchillesStartingBonus : PlayerAbitilyAsset
 {
-    public override string Description() {
+    internal override string Description() {
         return "Achilles starts with 2 Speed.";
     }
-    public override void Apply(Player player, Action onCompleted) {
+    internal override void Apply(Player player, Action onCompleted) {
         player.Hero.ChangeSpeed(+1);
         player.Hero.ChangeLeadership(+1);
         onCompleted?.Invoke();

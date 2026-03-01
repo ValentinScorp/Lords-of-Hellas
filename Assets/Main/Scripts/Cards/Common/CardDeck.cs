@@ -2,24 +2,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CardDeck
+internal class CardDeck
 {
     private List<CardData> _deck = new();
     private List<CardData> _discardPile = new();
-    public IReadOnlyList<CardData> Cards => _deck.AsReadOnly();
+    internal IReadOnlyList<CardData> Cards => _deck.AsReadOnly();
 
-    public CardDeck(IEnumerable<CardData> cards) {
+    internal CardDeck(IEnumerable<CardData> cards) {
         _deck = cards.ToList();
         Shuffle();
     }
 
-    public void Shuffle() {
+    internal void Shuffle() {
         for (int i = 0; i < _deck.Count; i++) {
             int rand = UnityEngine.Random.Range(i, _deck.Count);
             (_deck[i], _deck[rand]) = (_deck[rand], _deck[i]);
         }
     }
-    public CardData Draw() {
+    internal CardData Draw() {
         if (_deck.Count == 0) {
             if (_discardPile.Count == 0) {
                 Debug.LogWarning("No cards left to draw.");
@@ -32,11 +32,11 @@ public class CardDeck
 
         return DrawAndDiscard(_deck[0]);
     }
-    public void UniteDiscardWithDeck() {
+    internal void UniteDiscardWithDeck() {
         _deck.AddRange(_discardPile);
         _discardPile.Clear();
     }
-    public bool RemoveCard(CardData card) {
+    internal bool RemoveCard(CardData card) {
         if (card == null) return false;
 
         bool removedFromDeck = _deck.Remove(card);
@@ -44,7 +44,7 @@ public class CardDeck
 
         return removedFromDeck || removedFromDiscard;
     }
-    public CardData WatchByTitle(string title) {
+    internal CardData WatchByTitle(string title) {
         var card = _deck.FirstOrDefault(c => c.Title == title);
         if (card == null) {
             Debug.LogWarning($"Card with title '{title}' not found in deck.");
@@ -52,7 +52,7 @@ public class CardDeck
         }
         return card;
     }
-    public CardData DrawByTitle(string title) {
+    internal CardData DrawByTitle(string title) {
         var card = WatchByTitle(title);
         if (card == null) {
             return null;
@@ -68,7 +68,7 @@ public class CardDeck
         return null;
     }
 
-    public List<CardData> DrawMultiple(int count) {
+    internal List<CardData> DrawMultiple(int count) {
         var drawn = new List<CardData>();
         for (int i = 0; i < count; i++) {
             var card = Draw();
@@ -83,11 +83,11 @@ public class CardDeck
             _discardPile.Add(card);
         }
     }
-    public void PrintDeck() {
+    internal void PrintDeck() {
         foreach (var card in _deck) {
             Debug.Log(card.Title);
         }
     }
-    public int DeckCount => _deck.Count;
-    public int DiscardCount => _discardPile.Count;
+    internal int DeckCount => _deck.Count;
+    internal int DiscardCount => _discardPile.Count;
 }

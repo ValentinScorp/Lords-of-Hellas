@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Helen Special")]
-public class HelenSpecialAbility: PlayerAbitilyAsset
+internal class HelenSpecialAbility: PlayerAbitilyAsset
 {
-    public override string Description() {
+    internal override string Description() {
         return "Heracles starts with 2 Strength.";
     }
-    public override void Apply(Player player, Action onCompleted) {
-        // Логіка: вороги не можуть заходити хоплітами, якщо немає їхнього героя
+    internal override void Apply(Player player, Action onCompleted) {
+        // пїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         //context.RegionManager.SetRegionEntryRule(hero.CurrentRegion, (enteringPlayer, enteringToken) => {
         //    if (enteringPlayer == player) return true;
         //    if (enteringToken.TokenType != TokenType.Hoplite) return true;

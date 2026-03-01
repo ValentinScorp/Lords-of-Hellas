@@ -12,7 +12,7 @@ public class PlayerColorPalette : ScriptableObject
     public Color Purple;
     public Color Brown;
 
-    public List<Color> GetAvailableColors() {
+    internal List<Color> GetAvailableColors() {
         return new List<Color>
         {
             Red,
@@ -23,7 +23,7 @@ public class PlayerColorPalette : ScriptableObject
             Brown
         };
     }
-    public List<PlayerColor> GetAvailablePlayerColors() {
+    internal List<PlayerColor> GetAvailablePlayerColors() {
         return new List<PlayerColor>
         {
             PlayerColor.Red,
@@ -35,7 +35,7 @@ public class PlayerColorPalette : ScriptableObject
         };
     }
 
-    public Color GetColor(PlayerColor playerColor)
+    internal Color GetColor(PlayerColor playerColor)
     {
         switch (playerColor)
         {

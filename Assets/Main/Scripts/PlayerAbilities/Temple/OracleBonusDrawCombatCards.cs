@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Oracle Bonus Draw Combat Cards")]
-public class OracleBonusDrawCombatCards : PlayerAbitilyAsset
+internal class OracleBonusDrawCombatCards : PlayerAbitilyAsset
 {
-    public override string Description() {
+    internal override string Description() {
         return "Draw Combat Cards up to your Combat Cards limit.";
     }
-    public override void Apply(Player player, Action onCompleted) {
+    internal override void Apply(Player player, Action onCompleted) {
 
     }
 }

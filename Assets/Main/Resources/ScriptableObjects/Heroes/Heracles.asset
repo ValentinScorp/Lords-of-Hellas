@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2aadb3230592c843b1482e84248a4ae, type: 3}
   m_Name: Heracles
   m_EditorClassIdentifier: Assembly-CSharp::HeroConfig
-  BaseLeadership: 1
-  BaseSpeed: 1
-  BaseStrength: 1
-  StartingBonus: {fileID: 11400000, guid: 9d46ed43309cb734f998b6ee088204a5, type: 2}
-  SpecialAbility: {fileID: 11400000, guid: 09e578755871c87419b953a208a2d228, type: 2}
-  DisplayName: Heracles
+  _startingBonus: {fileID: 11400000, guid: 9d46ed43309cb734f998b6ee088204a5, type: 2}
+  _specialAbility: {fileID: 11400000, guid: 09e578755871c87419b953a208a2d228, type: 2}

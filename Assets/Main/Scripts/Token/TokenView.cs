@@ -1,13 +1,11 @@
 using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
+internal class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
 {
-    public static event Action<TokenView, PointerEventData> Clicked;
+    internal static event Action<TokenView, PointerEventData> Clicked;
     [SerializeField] private TMP_Text _leadershipText;
     [SerializeField] private TMP_Text _speedText;
     [SerializeField] private TMP_Text _strengthText;
@@ -24,11 +22,11 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
     private RegionNest _nest;
 
     public TokenModel Model => _model;
-    public RegionNest Nest => _nest;
-    public TokenType TokenType => _model != null ? _model.Type : TokenType.None;   
-    public PlayerColor PlayerColor => _model != null ? _model.PlayerColor : PlayerColor.Gray;
-    public RegionId RegionId => _model != null ? _model.RegionId : RegionId.Unknown;
-    public Vector3 WorldPosition => transform.position;
+    internal RegionNest Nest => _nest;
+    internal TokenType TokenType => _model != null ? _model.Type : TokenType.None;   
+    internal PlayerColor PlayerColor => _model != null ? _model.PlayerColor : PlayerColor.Gray;
+    internal RegionId RegionId => _model != null ? _model.RegionId : RegionId.Unknown;
+    internal Vector3 WorldPosition => transform.position;
     
     private void Awake()
     {
@@ -43,7 +41,7 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
             enabled = false;
         }
     }
-    public void SubscribeToModel(TokenModel model)
+    internal void SubscribeToModel(TokenModel model)
     {
         if (model == null) {
             Debug.Log($"Unable to subscribe to model {model}. Model is null!");
@@ -97,19 +95,19 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
             ChangeMaterial(PlayerColor);
         }
     }
-    public void OnLeadershipChanged(int value)
+    internal void OnLeadershipChanged(int value)
     {
         _leadershipText.text = value.ToString();
     }
-    public void OnSpeedChanged(int value)
+    internal void OnSpeedChanged(int value)
     {
         _speedText.text = value.ToString();
     }
-    public void OnStrengthChanged(int value)
+    internal void OnStrengthChanged(int value)
     {
         _strengthText.text = value.ToString();
     }
-    public void SetLayer(string layerName)
+    internal void SetLayer(string layerName)
     {
         int layer = LayerMask.NameToLayer(layerName);
         if (layer < 0) {
@@ -119,17 +117,17 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
         gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 
-    public void SetTag(string tagName)
+    internal void SetTag(string tagName)
     {
         gameObject.tag = tagName;
     }
-    public void SetGhostMaterial()
+    internal void SetGhostMaterial()
     {
         if (_renderer != null) {
             _renderer.material = GameContent.TokenMaterialPalette.ghostMaterial;
         }
     }
-    public void SetGhostColor(TerrainValidator.GhostState ghostState)
+    internal void SetGhostColor(TerrainValidator.GhostState ghostState)
     {
         switch (ghostState) {
             case TerrainValidator.GhostState.Neutral:
@@ -146,7 +144,7 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
                 break;
         }
     }
-    public void SetGhostColor(Color color)
+    internal void SetGhostColor(Color color)
     {
         if (_renderer == null || _renderer.material == null) {
             Debug.LogError("TokenView: Renderer or material is missing!");
@@ -154,7 +152,7 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
         }
         _renderer.material.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
     }
-    public void SetGhostColorMPB(Color color)
+    internal void SetGhostColorMPB(Color color)
     {
         if (_renderer == null) return;
 
@@ -162,12 +160,12 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
         _mpb.SetColor(FresnelTintId, color * GHOST_COLOR_INTENCITY);
         _renderer.SetPropertyBlock(_mpb);
     }
-    public void SetParent(Transform parent)
+    internal void SetParent(Transform parent)
     {
         transform.SetParent(parent);
     }
 
-    public void AdjustPositionToNest()
+    internal void AdjustPositionToNest()
     {
         if (Nest != null) {
             SetWorldPosition(Nest.Position);
@@ -175,7 +173,7 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
             Debug.LogWarning("SpawnPoint doesn't set in TokenView!");
         }
     }
-    public void SetLabel(string text)
+    internal void SetLabel(string text)
     {
         if (_label == null) {
             Debug.LogWarning("TextMeshProUGUI not found.");
@@ -183,23 +181,23 @@ public class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
         }
         _label.text = text;
     }
-    public void SetCount(int count)
+    internal void SetCount(int count)
     {
-        if (count <= 0) {
+        if (count < 0) {
             Debug.LogWarning("Count must be positive.");
             return;
         }
         SetLabel(count.ToString());
     }
 
-    public int GetHopliteCount()
+    internal int GetHopliteCount()
     {
         if (_label == null || !int.TryParse(_label.text, out int value) || value <= 0) {
             return -1;
         }
         return value;
     }
-    public void OnClick(Vector3 hitPoint)
+    internal void OnClick(Vector3 hitPoint)
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current) {
             position = Camera.main.WorldToScreenPoint(hitPoint)

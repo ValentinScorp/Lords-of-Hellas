@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class PlayerSetupPanel : MonoBehaviour
+internal class PlayerSetupPanel : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _nameField;
     [SerializeField] private TMP_Dropdown _heroDropdown;
@@ -14,9 +14,9 @@ public class PlayerSetupPanel : MonoBehaviour
     private List<HeroSetup> _heroes;
     private List<PlayerColor> _colors;
 
-    public event Action OnConfigChanged;
+    internal event Action OnConfigChanged;
 
-    public void Init(List<HeroSetup> heroes, List<PlayerColor> colors) {
+    internal void Init(List<HeroSetup> heroes, List<PlayerColor> colors) {
         _heroes = heroes?.ToList() ?? throw new ArgumentNullException(nameof(heroes));
         _colors = colors?.ToList() ?? throw new ArgumentNullException(nameof(colors));
 
@@ -31,16 +31,16 @@ public class PlayerSetupPanel : MonoBehaviour
         dropdown.ClearOptions();
         dropdown.AddOptions(options.ToList());
     }
-    public void SetPlayerName(string name) => _nameField.text = name;
-    public void SetHero(string heroName) {
+    internal void SetPlayerName(string name) => _nameField.text = name;
+    internal void SetHero(string heroName) {
         int index = _heroDropdown.options.FindIndex(o => o.text == heroName);
         if (index >= 0) _heroDropdown.value = index;
     }
-    public void SetColor(PlayerColor color) {
+    internal void SetColor(PlayerColor color) {
         int index = _colors.IndexOf(color);
         if (index >= 0) _colorDropdown.value = index;
     }
-    public PlayerSetupConfig GetConfig() {
+    internal PlayerSetupConfig GetConfig() {
         HeroModel.Id heroId = _heroes[_heroDropdown.value].HeroId;
         PlayerColor color = _colors[_colorDropdown.value];
 

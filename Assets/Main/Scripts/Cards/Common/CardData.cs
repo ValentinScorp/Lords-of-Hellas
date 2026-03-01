@@ -1,5 +1,4 @@
-public interface CardData
+internal interface CardData
 {
-    string Title { get; }
-
+    public string Title { get; }
 }

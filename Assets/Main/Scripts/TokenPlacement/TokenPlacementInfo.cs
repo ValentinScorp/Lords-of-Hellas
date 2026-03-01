@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TokenPlacementInfo
+internal class TokenPlacementInfo
 {
     private PlayerColor _playerColor;
     private RegionId _regionId;
@@ -8,11 +8,11 @@ public class TokenPlacementInfo
     private GameObject _gameObject;
     private TokenType _tokenType;
 
-    public GameObject TokenObject => _gameObject;
-    public PlayerColor PlayerColor => _playerColor;
-    public RegionId RegionId => _regionId;
-    public TokenType TokenType => _tokenType;
-    public TokenPlacementInfo(GameObject gameObject, TokenType type, PlayerColor playerColor, RegionId regionId) {
+    internal GameObject TokenObject => _gameObject;
+    internal PlayerColor PlayerColor => _playerColor;
+    internal RegionId RegionId => _regionId;
+    internal TokenType TokenType => _tokenType;
+    internal TokenPlacementInfo(GameObject gameObject, TokenType type, PlayerColor playerColor, RegionId regionId) {
         _gameObject = gameObject;
         _tokenType = type;
         _playerColor = playerColor;

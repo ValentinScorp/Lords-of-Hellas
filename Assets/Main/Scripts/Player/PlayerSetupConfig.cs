@@ -1,16 +1,16 @@
 using System;
 
 [System.Serializable]
-public class PlayerSetupConfig
+internal class PlayerSetupConfig
 {
-    public string PlayerName;
-    public HeroModel.Id HeroId;
-    public PlayerColor PlayerColor;
+    internal string PlayerName;
+    internal HeroModel.Id HeroId;
+    internal PlayerColor PlayerColor;
 
-    public PlayerSetupConfig() {
+    internal PlayerSetupConfig() {
 
     }
-    public PlayerSetupConfig(string playerName = null, HeroModel.Id heroId = HeroModel.Id.None, PlayerColor color = PlayerColor.Blue) {
+    internal PlayerSetupConfig(string playerName = null, HeroModel.Id heroId = HeroModel.Id.None, PlayerColor color = PlayerColor.Blue) {
         PlayerName = playerName;
         HeroId = heroId;
         PlayerColor = color;

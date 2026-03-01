@@ -3,15 +3,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSetupData
+internal class PlayerSetupData
 {
     [SerializeField] private PlayerSetupConfigList _playerSetupConfigList;
-    public PlayerSetupConfigList Players => _playerSetupConfigList;
+    internal PlayerSetupConfigList Players => _playerSetupConfigList;
 
     private const int _MinPlayers = 2;
     private const int _MaxPlayers = 4;
 
-    public bool StartGame(List<PlayerSetupPanel> playerPanels) {
+    internal bool StartGame(List<PlayerSetupPanel> playerPanels) {
         if (playerPanels.Count < _MinPlayers) {
             Debug.LogWarning($"Players must be more then {_MinPlayers - 1}!");
             return false;
@@ -26,7 +26,7 @@ public class PlayerSetupData
         return true;
     }
 
-    public bool ValidatePlayers(List<PlayerSetupPanel> playerPanels) {
+    internal bool ValidatePlayers(List<PlayerSetupPanel> playerPanels) {
         bool isValid = true;
 
         var names = new HashSet<string>();

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HoplitesMoveActionController
+internal class HoplitesMoveActionController
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
@@ -11,7 +11,7 @@ public class HoplitesMoveActionController
     private RegularActionConfirmPanel _actionControlPanel;
     private Action<RegularActionType> _onComplete;
 
-    public HoplitesMoveActionController()
+    internal HoplitesMoveActionController()
     {
         _actionControlPanel = SceneUiRegistry.Get<RegularActionConfirmPanel>();
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
@@ -20,7 +20,7 @@ public class HoplitesMoveActionController
             Debug.LogError("HoplitesMoveActionController constructor error!");
         }
     }
-    public void Start(HoplitesMoveActionModel moveModel, Action<RegularActionType> onComplete = null)
+    internal void Start(HoplitesMoveActionModel moveModel, Action<RegularActionType> onComplete = null)
     {
         _onComplete = onComplete;
         _moveModel = moveModel;
@@ -66,18 +66,18 @@ public class HoplitesMoveActionController
         Debug.Log("Hoplies Move completed");
     }
 
-    public void OnDone()
+    internal void OnDone()
     {
         Cleanup();
         _onComplete?.Invoke(RegularActionType.HopliesMove);
     }
 
-    public void OnUndo()
+    internal void OnUndo()
     {
         _moveModel.UndoLast();
     }
 
-    public void OnCancel()
+    internal void OnCancel()
     {
          _moveModel.UndoAll();
 

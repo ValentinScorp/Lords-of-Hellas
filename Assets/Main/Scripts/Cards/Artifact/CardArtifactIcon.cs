@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardArtifactIcon : CardIcon
+internal class CardArtifactIcon : CardIcon
 {
     [SerializeField] private Image _image;
     [SerializeField] private CardArtifactIconDatabase _iconDatabase;

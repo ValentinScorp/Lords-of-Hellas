@@ -2,17 +2,17 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(fileName = "NewArtifactCard", menuName = "Cards/ArtifactCard")]
-public class CardArtifact : ScriptableObject, CardData
+internal class CardArtifact : ScriptableObject, CardData
 {
-    public enum Type {
+    internal enum Type {
         None, God, Neutral, Monster
     }
-    public Type ArtifactType { get; set; }
-    public string Origin { get; set; }
+    internal Type ArtifactType { get; set; }
+    internal string Origin { get; set; }
     public string Title { get; set; }
-    public CardArtifactId Id {  get; set; }
-    public string Description { get; set; }
-    public bool Neutral { get; set; }
-    public Player PlayerOwner { get; set; }
-    public bool Charged { get; set; }
+    internal CardArtifactId Id {  get; set; }
+    internal string Description { get; set; }
+    internal bool Neutral { get; set; }
+    internal Player PlayerOwner { get; set; }
+    internal bool Charged { get; set; }
 }

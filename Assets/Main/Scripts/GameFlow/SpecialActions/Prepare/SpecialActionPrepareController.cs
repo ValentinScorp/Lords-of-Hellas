@@ -1,20 +1,20 @@
 using System;
 using UnityEngine;
 
-public class SpecialActionPrepareController
+internal class SpecialActionPrepareController
 {
     private Player _player;
     private Action<Player> _Completed;
     private SpecialActionPrepareModel _model = new();
     private PreparePanel _uiPanel;
-    public SpecialActionPrepareController()
+    internal SpecialActionPrepareController()
     {
         _uiPanel = SceneUiRegistry.Get<PreparePanel>();
         if (_uiPanel is null) {
             Debug.LogWarning("Can't get UI Panel for Special Action Prepare!");
         }
     }
-    public void Launch(Player player, Action<Player> Completed)
+    internal void Launch(Player player, Action<Player> Completed)
     {
         if (player == null) throw new ArgumentNullException(nameof(player));
         if (Completed == null) throw new ArgumentNullException(nameof(Completed));
@@ -27,16 +27,16 @@ public class SpecialActionPrepareController
         _uiPanel?.Show(true);
     }
    
-    public void OnHealInjuryPressed()
+    internal void OnHealInjuryPressed()
     {
         Shutdown(_player);
     }
-    public void OnDrawCombatCardPressed()
+    internal void OnDrawCombatCardPressed()
     {
         _player.TakeCombatCards(1);
         CheckIfShutdown();
     }
-    public void OnRecruitHoplitePressed()
+    internal void OnRecruitHoplitePressed()
     {
         if (!_player.Hero.IsOnBoard()) return;
 

@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2aadb3230592c843b1482e84248a4ae, type: 3}
   m_Name: Achilles
   m_EditorClassIdentifier: Assembly-CSharp::HeroConfig
-  BaseLeadership: 1
-  BaseSpeed: 1
-  BaseStrength: 1
-  StartingBonus: {fileID: 11400000, guid: a3f12d07ea682e741806632794ab926b, type: 2}
-  SpecialAbility: {fileID: 11400000, guid: e910a36210c734842ac9a1d72f847726, type: 2}
-  DisplayName: Achilles
+  _startingBonus: {fileID: 11400000, guid: a3f12d07ea682e741806632794ab926b, type: 2}
+  _specialAbility: {fileID: 11400000, guid: e910a36210c734842ac9a1d72f847726, type: 2}

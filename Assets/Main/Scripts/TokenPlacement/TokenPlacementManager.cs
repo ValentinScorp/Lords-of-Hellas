@@ -1,17 +1,17 @@
 using System;
 
-public class TokenPlacementManager
+internal class TokenPlacementManager
 {
     private PlacementController _placementController;
     private TokenPlacementModel _model = new();
 
     private bool _isBusy;
-    public event Action PlacementStarted;
-    public event Action PlacementCompleted;
-    public event Action RefreshAction;
-    public Action _placementCompleted;
+    internal event Action PlacementStarted;
+    internal event Action PlacementCompleted;
+    internal event Action RefreshAction;
+    internal Action _placementCompleted;
 
-    public void StartPlacement(Player player, Action placementCompleted)
+    internal void StartPlacement(Player player, Action placementCompleted)
     {
         if (_isBusy) return;
         if (_placementController is null) {
@@ -22,28 +22,28 @@ public class TokenPlacementManager
 
         PlacementStarted?.Invoke();
     }
-    public bool CanPlaceHero() 
+    internal bool CanPlaceHero() 
     {
         if (_isBusy) return false;
 
         return _model.CanPlaceHero();
     }
-    public bool CanPlaceHoplite() 
+    internal bool CanPlaceHoplite() 
     {
         if (_isBusy) return false;
 
         return _model.CanPlaceHoplite();
     }
-    public bool CanComplete()
+    internal bool CanComplete()
     {
         return _model.CanComplete();
     }
-    public bool CanUndoPlacement()
+    internal bool CanUndoPlacement()
     {
         // TODO
         return false;
     }
-    public void PlaceHero() 
+    internal void PlaceHero() 
     {
         if (CanPlaceHero()) {
             _isBusy = true;
@@ -51,7 +51,7 @@ public class TokenPlacementManager
         }
         RefreshAction?.Invoke();
     }
-    public void PlaceHoplite() 
+    internal void PlaceHoplite() 
     { 
         if (CanPlaceHoplite()) {
             _isBusy = true;
@@ -59,11 +59,11 @@ public class TokenPlacementManager
         }
         RefreshAction?.Invoke();
     }
-    public void UndoPlcaement()
+    internal void UndoPlcaement()
     {
         // TODO
     }
-    public void OkPlacement()
+    internal void OkPlacement()
     {
         PlacementCompleted?.Invoke();
         _placementCompleted?.Invoke();

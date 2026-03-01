@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class RegionsContext
+internal class RegionsContext
 {
     private List<RegionModel> _regionsContextList;
-    public List<RegionModel> RegionsContextList => _regionsContextList;
+    internal List<RegionModel> RegionsContextList => _regionsContextList;
     private readonly Dictionary<RegionId, RegionModel> _regionMap = new();
 
-    public RegionsContext(List<RegionConfig> regionConfigs)
+    internal RegionsContext(List<RegionConfig> regionConfigs)
     {
         _regionsContextList = new();
         foreach (var regConf in regionConfigs) {
@@ -49,14 +49,14 @@ public class RegionsContext
             }
         }
     }
-    public bool TryPlaceTemple(RegionId regionId)
+    internal bool TryPlaceTemple(RegionId regionId)
     {
         if (TryFindRegion(regionId, out var region)) {
             return region.TryPlaceTemple();
         }
         return false;
     }
-    public bool TryPlace(TokenModel token, RegionId regionId)
+    internal bool TryPlace(TokenModel token, RegionId regionId)
     {
         if (TryFindRegion(regionId, out var region)) {
             region.Place(token);
@@ -64,7 +64,7 @@ public class RegionsContext
         }
         return false;
     }
-    public bool TryPlace(TokenModel token, RegionNest nest)
+    internal bool TryPlace(TokenModel token, RegionNest nest)
     {
         if (TryFindRegion(nest.RegionId, out var region)) {
             region.Place(token, nest);
@@ -72,7 +72,7 @@ public class RegionsContext
         }
         return false;
     }
-    public bool TryTake(TokenModel token, RegionId regionId)
+    internal bool TryTake(TokenModel token, RegionId regionId)
     {
         if (TryFindRegion(regionId, out var region)) {
             region.Take(token);
@@ -80,16 +80,16 @@ public class RegionsContext
         }
         return false;
     }
-    public void Move(TokenModel token, RegionNest nest)
+    internal void Move(TokenModel token, RegionNest nest)
     {
-        Debug.Log($"{token.RegionId} to {nest.RegionId}");
+        // Debug.Log($"{token.RegionId} to {nest.RegionId}");
         if (TryFindRegion(token.RegionId, out var fromReg) && TryFindRegion(nest.RegionId, out var toReg)) {
-            Debug.Log($"{fromReg.RegionId} to {toReg.RegionId}");
+            // Debug.Log($"{fromReg.RegionId} to {toReg.RegionId}");
             fromReg.Take(token);
             toReg.Place(token, nest);
         }
     }
-    public bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
+    internal bool TryFindToken(RegionId regionId, TokenType tokenType, PlayerColor playerColor, out TokenModel token)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.TryGetToken(tokenType, playerColor, out token);
@@ -98,7 +98,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool TryFindHero(HeroModel hero, out RegionId regionId)
+    internal bool TryFindHero(HeroModel hero, out RegionId regionId)
     {
         if (hero == null) {
             regionId = RegionId.Unknown;
@@ -124,7 +124,7 @@ public class RegionsContext
         regionId = RegionId.Unknown;
         return false;
     }
-    public int HoplitesCount(PlayerColor color)
+    internal int HoplitesCount(PlayerColor color)
     {
         int total = 0;
         foreach (var region in _regionsContextList) {
@@ -133,7 +133,7 @@ public class RegionsContext
         return total;
     }
 
-    public bool TryMoveHoplite(HopliteModel hoplite, RegionId regionId)
+    internal bool TryMoveHoplite(HopliteModel hoplite, RegionId regionId)
     {
         if (hoplite == null) {
             return false;
@@ -149,7 +149,7 @@ public class RegionsContext
         hoplite.MarkMoved();
         return true;    
     }
-    public bool TryFindRegion(RegionId regionId, out RegionModel region)
+    internal bool TryFindRegion(RegionId regionId, out RegionModel region)
     {
         region = GetRegionContext(regionId);
         if (region is not null) {
@@ -157,7 +157,7 @@ public class RegionsContext
         }
         return false;
     }
-    public RegionModel GetRegionContext(RegionId regionId)
+    internal RegionModel GetRegionContext(RegionId regionId)
     {
         if (_regionMap.TryGetValue(regionId, out RegionModel regionData)) {
             return regionData;
@@ -165,7 +165,7 @@ public class RegionsContext
         Debug.LogWarning($"Region with ID {regionId} not found in _regionMap");
         return null;
     }
-    public bool IsTokenInRegion(TokenType tokenType, RegionId regionId)
+    internal bool IsTokenInRegion(TokenType tokenType, RegionId regionId)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.ContainsToken(tokenType);
@@ -173,7 +173,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsHopliteSameColor(PlayerColor color, RegionId regionId)
+    internal bool IsHopliteSameColor(PlayerColor color, RegionId regionId)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.ContainsHopliteSameColor(color, out var hoplite);
@@ -181,7 +181,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsHeroAnotherColor(RegionId regionId, PlayerColor color)
+    internal bool IsHeroAnotherColor(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.ContainsHeroAnotherColor(color);
@@ -189,7 +189,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsHeroSameColor(RegionId regionId, PlayerColor color)
+    internal bool IsHeroSameColor(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.ContainsHeroSameColor(color);
@@ -197,7 +197,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsHopliteAnotherColor(RegionId regionId, PlayerColor color)
+    internal bool IsHopliteAnotherColor(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.ContainsHopliteAnotherColor(color);
@@ -205,7 +205,7 @@ public class RegionsContext
         Debug.LogWarning($"Region {regionId} not found in map.");
         return false;
     }
-    public bool IsAnotherTokenPlacedOnMap(PlayerColor color, out RegionId regionId)
+    internal bool IsAnotherTokenPlacedOnMap(PlayerColor color, out RegionId regionId)
     {
         foreach (var region in _regionMap.Values) {
             if (region.ContainsToken(color)) {
@@ -216,7 +216,7 @@ public class RegionsContext
         regionId = RegionId.Unknown;
         return false;
     }
-    public int GetHopliteNum(RegionId regionId, PlayerColor color)
+    internal int GetHopliteNum(RegionId regionId, PlayerColor color)
     {
         if (_regionMap.TryGetValue(regionId, out var region)) {
             return region.GetHopliteCount(color);
@@ -225,7 +225,7 @@ public class RegionsContext
         return 0;
     }
 
-    public bool TryTake(RegionId regionId, TokenType tokenType, PlayerColor color, out TokenModel token)
+    internal bool TryTake(RegionId regionId, TokenType tokenType, PlayerColor color, out TokenModel token)
     {
         token = null;
         Debug.Log("Unregistering token " + tokenType.ToString());
@@ -243,7 +243,7 @@ public class RegionsContext
         Debug.LogWarning("Unable to unregister token in RegionManager!");
         return false;
     }
-    public List<RegionId> GetControlled(Player player)
+    internal List<RegionId> GetControlled(Player player)
     {
         List<RegionId> regionIds = new();
         foreach (var r in _regionsContextList) {
@@ -253,7 +253,7 @@ public class RegionsContext
         }
         return regionIds;
     }
-    public List<RegionId> GetNeighborRegionIds(RegionId regionId)
+    internal List<RegionId> GetNeighborRegionIds(RegionId regionId)
     {
         List<RegionId> regionIds = new();
         if (TryGetNeighborRegions(regionId, out var neighbors)) {

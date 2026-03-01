@@ -1,12 +1,12 @@
 using System;
 
-public class HeroMoveActionModel : RegularActionModel
+internal class HeroMoveActionModel : RegularActionModel
 {
-    public PlayerColor PlayerColor { get; }
-    public int StepsMax { get; }
-    public int StepsLeft { get; private set; }
+    internal PlayerColor PlayerColor { get; }
+    internal int StepsMax { get; }
+    internal int StepsLeft { get; private set; }
 
-    public HeroMoveActionModel(Player player)
+    internal HeroMoveActionModel(Player player)
     {
         PlayerColor = player.Color;
         StepsMax = StepsLeft = player.Hero.Speed;
@@ -14,9 +14,9 @@ public class HeroMoveActionModel : RegularActionModel
         SetCanUndo(false);
     }
 
-    public bool CanMove() => StepsLeft > 0;
+    internal bool CanMove() => StepsLeft > 0;
 
-    public void MakeStep()
+    internal void MakeStep()
     {
         if (CanMove()) {
             StepsLeft--;

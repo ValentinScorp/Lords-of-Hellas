@@ -1,4 +1,4 @@
-public abstract class GamePhaseBase
+internal abstract class GamePhaseBase
 {
     protected readonly GamePhaseManager PhaseManager;
 
@@ -6,8 +6,8 @@ public abstract class GamePhaseBase
         PhaseManager = phaseManager;
     }
 
-    public abstract string Name { get; }
+    internal abstract string Name { get; }
 
-    public virtual void OnEnter() { }
-    public virtual void OnExit() { }
+    internal virtual void OnEnter() { }
+    internal virtual void OnExit() { }
 }

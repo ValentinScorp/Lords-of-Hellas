@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class HeroDatabase
+internal static class HeroDatabase
 {
     private static readonly Dictionary<HeroModel.Id, HeroConfig> _cache = new();
 
-    public static HeroConfig GetConfig(HeroModel.Id id) {
+    internal static HeroConfig GetConfig(HeroModel.Id id) {
         if (_cache.TryGetValue(id, out var config))
             return config;
 

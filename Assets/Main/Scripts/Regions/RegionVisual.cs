@@ -101,7 +101,7 @@ public class RegionVisual : MonoBehaviour
     }
     private void OnTokenPlaced(TokenModel token, int nestId)
     {
-        Debug.Log($"Token placed at {_id} nestId {nestId}");
+        // Debug.Log($"Token placed at {_id} nestId {nestId}");
         RegionNest nest;
         if (nestId == -1)
             nest = _nests.GetCenteredUnoccupied();

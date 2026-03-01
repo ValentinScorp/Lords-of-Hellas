@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameContext
+internal class GameContext
 {
     private static GameContext _instance;
-    public static GameContext Instance => _instance ??= new GameContext();
+    internal static GameContext Instance => _instance ??= new GameContext();
     private GameContext() { }
 
     private CardDeck _eventDeck;
@@ -16,16 +16,16 @@ public class GameContext
     private TemplePool _templePool = new();
     private Player _currentPlayer = null;
     private List<Player> _players = new List<Player>();
-    public CardDeck EventDeck => _eventDeck;
-    public CardDeck MonsterAttackDeck => _monsterAttackDeck;
-    public CardDeck CombatCardsDeck => _combatCardsDeck;
-    public CardDeck ArtifactDeck => _artifactDeck;
-    public CardDeck BlessingDeck => _blessingDeck;
-    public TemplePool TemplePool => _templePool;
-    public RegionsContext RegionRegistry { get; private set; }
+    internal CardDeck EventDeck => _eventDeck;
+    internal CardDeck MonsterAttackDeck => _monsterAttackDeck;
+    internal CardDeck CombatCardsDeck => _combatCardsDeck;
+    internal CardDeck ArtifactDeck => _artifactDeck;
+    internal CardDeck BlessingDeck => _blessingDeck;
+    internal TemplePool TemplePool => _templePool;
+    internal RegionsContext RegionRegistry { get; private set; }
 
-    public event Action<Player> OnPlayerChanged;
-    public Player CurrentPlayer {
+    internal event Action<Player> OnPlayerChanged;
+    internal Player CurrentPlayer {
         get => _currentPlayer;
         set {
             if (_currentPlayer == value) return;
@@ -33,8 +33,8 @@ public class GameContext
             OnPlayerChanged?.Invoke(_currentPlayer);
         }
     }
-    public IReadOnlyList<Player> Players => _players;
-    public void Initialize() {
+    internal IReadOnlyList<Player> Players => _players;
+    internal void Initialize() {
         List<CardData> eventCards = new List<CardData>();
         eventCards.AddRange(GameContent.Instance.MonsterCards);
         eventCards.AddRange(GameContent.Instance.QuestCards);

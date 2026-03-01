@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Monster : TokenModel
+internal class Monster : TokenModel
 {
-    public enum Id
+    internal enum Id
     {
         None,
         Cerberus,
@@ -12,8 +12,8 @@ public class Monster : TokenModel
         Minotaur,
         Sphinx
     }
-    public Id MonsterId { get; }
-    public Monster(Id monsterId) 
+    internal Id MonsterId { get; }
+    internal Monster(Id monsterId) 
         : base(TokenType.Monster, PlayerColor.Gray) {
         MonsterId = monsterId;
     }

@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2aadb3230592c843b1482e84248a4ae, type: 3}
   m_Name: Perseus
   m_EditorClassIdentifier: Assembly-CSharp::HeroConfig
-  BaseLeadership: 1
-  BaseSpeed: 1
-  BaseStrength: 1
-  StartingBonus: {fileID: 11400000, guid: 9f8e436cbc98c0b4fb9a9b272d4fec0f, type: 2}
-  SpecialAbility: {fileID: 11400000, guid: 7de64a837c758b146aa58491d3752ec0, type: 2}
-  DisplayName: Perseus
+  _startingBonus: {fileID: 11400000, guid: 9f8e436cbc98c0b4fb9a9b272d4fec0f, type: 2}
+  _specialAbility: {fileID: 11400000, guid: 7de64a837c758b146aa58491d3752ec0, type: 2}

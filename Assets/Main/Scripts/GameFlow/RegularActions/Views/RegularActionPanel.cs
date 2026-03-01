@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RegularActionPanel : MonoBehaviour
+internal class RegularActionPanel : MonoBehaviour
 {
     [SerializeField] private Button _heroMovementButton;
     [SerializeField] private Button _hopliteMovementButton;
@@ -28,7 +28,7 @@ public class RegularActionPanel : MonoBehaviour
     {
         SceneUiRegistry.Unregister<RegularActionPanel>();
     }
-    public void Bind(RegularActionController controller)
+    internal void Bind(RegularActionController controller)
     {
         if (controller is not null) {
             _heroMovementButton.onClick.AddListener(controller.HeroMoveStart);
@@ -38,7 +38,7 @@ public class RegularActionPanel : MonoBehaviour
             _endActionButton.onClick.AddListener(controller.OnCompleteAction);
         }
     }
-    public void Undbind(RegularActionController controller)
+    internal void Undbind(RegularActionController controller)
     {
         if (controller is not null) {
             _heroMovementButton.onClick.RemoveListener(controller.HeroMoveStart);
@@ -48,15 +48,15 @@ public class RegularActionPanel : MonoBehaviour
             _endActionButton.onClick.RemoveListener(controller.OnCompleteAction);
         }
     }
-    public void SetHeroMoveButtonInteractable(bool interactable)
+    internal void SetHeroMoveButtonInteractable(bool interactable)
     {
         _heroMovementButton.interactable = interactable;
     }
-    public void SetHoplitesMoveButtonInteractable(bool interactable)
+    internal void SetHoplitesMoveButtonInteractable(bool interactable)
     {
         _hopliteMovementButton.interactable = interactable;
     }
-    public void Show(bool show) {
+    internal void Show(bool show) {
         gameObject.SetActive(show);
     }
 }

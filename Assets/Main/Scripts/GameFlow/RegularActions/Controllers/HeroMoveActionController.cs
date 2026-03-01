@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HeroMoveActionController
+internal class HeroMoveActionController
 {
     private readonly TokenSelector _tokenSelector;
     private readonly TokenMover _tokenMover;
@@ -11,14 +11,14 @@ public class HeroMoveActionController
     private MoveRoute _moveRoute;
     private Action<RegularActionType> _onComplete;
 
-    public HeroMoveActionController()
+    internal HeroMoveActionController()
     {
         _actionControlPanel = SceneUiRegistry.Get<RegularActionConfirmPanel>();
         _tokenSelector = ServiceLocator.Get<TokenSelector>();
         _tokenMover = ServiceLocator.Get<TokenMover>();
         _moveRoute = new MoveRoute();
     }
-    public void Start(HeroMoveActionModel moveModel, Action<RegularActionType> onComplete = null)
+    internal void Start(HeroMoveActionModel moveModel, Action<RegularActionType> onComplete = null)
     {
         _onComplete = onComplete;
         _moveModel = moveModel;
@@ -65,18 +65,18 @@ public class HeroMoveActionController
         _moveRoute.Clear(); 
     }
 
-    public void OnDone()
+    internal void OnDone()
     {        
         Cleanup();
         _onComplete?.Invoke(RegularActionType.HeroMove);
     }
 
-    public void OnUndo()
+    internal void OnUndo()
     {
         _moveModel.UndoLast();
     }
 
-    public void OnCancel()
+    internal void OnCancel()
     {
         Cleanup();
          _onComplete?.Invoke(RegularActionType.HeroMove);

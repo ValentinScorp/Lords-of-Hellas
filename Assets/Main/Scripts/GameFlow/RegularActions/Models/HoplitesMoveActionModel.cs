@@ -1,28 +1,28 @@
 using System;
 
-public class HoplitesMoveActionModel : RegularActionModel
+internal class HoplitesMoveActionModel : RegularActionModel
 {
-    public PlayerColor PlayerColor { get; private set; }
-    public int HoplitesMax { get; private set; }
-    public int HoplitesLeft {get; private set; }
-    public HoplitesMoveActionModel(Player player)
+    internal PlayerColor PlayerColor { get; private set; }
+    internal int HoplitesMax { get; private set; }
+    internal int HoplitesLeft {get; private set; }
+    internal HoplitesMoveActionModel(Player player)
     {
         PlayerColor = player.Color;
         HoplitesLeft = HoplitesMax = player.Hero.Leadership;
         
         SetCanUndo(false);
     }
-    public bool CanMove()
+    internal bool CanMove()
     {
         return HoplitesLeft > 0;
     }
-    public void MakeStep()
+    internal void MakeStep()
     {
         if (CanMove()) {
             HoplitesLeft--;
         }
     }
-    public void ResetSteps()
+    internal void ResetSteps()
     {
         HoplitesLeft = HoplitesLeft;
     }

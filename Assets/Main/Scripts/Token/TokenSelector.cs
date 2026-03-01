@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TokenSelector
+internal class TokenSelector
 {
     private bool _waitingToken;
     private TokenType _tokenType;
     private PlayerColor _playerColor;
     private Action<TokenView> _handleSelection; 
-    public void WaitTokenSelection(PlayerColor playerColor, TokenType type, Action<TokenView> handleToken)
+    internal void WaitTokenSelection(PlayerColor playerColor, TokenType type, Action<TokenView> handleToken)
     {
         // Debug.Log($"[TokenSelector] WaitTokenSelection playerColor={playerColor}, tokenType={type}");
         _waitingToken = true;

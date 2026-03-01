@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TokenMover
+internal class TokenMover
 {
     private RegionId _prevReionId;
     private TokenDragger _tokenDragger;
@@ -11,12 +11,12 @@ public class TokenMover
     private readonly List<RouteArc> _arcsList = new();
     private RouteArcBuilder _arcBuilder;
 
-    public TokenMover()
+    internal TokenMover()
     {
         _tokenDragger = new();
         _tokenNestHitDetector = new();
     }
-    public void Init(TokenView token)
+    internal void Init(TokenView token)
     {         
         _tokenDragger.CreateGhost(token.Model);
 
@@ -25,7 +25,7 @@ public class TokenMover
         _arcBuilder = arcBuilder;
         _arcsList.Add(arcBuilder.Arc);
     }
-    public void CatchNeibRegionPoint(RegionId fromRegion, Action<RegionNest> onComplete, Action onCancel = null)    
+    internal void CatchNeibRegionPoint(RegionId fromRegion, Action<RegionNest> onComplete, Action onCancel = null)    
     {
         _prevReionId = fromRegion;
         _onComplete = onComplete;
@@ -47,7 +47,7 @@ public class TokenMover
         }
     }
     
-    public void DestroyVisuals()
+    internal void DestroyVisuals()
     {
         foreach (var routeLink in _arcsList) {
             routeLink.Destroy();

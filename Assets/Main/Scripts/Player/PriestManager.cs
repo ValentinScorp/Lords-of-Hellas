@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PriestManager
+internal class PriestManager
 {
     private const int _MaxPriests = 4;
     private List<PriestModel> _priests = new();
 
-    public PriestManager(PlayerColor color)
+    internal PriestManager(PlayerColor color)
     {
         for (int i = 0; i < _MaxPriests; i++) {
             _priests.Add(new PriestModel(color));
         }
     }
 
-    public int InPool {
+    internal int InPool {
         get {
             int count = 0;
             foreach (var priest in _priests) {
@@ -25,7 +25,7 @@ public class PriestManager
         }
     }
 
-    public bool MoveToPool()
+    internal bool MoveToPool()
     {
         foreach (var priest in _priests) {
             if (priest.TryMoveToPool()) {

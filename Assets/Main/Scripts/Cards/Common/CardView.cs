@@ -3,14 +3,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class CardView : MonoBehaviour, IPointerClickHandler
+internal abstract class CardView : MonoBehaviour, IPointerClickHandler
 {
     protected event Action<CardView> _onSelected;
     protected CardData _data;
 
-    public CardData Data => _data;
+    internal CardData Data => _data;
 
-    public void Init(CardData card, System.Action<CardView> onSelect = null) {
+    internal void Init(CardData card, System.Action<CardView> onSelect = null) {
         _data = card;
         if (onSelect != null) {
             _onSelected = onSelect;

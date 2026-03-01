@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Board;
 
-public class TokenPlacementRecorder
+internal class TokenPlacementRecorder
 {
     private class Step {
-        public TokenType TokenType { get; }
-        public RegionId RegionId { get; }
-        public PlayerColor PlayerColor { get; }
-        public Vector3 ObjectPosition { get; }
-        public Step(PlayerColor playerColor, TokenType tokenType, RegionId regionId, Vector3 objectPosition) {
+        internal TokenType TokenType { get; }
+        internal RegionId RegionId { get; }
+        internal PlayerColor PlayerColor { get; }
+        internal Vector3 ObjectPosition { get; }
+        internal Step(PlayerColor playerColor, TokenType tokenType, RegionId regionId, Vector3 objectPosition) {
             PlayerColor = playerColor;
             TokenType = tokenType;
             RegionId = regionId;
@@ -19,16 +19,16 @@ public class TokenPlacementRecorder
     }
     private List<Step> _steps = new();
     private Step _lastStep;
-    public RegionId LastStepRegionId => _lastStep.RegionId;
-    public TokenType LastStepTokenType => _lastStep.TokenType;
-    public PlayerColor LastStepPlayerColor => _lastStep.PlayerColor;
+    internal RegionId LastStepRegionId => _lastStep.RegionId;
+    internal TokenType LastStepTokenType => _lastStep.TokenType;
+    internal PlayerColor LastStepPlayerColor => _lastStep.PlayerColor;
 
-    public void AddStep(PlayerColor playerColor, TokenType tokenType, RegionId regionId, Vector3 objectPosition) {
+    internal void AddStep(PlayerColor playerColor, TokenType tokenType, RegionId regionId, Vector3 objectPosition) {
         _lastStep = new Step(playerColor, tokenType, regionId, objectPosition);
         _steps.Add(_lastStep);
         //Debug.Log("Recording add token: " + tokenType.ToString() + " " + RegionIdParser.IdToString(regionId));
     }
-    public void RemoveLastStep() {
+    internal void RemoveLastStep() {
         if (_steps.Count == 0) {
             _lastStep = null;
             return;

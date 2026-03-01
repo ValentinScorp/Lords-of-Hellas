@@ -1,33 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TokenPlacementPool
+internal class TokenPlacementPool
 {
     private List<HeroModel> _hero = new List<HeroModel>();
     private List<HopliteStackModel> _hoplites = new List<HopliteStackModel>();
-    public void SetPlacementTargets(Player player) {
+    internal void SetPlacementTargets(Player player) {
         Reset();
 
         _hero.Add(player.Hero);
-        var hs1 = new HopliteStackModel(player);
-        var hs2 = new HopliteStackModel(player);
+        var hs1 = new HopliteStackModel(player.Color);
+        var hs2 = new HopliteStackModel(player.Color);
         hs1.AddHoplite(player.TakeHoplite());
         hs2.AddHoplite(player.TakeHoplite());
         _hoplites.Add(hs1);
         _hoplites.Add(hs2);
     }
-    public void Reset() {
+    internal void Reset() {
         _hero.Clear();
         _hoplites.Clear();
     }
-    public bool CanPlace(TokenType type) {
+    internal bool CanPlace(TokenType type) {
         return type switch {
             TokenType.HopliteStack => _hoplites.Count > 0,
             TokenType.Hero => _hero.Count > 0,
             _ => false
         };
     }
-    public TokenModel TakeToken(TokenType? type)
+    internal TokenModel TakeToken(TokenType? type)
     {
         switch (type)
         {
@@ -46,7 +46,7 @@ public class TokenPlacementPool
                 return null;
         }
     }
-    public bool AllPlaced()
+    internal bool AllPlaced()
     {
         return (_hero.Count == 0 && _hoplites.Count == 0);
     }

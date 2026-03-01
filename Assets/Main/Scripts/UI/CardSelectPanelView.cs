@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardSelectPanelView : MonoBehaviour
+internal class CardSelectPanelView : MonoBehaviour
 {
     [SerializeField] private RectTransform _cardsContainer; 
     [SerializeField] private CardArtifactView _artifactCardPrefab;
@@ -13,13 +13,13 @@ public class CardSelectPanelView : MonoBehaviour
     private CardArtifactId _cardSelected = CardArtifactId.Unknown;
     private CardArtifact _selectedCard;
 
-    public void Initialize(CardSelectPanel selectPanel) {
+    internal void Initialize(CardSelectPanel selectPanel) {
         gameObject.SetActive(false);
         _cardSelectPanel = selectPanel;
         _confirmButton.onClick.AddListener(ConfirmSelection);
         _cardSelectPanel.OnInitiateSelection += StartCardSelection;
     }
-    public void StartCardSelection(List<CardArtifact> cards) {
+    internal void StartCardSelection(List<CardArtifact> cards) {
         if (!gameObject.activeSelf) {
             gameObject.SetActive(true);
             _confirmButton.interactable = false;
@@ -30,7 +30,7 @@ public class CardSelectPanelView : MonoBehaviour
             Debug.LogError("Can't add new cards. CardSelectPanelView already active!");
         }
     }    
-    public void SelectCard(CardView card) {
+    internal void SelectCard(CardView card) {
         _confirmButton.interactable = true;
         if (card.Data is CardArtifact artifactData) {
             _selectedCard = artifactData;

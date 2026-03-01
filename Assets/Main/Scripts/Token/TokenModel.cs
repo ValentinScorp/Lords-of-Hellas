@@ -1,25 +1,25 @@
 using System;
 using UnityEngine;
 
-public abstract class TokenModel
+internal abstract class TokenModel
 {
-    public TokenType Type { get; private set; }
-    public RegionId RegionId { get; private set; }
-    public int NestId { get; private set; }
-    public PlayerColor PlayerColor { get; protected set;}
+    internal TokenType Type { get; private set; }
+    internal RegionId RegionId { get; private set; }
+    internal int NestId { get; private set; }
+    internal PlayerColor PlayerColor { get; private protected set;}
 
-    public event Action<TokenModel> RegionChanged;
+    internal event Action<TokenModel> RegionChanged;
 
     protected TokenModel(TokenType type, PlayerColor color) {
         Type = type;
         PlayerColor = color;
         ClearNest();
     }
-    protected TokenModel(TokenType type, Player player) {
-        Type = type;
-        PlayerColor = player.Color;
-        ClearNest();
-    }
+    // protected TokenModel(TokenType type, Player player) {
+    //     Type = type;
+    //     PlayerColor = player.Color;
+    //     ClearNest();
+    // }
     internal bool IsOnBoard()
     {
         return RegionId != RegionId.Unknown;

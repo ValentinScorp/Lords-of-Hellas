@@ -1,26 +1,26 @@
 [System.Serializable]
-public class HopliteModel : TokenModel
+internal class HopliteModel : TokenModel
 {
     private bool _isMoved;
-    public bool OnBoard { get; set; }
+    internal bool OnBoard { get; set; }
 
-    public HopliteModel(Player player) : base(TokenType.Hoplite, player)
+    internal HopliteModel(PlayerColor color) : base(TokenType.Hoplite, color)
     {
     }
-    public void SetOwner(PlayerColor color)
+    internal void SetOwner(PlayerColor color)
     {
         PlayerColor = color;
     }
-    public void MarkMoved()
+    internal void MarkMoved()
     {
         OnBoard = true;
         _isMoved = true;
     }
-    public void ResetMove()
+    internal void ResetMove()
     {
         _isMoved = false;
     }
-    public bool IsMoved()
+    internal bool IsMoved()
     {
         return _isMoved;
     }

@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class HeroModel : TokenModel
+internal class HeroModel : TokenModel
 {
-    public enum Id {
+    internal enum Id {
         None,
         Heracles,
         Achilles,
@@ -18,18 +18,18 @@ public class HeroModel : TokenModel
     }
     private HeroConfig _config;
 
-    public Id HeroId { get; }
-    public int Leadership { get; private set; }
-    public int Speed { get; private set; }
-    public int Strength { get; private set; }
+    internal Id HeroId { get; }
+    internal int Leadership { get; private set; }
+    internal int Speed { get; private set; }
+    internal int Strength { get; private set; }
 
-    public string DisplayName => HeroId.ToString();
-    public event Action<int> LeadershipChanged;
-    public event Action<int> SpeedChanged;
-    public event Action<int> StrengthChanged;
+    internal string DisplayName => HeroId.ToString();
+    internal event Action<int> LeadershipChanged;
+    internal event Action<int> SpeedChanged;
+    internal event Action<int> StrengthChanged;
 
-    public HeroModel(Id heroId, Player player) 
-        : base (TokenType.Hero, player) {
+    internal HeroModel(Id heroId, Player player) 
+        : base (TokenType.Hero, player.Color) {
         HeroId = heroId;
         player.Hero = this;
 
@@ -39,19 +39,24 @@ public class HeroModel : TokenModel
         ChangeLeadership(_config.BaseLeadership);        
     }
 
-    public void ChangeStrength(int delta) {
+    internal void ChangeStrength(int delta) {
         Strength = Mathf.Max(0, Strength + delta);
         StrengthChanged?.Invoke(Strength);
     }
-    public void ChangeSpeed(int delta) {
+    internal void ChangeSpeed(int delta) {
         Speed = Mathf.Max(0, Speed + delta);
         SpeedChanged?.Invoke(Speed);
     }
-    public void ChangeLeadership(int delta) {
+    internal void ChangeLeadership(int delta) {
         Leadership = Mathf.Max(0, Leadership + delta);
         LeadershipChanged?.Invoke(Leadership);
     }
-    public void ApplyStartinBonus(Player player, Action onCompleted) {
+    internal void ApplyStartinBonus(Player player, Action onCompleted) {
+         if (_config == null || _config.StartingBonus == null) {
+            Debug.LogError($"Missing StartingBonus for hero {HeroId}");
+            onCompleted?.Invoke();
+            return;
+        }
         _config.StartingBonus.Apply(player, onCompleted);
     }
 

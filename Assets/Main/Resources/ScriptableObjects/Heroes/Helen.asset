@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2aadb3230592c843b1482e84248a4ae, type: 3}
   m_Name: Helen
   m_EditorClassIdentifier: Assembly-CSharp::HeroConfig
-  BaseLeadership: 1
-  BaseSpeed: 1
-  BaseStrength: 1
-  StartingBonus: {fileID: 11400000, guid: 5e2a452c9165182419f0f60abd91c48b, type: 2}
-  SpecialAbility: {fileID: 11400000, guid: 3e2a03a87e8d14140bf0f7e56e1b8854, type: 2}
-  DisplayName: Helen
+  _startingBonus: {fileID: 11400000, guid: 5e2a452c9165182419f0f60abd91c48b, type: 2}
+  _specialAbility: {fileID: 11400000, guid: 3e2a03a87e8d14140bf0f7e56e1b8854, type: 2}

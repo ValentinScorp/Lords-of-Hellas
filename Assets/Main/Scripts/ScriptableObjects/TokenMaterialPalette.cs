@@ -17,7 +17,7 @@ public class TokenMaterialPalette : ScriptableObject
     public Material purpleTokenMaterial;
     public Material brownTokenMaterial;
 
-    public Material GetPlayerMaterial(PlayerColor playerColor)
+    internal Material GetPlayerMaterial(PlayerColor playerColor)
     {
         switch (playerColor)
         {

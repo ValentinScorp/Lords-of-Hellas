@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardQuestView : CardView
+internal class CardQuestView : CardView
 {
     [SerializeField]
     private TMP_Text _titleText;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RegionsView : MonoBehaviour
+internal class RegionsView : MonoBehaviour
 {
     private void Awake()
     {
@@ -11,16 +11,16 @@ public class RegionsView : MonoBehaviour
         ServiceLocator.Unregister<RegionsView>();     
     }
 
-    public void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
-    {
-        var region = FindRegionById(regionId);
-        GameObject hoplite = FindHopliteInRegion(region, color);
-        if (hoplite != null) {
-            hoplite.GetComponent<TokenView>()?.SetCount(count);
-        }
-    }
+    // internal void SetHopliteCounter(RegionId regionId, PlayerColor color, int count)
+    // {
+    //     var region = FindRegionById(regionId);
+    //     GameObject hoplite = FindHopliteInRegion(region, color);
+    //     if (hoplite != null) {
+    //         hoplite.GetComponent<TokenView>()?.SetCount(count);
+    //     }
+    // }
 
-    // public TokenNest PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
+    // internal TokenNest PlaceToken(TokenView token, RegionId regionId, Vector3? pos)
     // {
     //     var spawnPoint = GetFreeSpawnPoint(regionId, pos);
     //     if (spawnPoint != null) {
@@ -31,14 +31,14 @@ public class RegionsView : MonoBehaviour
     //     }
     //     return spawnPoint;
     // }
-    // public void PlaceTokenAtSpawn(TokenView token, TokenNest spawnPoint)
+    // internal void PlaceTokenAtSpawn(TokenView token, TokenNest spawnPoint)
     // {
     //     spawnPoint.Occupy();
     //     token.transform.SetParent(FindRegionById(spawnPoint.RegionId), worldPositionStays: true);
     //     token.Nest = spawnPoint;
     //     token.SetPosition(spawnPoint.Position);
     // }
-    public void RemoveToken(RegionId regionId, TokenType tokenType, PlayerColor color)
+    internal void RemoveToken(RegionId regionId, TokenType tokenType, PlayerColor color)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
@@ -70,7 +70,7 @@ public class RegionsView : MonoBehaviour
             }
         }
     }
-    public bool TryGetNest(RegionId regionId, int nestId, out RegionNest nest)
+    internal bool TryGetNest(RegionId regionId, int nestId, out RegionNest nest)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
@@ -87,13 +87,13 @@ public class RegionsView : MonoBehaviour
         nest = null;
         return false;
     }
-    public bool TryGetFreeNest(RegionId regionId, Vector3 position, out RegionNest nest)
+    internal bool TryGetFreeNest(RegionId regionId, Vector3 position, out RegionNest nest)
     {
         nest = GetFreeNest(regionId, position);
         if (nest is not null) return true;
         return false;
     }
-    public RegionNest GetFreeNest(RegionId regionId, Vector3? position = null)
+    internal RegionNest GetFreeNest(RegionId regionId, Vector3? position = null)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
@@ -109,7 +109,7 @@ public class RegionsView : MonoBehaviour
         return null;
     }
 
-    public GameObject GetHopliteFromRegion(RegionId regionId, PlayerColor color)
+    internal GameObject GetHopliteFromRegion(RegionId regionId, PlayerColor color)
     {
         var region = FindRegionById(regionId);
         if (region != null) {
@@ -135,7 +135,7 @@ public class RegionsView : MonoBehaviour
         }
         return regionTransform;
     }
-    public GameObject FindHopliteInRegion(Transform region, PlayerColor color)
+    internal GameObject FindHopliteInRegion(Transform region, PlayerColor color)
     {
         foreach (Transform child in region) {
             TokenView visual = child.GetComponent<TokenView>();

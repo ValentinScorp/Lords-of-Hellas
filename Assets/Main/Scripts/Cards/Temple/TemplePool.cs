@@ -1,15 +1,15 @@
 using UnityEngine;
 using System;
 
-public class TemplePool
+internal class TemplePool
 {    
     private CardTemple _currentCard = null;
     private int _currentStep = 0;
-    public CardTemple CurrentCard => _currentCard;
+    internal CardTemple CurrentCard => _currentCard;
 
-    public event Action OnTemplePoolChanged;
+    internal event Action OnTemplePoolChanged;
 
-    public bool TrySetTempleCard(CardData card) {
+    internal bool TrySetTempleCard(CardData card) {
         if (_currentCard != null) {
             Debug.LogWarning("Temple card already set!");
             return false;
@@ -24,13 +24,13 @@ public class TemplePool
         _currentStep = 0;
         return true;
     }
-    public void ResetTempleCard() {
+    internal void ResetTempleCard() {
         _currentCard = null;
     }
-    public string CurrentStepText() {
+    internal string CurrentStepText() {
         return _currentCard.drafts[_currentStep].ToString();
     }
-    public void AdvanceStep() {
+    internal void AdvanceStep() {
         if (_currentCard != null) {
             if (_currentStep == _currentCard.drafts.Length - 1) {
                 Debug.LogWarning("Can't get temples! Out of stock!");

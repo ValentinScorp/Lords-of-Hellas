@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameConfig
+internal class GameConfig
 {
     private static GameConfig _instance;
-    public static GameConfig Instance => _instance ??= new GameConfig();
+    internal static GameConfig Instance => _instance ??= new GameConfig();
     private GameConfig() { }
     private List<CardData> _eventCards = new();
     private List<PlayerSetupConfig> _players = new();
-    public List<PlayerSetupConfig> Players => _players;
-    public List<CardData> CardsEvent => _eventCards; 
-    public CardTemple TempleCard { get; set; }
+    internal List<PlayerSetupConfig> Players => _players;
+    internal List<CardData> CardsEvent => _eventCards; 
+    internal CardTemple TempleCard { get; set; }
 
-    public void Initialize()
+    internal void Initialize()
     {
         CreateDefaultPlayers();
         CreateDefaultTempleCard();
     }
-    public void AddPlayer(PlayerSetupConfig player) {
+    internal void AddPlayer(PlayerSetupConfig player) {
         _players.Add(player);
     }
-    public List<PlayerSetupConfig> CreateDefaultPlayers() { 
+    internal List<PlayerSetupConfig> CreateDefaultPlayers() { 
         if (_players.Count == 0) {
             PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", HeroModel.Id.Achilles, PlayerColor.Red);
             PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", HeroModel.Id.Heracles, PlayerColor.Blue);
@@ -30,7 +30,7 @@ public class GameConfig
         }
         return _players; 
     }
-    public void CreateDefaultTempleCard()
+    internal void CreateDefaultTempleCard()
     {
         if (GameContent.Instance.TryGetTempleCard(0, out var card)) {
             TempleCard = card;
@@ -38,7 +38,7 @@ public class GameConfig
             Debug.LogWarning("Can't get default Temple Card!");
         }
     }
-    public void AddEventCard(CardData card) {
+    internal void AddEventCard(CardData card) {
         _eventCards.Add(card);
     }
 }
