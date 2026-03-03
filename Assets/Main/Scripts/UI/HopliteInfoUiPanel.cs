@@ -17,10 +17,6 @@ public class HopliteInfoUiPanel : UiPanel
     {
         base.OnDestroy();
     }
-    private void Start()
-    {
-        Show(false);        
-    }
     internal void Bind(HopliteManager manager) {
         if (manager is not null) {
             _manager = manager;
@@ -55,7 +51,7 @@ public class HopliteInfoUiPanel : UiPanel
     private void InstantiateIcons(int count)
     {
         for (int i = 0; i < count; i++) {
-            var icon = Instantiate(_iconPrefab, transform);
+            var icon = Instantiate(_iconPrefab, gameObject.transform, false);
             icon.SetHopliteOffBoard(true);
             _icons.Add(icon);
         }

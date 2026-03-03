@@ -11,7 +11,7 @@ public class UiPanel : MonoBehaviour
         SceneUiRegistry.Unregister(GetType());
     }
     public void Show(bool show)
-    {
+    {        
         gameObject.SetActive(show);
     }
 }
