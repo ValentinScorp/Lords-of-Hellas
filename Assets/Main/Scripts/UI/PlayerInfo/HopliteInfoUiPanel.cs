@@ -2,21 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HopliteInfoUiPanel : UiPanel
+public class HopliteInfoUiPanel : MonoBehaviour
 {
     [SerializeField] private HopliteIconView _iconPrefab;
     private const int _MaxIcons = 15;
     private readonly List<HopliteIconView> _icons = new();
     private HopliteManager _manager;
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         InstantiateIcons(HopliteManager.MaxHoplites);
     }    
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-    }
     internal void Bind(HopliteManager manager) {
         if (manager is not null) {
             _manager = manager;
@@ -55,5 +50,10 @@ public class HopliteInfoUiPanel : UiPanel
             icon.SetHopliteOffBoard(true);
             _icons.Add(icon);
         }
+    }
+
+    internal void Show(bool activate)
+    {
+        gameObject.SetActive(activate);
     }
 }

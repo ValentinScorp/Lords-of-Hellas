@@ -11,7 +11,8 @@ internal class Player
     internal PriestManager _priestManager;
     internal string _name;
     internal List<CardCombat> _combatCards = new();
-    internal  HopliteManager HopliteManager => _hopliteManager;
+    internal HopliteManager HopliteManager => _hopliteManager;
+    internal PriestManager PriestManager =>_priestManager;
     internal List<CardArtifact> ArtifactCards => _artifactCards;
     internal List<CardCombat> CombatCards => _combatCards;
     internal HeroModel Hero { get; set; }
@@ -20,8 +21,6 @@ internal class Player
     internal int HoplitesOnBoard => _hopliteManager.HoplitesOnBoard();
     internal int HoplitesInHand => _hopliteManager.HoplitesOffBoard();
     internal event Action<Player, int, Action> OnArtifactCardSelect;
-    internal event Action<Player, LandId> OnAddLandToken;
-    // internal event Action<Player> OnPlayerInfoChange;
 
     internal Player(PlayerSetupConfig playerConfig)
     {
@@ -31,10 +30,7 @@ internal class Player
         _hopliteManager = new(Color);
         _priestManager = new(Color);
     }
-    internal void AddLandToken()
-    {
-        OnAddLandToken?.Invoke(this, GameContent.Instance.GetLandColor(Hero.RegionId));
-    }
+
     internal void SelectOneOfArtifactCards(int cardCount, Action onCompleted)
     {
         OnArtifactCardSelect?.Invoke(this, cardCount, onCompleted);
@@ -90,7 +86,7 @@ internal class Player
 
     internal void PlacePriestInPool()
     {
-        if (!_priestManager.MoveToPool()) {
+        if (!_priestManager.TryMoveToPool()) {
             Debug.LogWarning($"Player {Color} has no available priest to place in pool");
             return;
         }

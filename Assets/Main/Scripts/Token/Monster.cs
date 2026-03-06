@@ -14,7 +14,7 @@ internal class Monster : TokenModel
     }
     internal Id MonsterId { get; }
     internal Monster(Id monsterId) 
-        : base(TokenType.Monster, PlayerColor.Gray) {
+        : base(TokenType.Monster, PlayerColor.Grey) {
         MonsterId = monsterId;
     }
 }

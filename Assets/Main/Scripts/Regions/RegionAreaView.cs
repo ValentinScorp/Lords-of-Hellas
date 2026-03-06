@@ -41,7 +41,8 @@ internal class RegionAreaView : MonoBehaviour, IHittable
             Destroy(_uniqueMaterial);
         }
     }
-    internal void OnOwnerChanged(PlayerColor newOwner) {
+    internal void OnOwnerChanged(RegionModel region, PlayerColor newOwner) {
+        if (region.RegionId != RegionId) return;
         HandleOwnerChanged(newOwner);
     }
     private void HandleOwnerChanged(PlayerColor newOwner) {
@@ -57,7 +58,7 @@ internal class RegionAreaView : MonoBehaviour, IHittable
             case PlayerColor.Brown: color = palette.Brown; break;
         }
 
-        if (newOwner == PlayerColor.Gray) {
+        if (newOwner == PlayerColor.Grey) {
             UnhighlightRegion();
         } else {
             HighlightRegion();

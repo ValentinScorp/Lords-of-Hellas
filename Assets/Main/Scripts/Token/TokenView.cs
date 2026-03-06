@@ -24,7 +24,7 @@ internal class TokenView : MonoBehaviour, IHittable, IPlaceableVisual
     public TokenModel Model => _model;
     internal RegionNest Nest => _nest;
     internal TokenType TokenType => _model != null ? _model.Type : TokenType.None;   
-    internal PlayerColor PlayerColor => _model != null ? _model.PlayerColor : PlayerColor.Gray;
+    internal PlayerColor PlayerColor => _model != null ? _model.PlayerColor : PlayerColor.Grey;
     internal RegionId RegionId => _model != null ? _model.RegionId : RegionId.Unknown;
     internal Vector3 WorldPosition => transform.position;
     

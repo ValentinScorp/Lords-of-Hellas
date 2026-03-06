@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5919132424956326046}
   - component: {fileID: -7536076730066492490}
   m_Layer: 5
-  m_Name: IconCardCombat
+  m_Name: UICardCombatIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

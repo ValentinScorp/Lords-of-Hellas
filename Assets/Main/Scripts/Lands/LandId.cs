@@ -2,5 +2,5 @@ using UnityEngine;
 
 public enum LandId
 {
-    Unknown, Red, Yellow, Blue, Green, Brown
+    Unknown, Red, Yellow, Blue, Green, Brown, Purple
 }

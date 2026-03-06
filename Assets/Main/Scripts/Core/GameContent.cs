@@ -104,7 +104,7 @@ internal class GameContent
     internal Color GetPlayerColor(PlayerColor playerColor)
     {
         if (PlayerColorPalette == null) {
-            Debug.LogError("PlayerColorPalette is not loaded.");
+            Debug.LogError("Unable to get Player Color. PlayerColorPalette is not loaded.");
             return Color.white;
         }
 
@@ -115,7 +115,25 @@ internal class GameContent
             case PlayerColor.Yellow: return PlayerColorPalette.Yellow;
             case PlayerColor.Purple: return PlayerColorPalette.Purple;
             case PlayerColor.Brown: return PlayerColorPalette.Brown;
-            case PlayerColor.Gray:
+            case PlayerColor.Grey:
+            default: return PlayerColorPalette.Grey;
+        }
+    }
+    internal Color GetLandColor(LandId landId)
+    {
+        if (PlayerColorPalette == null) {
+            Debug.LogError("Unable to get Land Color. PlayerColorPalette is not loaded.");
+            return Color.white;
+        }
+
+        switch (landId) {
+            case LandId.Red: return PlayerColorPalette.Red;
+            case LandId.Blue: return PlayerColorPalette.Blue;
+            case LandId.Green: return PlayerColorPalette.Green;
+            case LandId.Yellow: return PlayerColorPalette.Yellow;
+            case LandId.Purple: return PlayerColorPalette.Purple;
+            case LandId.Brown: return PlayerColorPalette.Brown;
+            case LandId.Unknown:
             default: return PlayerColorPalette.Grey;
         }
     }
@@ -134,7 +152,7 @@ internal class GameContent
             case PlayerColor.Yellow: material = TokenMaterialPalette.yellowTokenMaterial; break;
             case PlayerColor.Purple: material = TokenMaterialPalette.purpleTokenMaterial; break;
             case PlayerColor.Brown: material = TokenMaterialPalette.brownTokenMaterial; break;
-            case PlayerColor.Gray:
+            case PlayerColor.Grey:
             default: material = TokenMaterialPalette.grayTokenMaterial; break;
         }
         return true;

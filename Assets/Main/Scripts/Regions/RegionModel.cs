@@ -8,13 +8,14 @@ using UnityEngine;
 internal class RegionModel
 {
     internal RegionId RegionId { get; private set; }
+    internal LandId LandId{ get; private set; }
     internal RegionConfig RegionConfig { get; private set; }
     internal bool HasTemple { get; set; }
     internal PlayerColor OwnedBy { get; set; }
     internal List<Quest> ActiveQuests { get; private set; } = new();
     internal bool IsFortified { get; private set; }
 
-    internal event Action<PlayerColor> OwnerChanged;
+    internal event Action<RegionModel> OwnerChanged;
     internal event Action<TokenModel, int> TokenPlaced;
     internal event Action<RegionModel> TemplePlaced;
     internal event Action<TokenModel> TokenRemoved;
@@ -24,9 +25,11 @@ internal class RegionModel
 
     internal RegionModel(RegionConfig regionCfg)
     {
-        RegionId = RegionIdParser.Parse(regionCfg.RegionName);
         RegionConfig = regionCfg;
-        OwnedBy = PlayerColor.Gray;
+        RegionId = RegionIdParser.Parse(regionCfg.RegionName);
+        LandId = ParseLandId(regionCfg.LandColor);
+        
+        OwnedBy = PlayerColor.Grey;
     }
     internal void Place(TokenModel token, RegionNest nest = null)
     {
@@ -157,7 +160,7 @@ internal class RegionModel
     private void ChangeOwner(PlayerColor color)
     {
         OwnedBy = color;
-        OwnerChanged?.Invoke(color);
+        OwnerChanged?.Invoke(this);
     }
     private LandId GetLandId(string landColor)
     {
@@ -203,5 +206,19 @@ internal class RegionModel
         HasTemple = true;
         TemplePlaced?.Invoke(this);
         return true;
+    }
+    private LandId ParseLandId(string landColor)
+    {
+        switch (landColor?.ToLowerInvariant()) {
+            case "red": return LandId.Red;
+            case "yellow": return LandId.Yellow;
+            case "blue": return LandId.Blue;
+            case "green": return LandId.Green;
+            case "brown": return LandId.Brown;
+            case "purple": return LandId.Purple; 
+            default:
+                Debug.LogWarning($"Error parsing LandId! Input parameter value '{landColor}' is inavlid!");
+                return LandId.Unknown;
+        }
     }
 }

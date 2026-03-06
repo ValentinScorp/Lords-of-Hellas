@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 internal class RegionsContext
@@ -8,11 +8,14 @@ internal class RegionsContext
     internal List<RegionModel> RegionsContextList => _regionsContextList;
     private readonly Dictionary<RegionId, RegionModel> _regionMap = new();
 
+    internal Action<RegionsContext, RegionModel> OwnerChanged;
+
     internal RegionsContext(List<RegionConfig> regionConfigs)
     {
         _regionsContextList = new();
         foreach (var regConf in regionConfigs) {
-            var regionData = new RegionModel(regConf);            
+            var regionData = new RegionModel(regConf);
+            regionData.OwnerChanged += OnOwnerChanged;          
             _regionsContextList.Add(regionData);
         }
         foreach (var region in _regionsContextList) {
@@ -20,6 +23,11 @@ internal class RegionsContext
         }
 
         BuildGraph();
+    }
+
+    private void OnOwnerChanged(RegionModel region)
+    {
+        OwnerChanged?.Invoke(this, region);
     }
 
     private void BuildGraph()

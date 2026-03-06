@@ -2,7 +2,7 @@ using UnityEngine;
 
 internal class TempleModel : TokenModel
 {
-    internal TempleModel() : base(TokenType.Temple, PlayerColor.Gray)
+    internal TempleModel() : base(TokenType.Temple, PlayerColor.Grey)
     {
     }
 }

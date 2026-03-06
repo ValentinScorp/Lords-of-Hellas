@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef4036590e2ddd4aa34a8459ba6dcfa, type: 3}
   m_Name: PlayerColorPalette
   m_EditorClassIdentifier: 
-  Grey: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0}
-  Red: {r: 1, g: 0, b: 0, a: 0}
-  Blue: {r: 0, g: 0.16215563, b: 1, a: 0}
-  Green: {r: 0.022472408, g: 0.9528302, b: 0.08309877, a: 0}
-  Yellow: {r: 1, g: 0.96559113, b: 0, a: 0}
-  Purple: {r: 0.9963193, g: 0, b: 1, a: 0}
-  Brown: {r: 0.8301887, g: 0.4525923, b: 0.003915994, a: 0}
+  Grey: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+  Red: {r: 1, g: 0, b: 0, a: 1}
+  Blue: {r: 0, g: 0.16215563, b: 1, a: 1}
+  Green: {r: 0.022472408, g: 0.9528302, b: 0.08309877, a: 1}
+  Yellow: {r: 1, g: 0.96559113, b: 0, a: 1}
+  Purple: {r: 0.9963193, g: 0, b: 1, a: 1}
+  Brown: {r: 0.8301887, g: 0.4525923, b: 0.003915994, a: 1}

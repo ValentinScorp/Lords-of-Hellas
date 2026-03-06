@@ -74,6 +74,9 @@ public class GameLoader : MonoBehaviour
     }
     private void Start() 
     {
+        Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        Screen.fullScreen = true;
+        
         var regionInfoUiCtlr = ServiceLocator.Get<RegionInfoUiCtlr>();
         // ServiceLocator.Get<ObjectsHitDetector>().RegisterRegionInfoController(regionInfoUiCtlr);
     }

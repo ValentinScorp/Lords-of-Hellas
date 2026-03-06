@@ -8,16 +8,13 @@ internal class GameManager
 {
     private PlayerTurnController _playerTurn;
     internal GamePhaseManager GamePhaseManager;
-    private LandTokenManager _landTokenManager = new();
+    
     private CardSelectPanel _cardSelectPanel;
     internal event Action OnGameStarted;
 
     internal GameManager(CardSelectPanel cardSelectPanel) {
         _cardSelectPanel = cardSelectPanel;
-
-        foreach (var player in GameContext.Instance.Players) {
-            _landTokenManager.Subscribe(player);
-        }
+        
         var players = GameContext.Instance.Players;
 
         _cardSelectPanel.SubscribeToPlayers(players);

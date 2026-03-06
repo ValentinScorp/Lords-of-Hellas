@@ -16,6 +16,8 @@ internal class GameContext
     private TemplePool _templePool = new();
     private Player _currentPlayer = null;
     private List<Player> _players = new List<Player>();
+    private LandTokenAllocator _landTokenAllocator;
+    private LandOwnershipWatcher _landWatcher;
     internal CardDeck EventDeck => _eventDeck;
     internal CardDeck MonsterAttackDeck => _monsterAttackDeck;
     internal CardDeck CombatCardsDeck => _combatCardsDeck;
@@ -56,10 +58,14 @@ internal class GameContext
         _blessingDeck = new CardDeck(CardLoader.Instance.BlessingCards);
 
         RegionRegistry = new(GameContent.Instance.RegionsConfig);
+        _landWatcher = new();
+        _landWatcher.Subscribe(RegionRegistry); 
 
         foreach (var playerCfg in GameConfig.Instance.Players) {
             var player = new Player(playerCfg);
             _players.Add(player);
         }
+
+        _landTokenAllocator = new(_players, RegionRegistry);
     }
 }
