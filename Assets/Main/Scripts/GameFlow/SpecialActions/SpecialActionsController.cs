@@ -40,6 +40,7 @@ public class SpecialActionsController
     }
     internal void OnBuildTemplePressed()
     {
+        _uiPanel?.Show(false);
         _buildTemple.Launch(OnSpecialActionCompleted);
     }
     internal void OnHuntPressed()

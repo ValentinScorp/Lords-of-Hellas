@@ -9,16 +9,16 @@ internal class TokenPlacementManager
     internal event Action PlacementStarted;
     internal event Action PlacementCompleted;
     internal event Action RefreshAction;
-    internal Action _placementCompleted;
+    internal Action<Player> _placementCompleted;
 
-    internal void StartPlacement(Player player, Action placementCompleted)
+    internal void StartPlacement(Player player, Action<Player> placementCompleted)
     {
         if (_isBusy) return;
         if (_placementController is null) {
             _placementController = new();            
         }
         _placementCompleted = placementCompleted;
-        _model.SetPlayer(player);
+        _model.Player = player;
 
         PlacementStarted?.Invoke();
     }
@@ -66,7 +66,7 @@ internal class TokenPlacementManager
     internal void OkPlacement()
     {
         PlacementCompleted?.Invoke();
-        _placementCompleted?.Invoke();
+        _placementCompleted?.Invoke(_model.Player);
     }
     private void HandlePlacementComplete(TokenModel token)
     {        

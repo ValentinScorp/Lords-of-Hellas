@@ -57,7 +57,7 @@ internal class HeroMoveActionController
     }
     private void HandleMoveComplete(RegionNest nest)
     {
-        Debug.Log("Hero Move completed");
+        // Debug.Log("Hero Move completed");
         var regionsRegistry = GameContext.Instance.RegionRegistry;        
         regionsRegistry.Move(_heroToken.Model, nest);
 

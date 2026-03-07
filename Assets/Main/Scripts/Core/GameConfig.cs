@@ -24,7 +24,7 @@ internal class GameConfig
     internal List<PlayerSetupConfig> CreateDefaultPlayers() { 
         if (_players.Count == 0) {
             PlayerSetupConfig player1 = new PlayerSetupConfig("Alice", HeroModel.Id.Achilles, PlayerColor.Red);
-            PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", HeroModel.Id.Heracles, PlayerColor.Blue);
+            PlayerSetupConfig player2 = new PlayerSetupConfig("Bob", HeroModel.Id.Perseus, PlayerColor.Blue);
             _players.Add(player1);
             _players.Add(player2);
         }

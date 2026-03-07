@@ -7,9 +7,8 @@ internal class PerseusStartingBonus : PlayerAbitilyAsset
     internal override string Description() {
         return "Take Glory Token in the same color as your starting Region.";
     }
-    internal override void Apply(Player player, Action onCompleted) {
-        // TODO implement starting bonus aftep Hero Placement Phase
-
-        onCompleted?.Invoke();
+    internal override void Apply(Player player, Action Completed) {
+        GameContext.Instance.LandTokens.TransferToken(player.Color, player.Hero.RegionId);
+        Completed?.Invoke();
     }
 }

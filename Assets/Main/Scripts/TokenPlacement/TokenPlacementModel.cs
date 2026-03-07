@@ -2,21 +2,17 @@ using System;
 
 internal sealed class TokenPlacementModel
 {
-    private Player _player;
+    public Player Player { set; get; }
 
-    internal void SetPlayer(Player player)
-    {
-        _player = player;
-    }
-    internal HeroModel Hero => _player.Hero;
-    internal HopliteModel Hoplite => _player.TakeHoplite();
+    internal HeroModel Hero => Player.Hero;
+    internal HopliteModel Hoplite => Player.TakeHoplite();
     internal bool CanPlaceHero()
     {
-        return !GameContext.Instance.RegionRegistry.TryFindHero(_player.Hero, out var regionId);
+        return !GameContext.Instance.RegionRegistry.TryFindHero(Player.Hero, out var regionId);
     }
     internal bool CanPlaceHoplite()
     {
-        return GameContext.Instance.RegionRegistry.HoplitesCount(_player.Color) < 2;
+        return GameContext.Instance.RegionRegistry.HoplitesCount(Player.Color) < 2;
     }
     internal bool CanComplete()
     {

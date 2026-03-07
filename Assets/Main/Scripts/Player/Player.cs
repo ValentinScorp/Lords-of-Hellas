@@ -6,6 +6,8 @@ using UnityEngine;
 [Serializable]
 internal class Player
 {
+    private List<LandId> _landTokens = new();
+    internal List<LandId> LandTokens => _landTokens;
     internal List<CardArtifact> _artifactCards = new();
     internal readonly HopliteManager _hopliteManager;
     internal PriestManager _priestManager;
@@ -57,7 +59,7 @@ internal class Player
     }
     internal bool TryTakeHoplite(out HopliteModel hoplite)
     {
-        Debug.Log("Taking hoplite from player!");
+        // Debug.Log("Taking hoplite from player!");
         var h = TakeHoplite();
         if (h is not null) {
             hoplite = h;
@@ -92,5 +94,35 @@ internal class Player
         }
 
         // OnPlayerInfoChange?.Invoke(this);
+    }
+
+    internal bool ReceiveToken(LandId landId)
+    {
+        if (landId == LandId.Unknown) {
+            Debug.LogWarning($"Player {Color} cannot receive Unknown land token.");
+            return false;
+        }
+
+        if (_landTokens.Contains(landId)) {
+            Debug.LogWarning($"Player {Color} already has token {landId}.");
+            return false;
+        }
+
+        _landTokens.Add(landId);
+        return true;
+    }
+    internal bool RemoveToken(LandId landId)
+    {
+        if (landId == LandId.Unknown) {
+            Debug.LogWarning($"Player {Color} cannot remove Unknown land token.");
+            return false;
+        }
+
+        if (!_landTokens.Remove(landId)) {
+            Debug.LogWarning($"Player {Color} does not have token {landId}.");
+            return false;
+        }
+
+        return true;
     }
 }

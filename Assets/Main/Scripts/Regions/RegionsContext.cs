@@ -157,6 +157,13 @@ internal class RegionsContext
         hoplite.MarkMoved();
         return true;    
     }
+    internal LandId GetLandId(RegionId regiondId)
+    {
+        if (TryFindRegion(regiondId, out var region)) {
+            return region.LandId;
+        }
+        return LandId.Unknown;
+    }
     internal bool TryFindRegion(RegionId regionId, out RegionModel region)
     {
         region = GetRegionContext(regionId);

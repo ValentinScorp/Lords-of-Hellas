@@ -41,9 +41,9 @@ internal class RegionAreaView : MonoBehaviour, IHittable
             Destroy(_uniqueMaterial);
         }
     }
-    internal void OnOwnerChanged(RegionModel region, PlayerColor newOwner) {
+    internal void OnOwnerChanged(RegionModel region) {
         if (region.RegionId != RegionId) return;
-        HandleOwnerChanged(newOwner);
+        HandleOwnerChanged(region.OwnedBy);
     }
     private void HandleOwnerChanged(PlayerColor newOwner) {
         var palette = GameContent.PlayerColorPalette;

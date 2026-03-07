@@ -39,7 +39,7 @@ public class PlayerInfoUiPanel : UiPanel
     {
         _hoplitesPanel.Bind(player.HopliteManager);
         _priestsPanel.Bind(player.PriestManager);
-        _landTokensPanel?.Bind(player, ServiceLocator.Get<LandOwnershipWatcher>());
+        _landTokensPanel?.Bind(player);
     }
     private void Unbind()
     {

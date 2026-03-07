@@ -23,7 +23,8 @@ internal class GamePhaseHeroPlacement : GamePhaseBase
        
     internal override void OnExit() {
     }
-    private void HandlePlacementCompleted() {
+    private void HandlePlacementCompleted(Player player) {
+        player.ApplyHeroStartingBonus(StartingBonusApplied);
         TurnOrderManager.PrevPlayer();
     }
     private void ProceedNextPhase() {
@@ -32,11 +33,10 @@ internal class GamePhaseHeroPlacement : GamePhaseBase
     private void HandlePlayerChanged(Player player) {
         GameContext.Instance.CurrentPlayer = player;
         player.TakeCombatCards(1);
-        player.ApplyHeroStartingBonus(StartingBonusApplied);
-        
+        _placementManager.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
     }
     private void StartingBonusApplied()
     {
-        _placementManager.StartPlacement(TurnOrderManager.CurrentPlayer, HandlePlacementCompleted);
+        // TODO Remove this
     }
 }

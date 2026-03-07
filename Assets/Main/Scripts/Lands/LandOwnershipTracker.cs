@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-internal class LandOwnershipWatcher
+internal class LandOwnershipTracker
 {
     private readonly Dictionary<LandId, List<RegionModel>> _regions = new();
 
